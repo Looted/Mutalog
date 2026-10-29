@@ -11,6 +11,9 @@
 The pipeline after mutant generation: start a worker, load the project
 and its tests, run the suite once under coverage (the dry run), then
 apply each mutant and run only the tests that entered its clause.
+Mutants run on a pool of workers, one child process each, longest
+expected mutants first. Crashes are retried on a fresh worker before
+they are reported.
 
 Statuses and scores:
 
@@ -142,16 +145,225 @@ mutalog_run(Root, Overrides, run(Config, Results, DryResults)) :-
     length(All, Total),
     config_value(timeout_ms, Config, TimeoutMs),
     config_value(timeout_factor, Config, Factor),
+    config_value(retries, Config, Retries),
+    config_value(worker_reuse, Config, Reuse),
     (   memberchk(progress(Progress), Overrides)
     ->  true
     ;   Progress = true
     ),
-    Limits = limits(TimeoutMs, Factor, Progress),
-    start_worker(Ctx, W0),
-    foldl(run_one(Ctx, Index, Times, Limits, Total), All, Results,
-          state(W0, 0), state(W, _)),
-    worker_call(W, restore, 600, _),
-    worker_stop(W).
+    findall(I-M, nth1(I, All, M), Numbered),
+    foldl(plan_mutant(Index, Times, TimeoutMs, Factor), Numbered,
+          []-[], Uncovered-Jobs0),
+    schedule(Jobs0, Jobs),
+    pool_size(Config, Jobs, Size),
+    report_uncovered(Progress, Total, Uncovered, Done),
+    run_pool(Size, settings(Ctx, Retries, Reuse), Jobs,
+             progress(Progress, Total, Done), Ran),
+    append(Uncovered, Ran, All1),
+    keysort(All1, Sorted),
+    pairs_values(Sorted, Results).
+
+%   A planned mutant is either resolved at once (no covering test) or
+%   becomes job(I, M, Tests, LimitMs) for the pool.
+
+plan_mutant(Index, Times, TimeoutMs, Factor, I-M, U0-J0, U-J) :-
+    covering_tests(Index, M, Tests),
+    (   Tests == []
+    ->  U = [I-r(M, no_coverage, none, 0, [])|U0], J = J0
+    ;   foldl(add_test_time(Times), Tests, 0, Sum),
+        LimitMs is round(Factor * Sum + TimeoutMs),
+        U = U0, J = [job(I, M, Tests, LimitMs)|J0]
+    ).
+
+add_test_time(Times, T, S0, S) :-
+    get_assoc(T, Times, Ms),
+    S is S0 + Ms.
+
+%   Longest expected mutants first, so that a slow mutant does not
+%   start last and leave the other workers idle. The time limit is
+%   proportional to the covering tests' time, so it serves as the
+%   estimate. Ties keep source order.
+
+schedule(Jobs0, Jobs) :-
+    map_list_to_pairs(job_cost, Jobs0, Keyed0),
+    reverse(Keyed0, Keyed1),
+    sort(1, @>=, Keyed1, Keyed),
+    pairs_values(Keyed, Jobs).
+
+job_cost(job(I, _, _, LimitMs), LimitMs-NegI) :-
+    NegI is -I.
+
+%!  pool_size(+Config, +Jobs, -Size) is det.
+%
+%   `concurrency(N)` with N > 0 asks for N workers; 0 means one fewer
+%   than the CPU count. Never more workers than jobs, never fewer
+%   than one.
+
+pool_size(Config, Jobs, Size) :-
+    config_value(concurrency, Config, C),
+    (   C > 0
+    ->  Want = C
+    ;   current_prolog_flag(cpu_count, CPUs),
+        Want is max(1, CPUs - 1)
+    ),
+    length(Jobs, NJ),
+    Size is max(1, min(Want, NJ)).
+
+report_uncovered(Progress, Total, Uncovered, Done) :-
+    reverse(Uncovered, InOrder),
+    foldl(report_one(Progress, Total), InOrder, 0, Done).
+
+report_one(Progress, Total, _-R, N0, N) :-
+    N is N0 + 1,
+    report_progress(Progress, N, Total, R).
+
+report_progress(true, N, Total, r(M, Status, _, _, _)) :-
+    !,
+    get_dict(id, M, Id),
+    format(user_error, "[~d/~d] ~w ~w~n", [N, Total, Status, Id]).
+report_progress(_, _, _, _).
+
+%   ---------------------------------------------------------------
+%   Worker pool
+%
+%   Each pool thread owns one worker process and takes jobs from a
+%   shared queue until it receives `done`. Results come back on a
+%   second queue as done(I, Result); a thread that cannot go on sends
+%   failed(Error). The worker a thread currently holds is kept in its
+%   thread-local global variable `mutalog_worker`, so it is stopped
+%   however the thread ends.
+
+run_pool(_, _, [], _, []) :-
+    !.
+run_pool(Size, Settings, Jobs, Progress, Results) :-
+    message_queue_create(JQ),
+    message_queue_create(RQ),
+    forall(member(J, Jobs), thread_send_message(JQ, J)),
+    forall(between(1, Size, _), thread_send_message(JQ, done)),
+    findall(T,
+            ( between(1, Size, _),
+              thread_create(pool_thread(Settings, JQ, RQ), T, [])
+            ),
+            Threads),
+    length(Jobs, NJ),
+    call_cleanup(collect(NJ, RQ, Progress, Results),
+                 Catcher,
+                 stop_pool(Catcher, Threads, JQ, RQ)).
+
+collect(0, _, _, []) :-
+    !.
+collect(N, RQ, progress(P, Total, Done0), [I-R|Rs]) :-
+    thread_get_message(RQ, Msg),
+    (   Msg = failed(E)
+    ->  throw(E)
+    ;   Msg = done(I, R)
+    ),
+    Done is Done0 + 1,
+    report_progress(P, Done, Total, R),
+    N1 is N - 1,
+    collect(N1, RQ, progress(P, Total, Done), Rs).
+
+stop_pool(Catcher, Threads, JQ, RQ) :-
+    (   Catcher == exit
+    ->  true
+    ;   forall(member(T, Threads),
+               catch(thread_signal(T, throw(mutalog_stop)), _, true))
+    ),
+    forall(member(T, Threads), catch(thread_join(T, _), _, true)),
+    message_queue_destroy(JQ),
+    message_queue_destroy(RQ).
+
+pool_thread(Settings, JQ, RQ) :-
+    Settings = settings(Ctx, _, _),
+    nb_setval(mutalog_worker, none),
+    catch(( start_worker(Ctx, W),
+            nb_setval(mutalog_worker, W),
+            pool_loop(Settings, JQ, RQ, W, 0)
+          ),
+          E,
+          catch(thread_send_message(RQ, failed(E)), _, true)),
+    stop_current_worker.
+
+stop_current_worker :-
+    nb_getval(mutalog_worker, W),
+    nb_setval(mutalog_worker, none),
+    (   W == none
+    ->  true
+    ;   worker_stop(W)
+    ).
+
+pool_loop(Settings, JQ, RQ, W0, Used0) :-
+    thread_get_message(JQ, Msg),
+    (   Msg == done
+    ->  true
+    ;   Msg = job(I, M, Tests, LimitMs),
+        Settings = settings(Ctx, Retries, Reuse),
+        recycle(Ctx, Reuse, W0, Used0, W1, Used1),
+        attempt(Ctx, M, Tests, LimitMs, Retries, W1, W, Status, KilledBy, Ms),
+        thread_send_message(RQ, done(I, r(M, Status, KilledBy, Ms, Tests))),
+        Used is Used1 + 1,
+        pool_loop(Settings, JQ, RQ, W, Used)
+    ).
+
+%   With `worker_reuse(N)`, N > 0, a worker is replaced after N
+%   mutants, which bounds how much state a project's tests can leak
+%   from one mutant into the next.
+
+recycle(Ctx, Reuse, W0, Used, W, 0) :-
+    Reuse > 0,
+    Used >= Reuse,
+    !,
+    replace_worker(Ctx, W0, W).
+recycle(_, _, W, Used, W, Used).
+
+replace_worker(Ctx, W0, W) :-
+    nb_setval(mutalog_worker, none),
+    worker_stop(W0),
+    new_worker(Ctx, W).
+
+new_worker(Ctx, W) :-
+    start_worker(Ctx, W),
+    nb_setval(mutalog_worker, W).
+
+%   A crash may come from state an earlier mutant left behind rather
+%   than from the mutant itself, so it is tried again, up to `retries`
+%   more times, on a fresh worker. Timeouts are not retried: a timeout
+%   already counts as detected, and retrying a mutant that really
+%   loops would double the slowest part of a run.
+
+attempt(Ctx, M, Tests, LimitMs, Left, W0, W, Status, KilledBy, Ms) :-
+    try_mutant(Ctx, M, Tests, LimitMs, W0, W1, Status0, KilledBy0, Ms0),
+    (   retryable(Status0),
+        Left > 0
+    ->  Left1 is Left - 1,
+        (   W1 == W0
+        ->  replace_worker(Ctx, W1, W2)
+        ;   W2 = W1
+        ),
+        attempt(Ctx, M, Tests, LimitMs, Left1, W2, W, Status, KilledBy, Ms)
+    ;   W = W1, Status = Status0, KilledBy = KilledBy0, Ms = Ms0
+    ).
+
+retryable(runtime_error).
+
+try_mutant(Ctx, M, Tests, LimitMs, W0, W, Status, KilledBy, Ms) :-
+    HardS is LimitMs / 1000 + 10,
+    get_dict(id, M, Id),
+    get_dict(file, M, Rel),
+    get_dict(start, M, Start),
+    get_dict(end, M, End),
+    get_dict(replacement, M, Repl),
+    Cmd = mutant(Id, Rel, Start, End, Repl, Tests, LimitMs),
+    worker_call(W0, Cmd, HardS, Reply),
+    (   Reply = result(_, Status, KilledBy, Ms)
+    ->  W = W0
+    ;   nb_setval(mutalog_worker, none),
+        (   Reply == timeout
+        ->  Status = timeout, KilledBy = none, Ms = LimitMs
+        ;   Status = runtime_error, KilledBy = none, Ms = 0
+        ),
+        new_worker(Ctx, W)
+    ).
 
 select_only(Overrides, All, Selected) :-
     (   memberchk(only(Ids0), Overrides)
@@ -184,32 +396,6 @@ covering_tests(Index, M, Tests) :-
     (   get_assoc(Rel-Line, Index, Tests)
     ->  true
     ;   Tests = []
-    ).
-
-run_one(Ctx, Index, Times, Limits, Total, M,
-        r(M, Status, KilledBy, Ms, Tests), state(W0, N0), state(W, N)) :-
-    N is N0 + 1,
-    covering_tests(Index, M, Tests),
-    (   Tests == []
-    ->  Status = no_coverage, KilledBy = none, Ms = 0, W = W0
-    ;   Limits = limits(TimeoutMs, Factor, _),
-        foldl([T, S0, S]>>(get_assoc(T, Times, TMs), S is S0 + TMs), Tests, 0, Sum),
-        LimitMs is round(Factor * Sum + TimeoutMs),
-        HardS is LimitMs / 1000 + 30,
-        Cmd = mutant(M.id, M.file, M.start, M.end, M.replacement, Tests, LimitMs),
-        worker_call(W0, Cmd, HardS, Reply),
-        (   Reply = result(_, Status, KilledBy, Ms)
-        ->  W = W0
-        ;   Reply == timeout
-        ->  Status = timeout, KilledBy = none, Ms = LimitMs,
-            start_worker(Ctx, W)
-        ;   Status = runtime_error, KilledBy = none, Ms = 0,
-            start_worker(Ctx, W)
-        )
-    ),
-    (   arg(3, Limits, true)
-    ->  format(user_error, "[~d/~d] ~w ~w~n", [N, Total, Status, M.id])
-    ;   true
     ).
 
 %!  mutant_counts(+Results, -Counts) is det.
