@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests (${{ matrix.swipl }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # ubuntu: the distribution package (9.0.x), the oldest version
+        # Mutalog supports. ppa: the latest stable release.
+        swipl: [ubuntu, ppa]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install SWI-Prolog
+        run: |
+          if [ "${{ matrix.swipl }}" = ppa ]; then
+            sudo apt-add-repository -y ppa:swi-prolog/stable
+          fi
+          sudo apt-get update
+          sudo apt-get install -y swi-prolog-nox
+          swipl --version
+
+      - name: Run tests
+        run: swipl test/run.pl
+
+      - name: List mutants of Mutalog itself
+        run: bin/mutalog list --mutate 'prolog/**/*.pl' --check > /dev/null
+
+  dogfood-kibi:
+    name: Dogfood on Kibi
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Checkout Kibi
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: Looted/kibi
+          ref: develop
+          path: kibi
+
+      - name: Install SWI-Prolog
+        run: |
+          sudo apt-add-repository -y ppa:swi-prolog/stable
+          sudo apt-get update
+          sudo apt-get install -y swi-prolog-nox
+
+      # Every mutant of every Prolog file in Kibi must re-read as the
+      # clause it claims to be.
+      - name: Generate and verify mutants
+        working-directory: kibi
+        run: |
+          ../bin/mutalog list \
+            --mutate 'packages/core/src/*.pl' \
+            --mutate 'packages/core/schema/*.pl' \
+            --mutate 'scripts/*.pl' \
+            --check > ../kibi-mutants.txt
+          tail -12 ../kibi-mutants.txt
