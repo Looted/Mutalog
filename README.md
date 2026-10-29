@@ -5,7 +5,7 @@
   </picture>
 </h1>
 
-[![Kibi requirement health](https://looted.github.io/mutalog/kibi-report/badge.svg)](https://looted.github.io/mutalog/kibi-report/)
+[![Kibi requirement health](https://looted.github.io/Mutalog/kibi-report/badge.svg)](https://looted.github.io/Mutalog/kibi-report/)
 
 Mutation testing for SWI-Prolog.
 
