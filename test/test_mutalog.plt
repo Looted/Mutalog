@@ -245,6 +245,64 @@ test(score) :-
     assertion(C =:= 400/6),
     mutation_score([killed-0, timeout-0, survived-0, no_coverage-0], none, none).
 
+%   M3: the pool
+
+id_statuses(Results, Pairs) :-
+    findall(Id-S, ( member(r(M, S, _, _, _), Results), get_dict(id, M, Id) ), Pairs).
+
+test(pool_matches_single_worker) :-
+    project_dir(Dir),
+    mutalog_run(Dir, [progress(false), concurrency(1)], run(_, R1, _)),
+    mutalog_run(Dir, [progress(false), concurrency(3)], run(_, R3, _)),
+    id_statuses(R1, P1),
+    id_statuses(R3, P3),
+    assertion(P1 == P3).
+
+test(results_in_source_order) :-
+    project_run(Results),
+    findall(L-C, ( member(r(M, _, _, _, _), Results),
+                   get_dict(line, M, L), get_dict(column, M, C) ), Pos),
+    length(Pos, 55),
+    msort(Pos, Sorted),
+    assertion(Pos == Sorted).
+
+test(worker_reuse) :-
+    project_dir(Dir),
+    mutalog_run(Dir, [progress(false), concurrency(2), worker_reuse(1)], run(_, R, _)),
+    mutant_counts(R, Counts),
+    assertion(memberchk(killed-35, Counts)),
+    assertion(memberchk(survived-12, Counts)).
+
+test(pool_size) :-
+    mutalog_run:pool_size([concurrency(4)], [a, b], S1),
+    assertion(S1 == 2),
+    mutalog_run:pool_size([concurrency(2)], [a, b, c], S2),
+    assertion(S2 == 2),
+    mutalog_run:pool_size([concurrency(0)], [], S3),
+    assertion(S3 == 1).
+
+test(schedule_longest_first) :-
+    mutalog_run:schedule([job(1, a, [], 10), job(2, b, [], 30), job(3, c, [], 10)], Jobs),
+    assertion(Jobs == [job(2, b, [], 30), job(1, a, [], 10), job(3, c, [], 10)]).
+
+%   A crash is reported as runtime_error once its retries are spent.
+
+test(crash_is_runtime_error) :-
+    tmp_project(Dir, "p(X) :- ( X =:= 1 -> true ; halt(3) ).\n",
+                ":- use_module('../src/p').\n:- begin_tests(c).\ntest(one) :- p(1).\n:- end_tests(c).\n"),
+    mutalog_run(Dir, [progress(false), operators([literal])], run(_, R, _)),
+    assertion(status_of(R, 'src/p.pl:2:17:literal:1', runtime_error)),
+    assertion(status_of(R, 'src/p.pl:2:34:literal:1', survived)).
+
+%   The code under test catches every exception, including the time
+%   limit, and loops again: only the hard limit can stop it.
+
+test(swallowed_time_limit) :-
+    tmp_project(Dir, "p(N) :- catch(count(N), _, count(N)).\ncount(0) :- !.\ncount(N) :- N1 is N - 1, count(N1).\n",
+                ":- use_module('../src/p').\n:- begin_tests(s).\ntest(three) :- p(3).\n:- end_tests(s).\n"),
+    mutalog_run(Dir, [progress(false), operators([arith]), timeout_ms(200)], run(_, R, _)),
+    assertion(R = [r(_, timeout, _, _, _)]).
+
 tmp_project(Dir, Src, Test) :-
     tmp_file(mutalog_proj, Dir),
     make_directory(Dir),
