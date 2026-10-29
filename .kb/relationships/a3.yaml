@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-bf3e30356c26
+    type: relates_to
+    from: ADR-project-standalone-library
+    to: REQ-AUTO-7111A81FAC739FCB
+    created_at: "2026-10-29T16:05:53.223Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

@@ -1,0 +1,36 @@
+relationships:
+  - id: rel-3994918ed0ef
+    type: constrains
+    from: REQ-AUTO-CE1F43687FF92977
+    to: FACT-SUBJECT-797FAF9B4734E4C7
+    created_at: "2026-10-29T16:05:40.773Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: requires_property
+    from: REQ-AUTO-CE1F43687FF92977
+    to: FACT-PROP-1A0C9C1B8381DEC8
+    created_at: 2026-10-29T16:05:40.773Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-c944d466691c
+  - type: relates_to
+    from: ADR-runner-two-level-time-limits
+    to: REQ-AUTO-5F23006427EE8FC8
+    created_at: 2026-10-29T16:05:48.313Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-0160725a83c6
+  - type: relates_to
+    from: ADR-runner-two-level-time-limits
+    to: REQ-AUTO-A94EF4A2296AFF54
+    created_at: 2026-10-29T16:05:48.332Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-24e3a75cdad7
+  - type: relates_to
+    from: ADR-runner-two-level-time-limits
+    to: REQ-AUTO-8FA9AE813FAC53CA
+    created_at: 2026-10-29T16:05:48.337Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-4049ef8c4cc7
