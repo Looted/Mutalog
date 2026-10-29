@@ -42,6 +42,7 @@ of another file is applied, and on `restore`.
     mutated/1.                 % LoadedPath currently holding a mutant
 
 :- multifile user:message_hook/3.
+:- discontiguous handle/2.
 
 %   Count error messages so that a load or reload that reports errors
 %   is recognised even when it does not throw.
@@ -133,10 +134,19 @@ dry_test(Test, t(Test, Status, Ms, Covered)) :-
     covered_clauses(Covered),
     cov_reset.
 
+%   A time limit that fires inside the test must reach the caller, so
+%   it is the one exception not turned into a failure here.
+
 run_test(Test, Status) :-
-    (   catch(run_tests(Test), _, fail)
+    (   catch(run_tests(Test), E, test_exception(E))
     ->  Status = passed
     ;   Status = failed
+    ).
+
+test_exception(E) :-
+    (   E == time_limit_exceeded
+    ->  throw(E)
+    ;   fail
     ).
 
 covered_clauses(Covered) :-

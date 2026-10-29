@@ -12,7 +12,7 @@ notices.
 Command line:
 
 ```
-mutalog run     [OPTIONS] [--only ID,ID] [--verbose]
+mutalog run     [OPTIONS] [--only ID,ID] [--concurrency N] [--verbose]
 mutalog dry-run [OPTIONS]
 mutalog list    [OPTIONS] [--format text|json] [--check]
 
@@ -93,6 +93,7 @@ usage :-
                        "  --operators a,b     operators to use",
                        "  --timeout-ms N      extra time per mutant",
                        "  run:  --only ID,ID  run only these mutants",
+                       "        -c, --concurrency N  number of workers (default CPUs - 1)",
                        "        --verbose     show the project's own output",
                        "  list: --format text|json, --check"
                      ]),
@@ -116,6 +117,13 @@ parse_options(['--timeout-ms', N|T], [timeout_ms(V)|Os]) :-
     !,
     atom_number(N, V),
     parse_options(T, Os).
+parse_options(['--concurrency', N|T], [concurrency(V)|Os]) :-
+    !,
+    atom_number(N, V),
+    parse_options(T, Os).
+parse_options(['-c', N|T], Os) :-
+    !,
+    parse_options(['--concurrency', N|T], Os).
 parse_options(['--verbose'|T], [verbose(true)|Os]) :- !, parse_options(T, Os).
 parse_options([X|_], _) :-
     domain_error(mutalog_option, X).
@@ -132,7 +140,8 @@ cli_overrides(Opts, Overrides) :-
     ;   O00 = [tests(TestGlobs)|O0]
     ),
     findall(X, ( member(X, Opts),
-                 ( X = timeout_ms(_) ; X = only(_) ; X = verbose(_) ) ),
+                 ( X = timeout_ms(_) ; X = only(_) ; X = verbose(_) ;
+                   X = concurrency(_) ) ),
             Passed),
     append(Passed, O00, O1),
     (   memberchk(operators(Ops), Opts)
