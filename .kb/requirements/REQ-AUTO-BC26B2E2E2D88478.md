@@ -1,6 +1,6 @@
 ---
 title: Release must publish version X.Y.Z to the SWI-Prolog pack list when tag vX.Y.Z is pushed.
-status: open
+status: closed
 text_ref: release:.github/workflows/release.yml#L3
 tags:
   - strict-modeling

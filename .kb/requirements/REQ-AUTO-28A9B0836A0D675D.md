@@ -1,6 +1,6 @@
 ---
 title: Release must refuse to publish when the tag does not match the version in pack.pl.
-status: open
+status: closed
 text_ref: release:.github/workflows/release.yml#L38
 tags:
   - strict-modeling

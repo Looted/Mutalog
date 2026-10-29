@@ -1,6 +1,6 @@
 ---
 title: Publish releases by pushing a version tag
-status: accepted
+status: superseded
 tags:
   - decision
   - release
