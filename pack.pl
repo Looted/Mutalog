@@ -1,5 +1,5 @@
 name(mutalog).
-version('0.1.1').
+version('0.1.2').
 title('Mutation testing for SWI-Prolog').
 keywords([mutation, testing, plunit]).
 author('Piotr Franczyk', 'https://github.com/Looted').

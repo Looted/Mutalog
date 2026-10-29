@@ -4,7 +4,7 @@ Mutation testing for SWI-Prolog.
 
 Mutalog makes small changes to your Prolog code, such as a flipped comparison, a removed cut or a dropped clause, and checks that your plunit tests notice. A change the tests do not notice is a *surviving mutant*: a behaviour no test pins down.
 
-> **Status: 0.1.1, first release.** Mutalog generates mutants, runs your plunit tests against each one on parallel workers, and reports a mutation score in the terminal, as HTML and as JSON. See [Roadmap](#roadmap) for what is in it.
+> **Status: 0.1.2, first release.** Mutalog generates mutants, runs your plunit tests against each one on parallel workers, and reports a mutation score in the terminal, as HTML and as JSON. See [Roadmap](#roadmap) for what is in it.
 
 ## Requirements
 
