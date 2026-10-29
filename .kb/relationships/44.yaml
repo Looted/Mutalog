@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-d5eac3072edb
+    type: verified_by
+    from: SCEN-the-literal-operator-changes-numbers-and-lists
+    to: TEST-e2e-operator-literal
+    created_at: "2026-10-29T17:52:27.268Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

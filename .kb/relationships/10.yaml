@@ -13,3 +13,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-5c7b7732f5b1
+  - type: specified_by
+    from: REQ-AUTO-5245DE11724348A5
+    to: SCEN-mutalog-list-prints-the-mutants-and-runs-nothing
+    created_at: 2026-10-29T17:52:54.107Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-bca973b76ac6

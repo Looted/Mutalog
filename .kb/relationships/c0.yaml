@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-38570591ed0e
+    type: verified_by
+    from: SCEN-files-with-their-own-operators-read-correctly
+    to: TEST-e2e-reads-custom-operators-and-syntax
+    created_at: "2026-10-29T17:52:30.575Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

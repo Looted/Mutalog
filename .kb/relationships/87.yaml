@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-a5c19fb60ab1
+    type: verified_by
+    from: SCEN-the-cut-operators-remove-and-insert-cuts
+    to: TEST-e2e-operator-cut
+    created_at: "2026-10-29T17:52:22.826Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

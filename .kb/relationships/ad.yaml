@@ -20,3 +20,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-5556174f7a7c
+  - type: specified_by
+    from: REQ-release-refuse-tagged-version
+    to: SCEN-the-release-check-refuses-an-already-tagged-version
+    created_at: 2026-10-29T17:53:42.950Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-43a8dcbdaba1

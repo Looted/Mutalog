@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-9a14586e92c6
+    type: verified_by
+    from: SCEN-the-pack-needs-nothing-outside-swi-prolog
+    to: TEST-e2e-pack-needs-only-swi-prolog
+    created_at: "2026-10-29T17:52:49.825Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-the-release-check-refuses-an-already-tagged-version
+    to: TEST-e2e-release-refuses-a-tagged-version
+    created_at: 2026-10-29T17:52:52.877Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-56e417d5cb27

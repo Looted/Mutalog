@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-a31a95651c32
+    type: verified_by
+    from: SCEN-mutalog-list-prints-the-mutants-and-runs-nothing
+    to: TEST-e2e-list-prints-mutants-without-running
+    created_at: "2026-10-29T17:52:15.682Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

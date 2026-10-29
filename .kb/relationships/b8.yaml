@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-259b9fcac2ab
+    type: verified_by
+    from: SCEN-mutalog-list-check-re-reads-every-mutant
+    to: TEST-e2e-list-check-rereads-every-mutant
+    created_at: "2026-10-29T17:52:16.752Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-the-arith-operator-swaps-arithmetic-operators
+    to: TEST-e2e-operator-arith
+    created_at: 2026-10-29T17:52:18.841Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-49d35c00a835

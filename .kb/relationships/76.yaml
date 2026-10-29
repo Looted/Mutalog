@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-c5a05874391b
+    type: verified_by
+    from: SCEN-the-config-file-is-optional-and-read-when-present
+    to: TEST-e2e-config-file-is-optional-and-read
+    created_at: "2026-10-29T17:52:32.613Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

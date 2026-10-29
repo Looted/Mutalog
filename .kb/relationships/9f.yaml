@@ -13,3 +13,17 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-625897ad3027
+  - type: verified_by
+    from: SCEN-directives-dcg-rules-and-tests-are-never-mutated
+    to: TEST-e2e-never-mutates-directives-dcg-or-tests
+    created_at: 2026-10-29T17:52:29.443Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-0caa6a634f12
+  - type: specified_by
+    from: REQ-AUTO-3FC60457FD45514E
+    to: SCEN-a-failing-test-stops-the-run-before-any-mutant
+    created_at: 2026-10-29T17:53:21.465Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-44333ec5073a

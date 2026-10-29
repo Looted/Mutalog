@@ -34,3 +34,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-4049ef8c4cc7
+  - type: specified_by
+    from: REQ-AUTO-CE1F43687FF92977
+    to: SCEN-the-config-file-is-optional-and-read-when-present
+    created_at: 2026-10-29T17:53:19.118Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-ecedc725273f

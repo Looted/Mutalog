@@ -12,4 +12,894 @@
 #   A symbol without granularity_reason whose extraction misses gets no
 #   coordinate entry at all and is reported as failed; add symbol_role and
 #   granularity_reason to opt it into the coarse fallback.
-symbols: []
+symbols:
+  - id: SYM-test-e2e-list-prints-mutants-without-running
+    title: list_prints_mutants_without_running
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-list-prints-mutants-without-running
+  - id: SYM-mutalog-mutalog-list
+    title: mutalog_list
+    sourceFile: prolog/mutalog.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-5245DE11724348A5
+      - type: covered_by
+        target: TEST-e2e-list-prints-mutants-without-running
+      - type: implements
+        target: REQ-AUTO-4CF26847DCD17B68
+      - type: covered_by
+        target: TEST-e2e-mutates-itself
+  - id: SYM-mutalog-print-text
+    title: print_text
+    sourceFile: prolog/mutalog.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-5245DE11724348A5
+      - type: covered_by
+        target: TEST-e2e-list-prints-mutants-without-running
+  - id: SYM-test-e2e-list-check-rereads-every-mutant
+    title: list_check_rereads_every_mutant
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-list-check-rereads-every-mutant
+  - id: SYM-generate-verify-mutant
+    title: verify_mutant
+    sourceFile: prolog/mutalog/generate.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-8EAA6C05E83E19E8
+      - type: covered_by
+        target: TEST-e2e-list-check-rereads-every-mutant
+  - id: SYM-mutalog-check-file
+    title: check_file
+    sourceFile: prolog/mutalog.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-8EAA6C05E83E19E8
+      - type: covered_by
+        target: TEST-e2e-list-check-rereads-every-mutant
+  - id: SYM-test-e2e-mutant-ids-name-file-line-column-operator
+    title: mutant_ids_name_file_line_column_operator
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-mutant-ids-name-file-line-column-operator
+  - id: SYM-generate-assign-ids
+    title: assign_ids
+    sourceFile: prolog/mutalog/generate.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-B2BB75D2FD157B91
+      - type: covered_by
+        target: TEST-e2e-mutant-ids-name-file-line-column-operator
+  - id: SYM-test-e2e-operator-arith
+    title: operator_arith
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-operator-arith
+  - id: SYM-operators-arith-swap
+    title: arith_swap
+    sourceFile: prolog/mutalog/operators.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-3D0DDBEA31FECCB8
+      - type: covered_by
+        target: TEST-e2e-operator-arith
+  - id: SYM-test-e2e-operator-compare
+    title: operator_compare
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-operator-compare
+  - id: SYM-operators-compare-swap
+    title: compare_swap
+    sourceFile: prolog/mutalog/operators.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-BBEC6285F92001DC
+      - type: covered_by
+        target: TEST-e2e-operator-compare
+  - id: SYM-test-e2e-operator-unify
+    title: operator_unify
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-operator-unify
+  - id: SYM-operators-unify-swap
+    title: unify_swap
+    sourceFile: prolog/mutalog/operators.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-7F9EBE3BDABCE064
+      - type: covered_by
+        target: TEST-e2e-operator-unify
+  - id: SYM-test-e2e-operator-negate
+    title: operator_negate
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-operator-negate
+  - id: SYM-operators-mutalog-mutatenegate
+    title: mutalog:mutate(negate
+    sourceFile: prolog/mutalog/operators.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-0675D067D8B21673
+      - type: covered_by
+        target: TEST-e2e-operator-negate
+  - id: SYM-test-e2e-operator-cut
+    title: operator_cut
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-operator-cut
+  - id: SYM-operators-mutalog-mutatecut
+    title: mutalog:mutate(cut
+    sourceFile: prolog/mutalog/operators.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-1BE4DE98E4A99F3C
+      - type: covered_by
+        target: TEST-e2e-operator-cut
+  - id: SYM-generate-body-has-cut
+    title: body_has_cut
+    sourceFile: prolog/mutalog/generate.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-1BE4DE98E4A99F3C
+      - type: covered_by
+        target: TEST-e2e-operator-cut
+  - id: SYM-test-e2e-operator-goal-true
+    title: operator_goal_true
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-operator-goal-true
+  - id: SYM-operators-mutalog-mutategoal-true
+    title: mutalog:mutate(goal_true
+    sourceFile: prolog/mutalog/operators.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-2A92238812D104CF
+      - type: covered_by
+        target: TEST-e2e-operator-goal-true
+  - id: SYM-test-e2e-operator-goal-fail
+    title: operator_goal_fail
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-operator-goal-fail
+  - id: SYM-operators-mutalog-mutategoal-fail
+    title: mutalog:mutate(goal_fail
+    sourceFile: prolog/mutalog/operators.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-653372986C2F6926
+      - type: covered_by
+        target: TEST-e2e-operator-goal-fail
+  - id: SYM-test-e2e-operator-clause-drop
+    title: operator_clause_drop
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-operator-clause-drop
+  - id: SYM-generate-clause-mutant
+    title: clause_mutant
+    sourceFile: prolog/mutalog/generate.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-178AB1F1C5F1EFE0
+      - type: covered_by
+        target: TEST-e2e-operator-clause-drop
+  - id: SYM-test-e2e-operator-literal
+    title: operator_literal
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-operator-literal
+  - id: SYM-operators-literal-swap
+    title: literal_swap
+    sourceFile: prolog/mutalog/operators.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-A3B9E1922440A581
+      - type: covered_by
+        target: TEST-e2e-operator-literal
+  - id: SYM-test-e2e-custom-operator-from-a-project
+    title: custom_operator_from_a_project
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-custom-operator-from-a-project
+  - id: SYM-operators-operator-names
+    title: operator_names
+    sourceFile: prolog/mutalog/operators.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-211A7AC532ADA588
+      - type: covered_by
+        target: TEST-e2e-custom-operator-from-a-project
+  - id: SYM-run-check-operators
+    title: check_operators
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-211A7AC532ADA588
+      - type: covered_by
+        target: TEST-e2e-custom-operator-from-a-project
+  - id: SYM-test-e2e-never-mutates-directives-dcg-or-tests
+    title: never_mutates_directives_dcg_or_tests
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-never-mutates-directives-dcg-or-tests
+  - id: SYM-reader-test-block-state
+    title: test_block_state
+    sourceFile: prolog/mutalog/reader.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F237B3AAC9F552A2
+      - type: covered_by
+        target: TEST-e2e-never-mutates-directives-dcg-or-tests
+  - id: SYM-reader-directive
+    title: directive
+    sourceFile: prolog/mutalog/reader.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F237B3AAC9F552A2
+      - type: covered_by
+        target: TEST-e2e-never-mutates-directives-dcg-or-tests
+  - id: SYM-test-e2e-reads-custom-operators-and-syntax
+    title: reads_custom_operators_and_syntax
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-reads-custom-operators-and-syntax
+  - id: SYM-reader-read-source
+    title: read_source
+    sourceFile: prolog/mutalog/reader.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-408D5C7AFB1C4E71
+      - type: covered_by
+        target: TEST-e2e-reads-custom-operators-and-syntax
+  - id: SYM-reader-source-op-module
+    title: source_op_module
+    sourceFile: prolog/mutalog/reader.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-408D5C7AFB1C4E71
+      - type: covered_by
+        target: TEST-e2e-reads-custom-operators-and-syntax
+  - id: SYM-test-e2e-mutates-itself
+    title: mutates_itself
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-mutates-itself
+  - id: SYM-discover-discover-files
+    title: discover_files
+    sourceFile: prolog/mutalog/discover.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-4CF26847DCD17B68
+      - type: covered_by
+        target: TEST-e2e-mutates-itself
+  - id: SYM-test-e2e-config-file-is-optional-and-read
+    title: config_file_is_optional_and_read
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-config-file-is-optional-and-read
+  - id: SYM-config-load-config
+    title: load_config
+    sourceFile: prolog/mutalog/config.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-CE1F43687FF92977
+      - type: covered_by
+        target: TEST-e2e-config-file-is-optional-and-read
+  - id: SYM-config-read-config-file
+    title: read_config_file
+    sourceFile: prolog/mutalog/config.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-CE1F43687FF92977
+      - type: covered_by
+        target: TEST-e2e-config-file-is-optional-and-read
+  - id: SYM-test-e2e-dry-run-records-time-and-clauses
+    title: dry_run_records_time_and_clauses
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-dry-run-records-time-and-clauses
+  - id: SYM-run-mutalog-dry-run
+    title: mutalog_dry_run
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F7474BB290B90F77
+      - type: covered_by
+        target: TEST-e2e-dry-run-records-time-and-clauses
+      - type: implements
+        target: REQ-AUTO-3FC60457FD45514E
+      - type: covered_by
+        target: TEST-e2e-failing-test-stops-the-run
+  - id: SYM-worker-dry-test
+    title: dry_test
+    sourceFile: prolog/mutalog/worker.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F7474BB290B90F77
+      - type: covered_by
+        target: TEST-e2e-dry-run-records-time-and-clauses
+  - id: SYM-worker-covered-clauses
+    title: covered_clauses
+    sourceFile: prolog/mutalog/worker.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F7474BB290B90F77
+      - type: covered_by
+        target: TEST-e2e-dry-run-records-time-and-clauses
+  - id: SYM-test-e2e-failing-test-stops-the-run
+    title: failing_test_stops_the_run
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-failing-test-stops-the-run
+  - id: SYM-run-mutalog-error
+    title: mutalog_error
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-3FC60457FD45514E
+      - type: covered_by
+        target: TEST-e2e-failing-test-stops-the-run
+  - id: SYM-test-e2e-run-reports-statuses-and-score
+    title: run_reports_statuses_and_score
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-run-reports-statuses-and-score
+  - id: SYM-run-mutation-score
+    title: mutation_score
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-AEACADEB6A56DDD2
+      - type: covered_by
+        target: TEST-e2e-run-reports-statuses-and-score
+  - id: SYM-run-mutant-counts
+    title: mutant_counts
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-AEACADEB6A56DDD2
+      - type: covered_by
+        target: TEST-e2e-run-reports-statuses-and-score
+  - id: SYM-test-e2e-uncovered-mutants-are-not-run
+    title: uncovered_mutants_are_not_run
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-uncovered-mutants-are-not-run
+  - id: SYM-run-covering-tests
+    title: covering_tests
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-4D6793556060D2C3
+      - type: covered_by
+        target: TEST-e2e-uncovered-mutants-are-not-run
+      - type: implements
+        target: REQ-AUTO-ECC62318E485FD92
+      - type: covered_by
+        target: TEST-e2e-runs-only-covering-tests
+  - id: SYM-run-plan-mutant
+    title: plan_mutant
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-4D6793556060D2C3
+      - type: covered_by
+        target: TEST-e2e-uncovered-mutants-are-not-run
+  - id: SYM-test-e2e-runs-only-covering-tests
+    title: runs_only_covering_tests
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-runs-only-covering-tests
+  - id: SYM-worker-run-mutant-tests
+    title: run_mutant_tests
+    sourceFile: prolog/mutalog/worker.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-ECC62318E485FD92
+      - type: covered_by
+        target: TEST-e2e-runs-only-covering-tests
+      - type: implements
+        target: REQ-AUTO-5F23006427EE8FC8
+      - type: covered_by
+        target: TEST-e2e-time-limit-from-dry-run
+  - id: SYM-test-e2e-applies-mutants-to-static-code
+    title: applies_mutants_to_static_code
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-applies-mutants-to-static-code
+  - id: SYM-worker-apply-mutant
+    title: apply_mutant
+    sourceFile: prolog/mutalog/worker.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-2919CA799C575688
+      - type: covered_by
+        target: TEST-e2e-applies-mutants-to-static-code
+  - id: SYM-worker-reload
+    title: reload
+    sourceFile: prolog/mutalog/worker.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-2919CA799C575688
+      - type: covered_by
+        target: TEST-e2e-applies-mutants-to-static-code
+  - id: SYM-test-e2e-time-limit-from-dry-run
+    title: time_limit_from_dry_run
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-time-limit-from-dry-run
+  - id: SYM-run-job-cost
+    title: job_cost
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-5F23006427EE8FC8
+      - type: covered_by
+        target: TEST-e2e-time-limit-from-dry-run
+  - id: SYM-test-e2e-hard-limit-stops-a-swallowed-time-limit
+    title: hard_limit_stops_a_swallowed_time_limit
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-hard-limit-stops-a-swallowed-time-limit
+  - id: SYM-client-worker-call
+    title: worker_call
+    sourceFile: prolog/mutalog/client.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-A94EF4A2296AFF54
+      - type: covered_by
+        target: TEST-e2e-hard-limit-stops-a-swallowed-time-limit
+  - id: SYM-client-worker-kill
+    title: worker_kill
+    sourceFile: prolog/mutalog/client.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-A94EF4A2296AFF54
+      - type: covered_by
+        target: TEST-e2e-hard-limit-stops-a-swallowed-time-limit
+  - id: SYM-run-replace-worker
+    title: replace_worker
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-A94EF4A2296AFF54
+      - type: covered_by
+        target: TEST-e2e-hard-limit-stops-a-swallowed-time-limit
+  - id: SYM-test-e2e-crash-is-isolated-in-a-worker-process
+    title: crash_is_isolated_in_a_worker_process
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-crash-is-isolated-in-a-worker-process
+  - id: SYM-client-worker-start
+    title: worker_start
+    sourceFile: prolog/mutalog/client.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-43894D6940BD6965
+      - type: covered_by
+        target: TEST-e2e-crash-is-isolated-in-a-worker-process
+  - id: SYM-run-start-worker
+    title: start_worker
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-43894D6940BD6965
+      - type: covered_by
+        target: TEST-e2e-crash-is-isolated-in-a-worker-process
+  - id: SYM-test-e2e-crash-is-retried-on-a-fresh-worker
+    title: crash_is_retried_on_a_fresh_worker
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-crash-is-retried-on-a-fresh-worker
+  - id: SYM-run-attempt
+    title: attempt
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-8FA9AE813FAC53CA
+      - type: covered_by
+        target: TEST-e2e-crash-is-retried-on-a-fresh-worker
+  - id: SYM-run-retryable
+    title: retryable
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-8FA9AE813FAC53CA
+      - type: covered_by
+        target: TEST-e2e-crash-is-retried-on-a-fresh-worker
+  - id: SYM-test-e2e-longest-limits-start-first
+    title: longest_limits_start_first
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-longest-limits-start-first
+  - id: SYM-run-schedule
+    title: schedule
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-C6895C0B44964BBF
+      - type: covered_by
+        target: TEST-e2e-longest-limits-start-first
+  - id: SYM-test-e2e-only-runs-the-chosen-mutants
+    title: only_runs_the_chosen_mutants
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-only-runs-the-chosen-mutants
+  - id: SYM-run-select-only
+    title: select_only
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-5C0604494F0458D4
+      - type: covered_by
+        target: TEST-e2e-only-runs-the-chosen-mutants
+  - id: SYM-test-e2e-break-threshold-sets-the-exit-code
+    title: break_threshold_sets_the_exit_code
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-break-threshold-sets-the-exit-code
+  - id: SYM-mutalog-break-code
+    title: break_code
+    sourceFile: prolog/mutalog.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-B6447158DD93403B
+      - type: covered_by
+        target: TEST-e2e-break-threshold-sets-the-exit-code
+  - id: SYM-mutalog-run-code
+    title: run_code
+    sourceFile: prolog/mutalog.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-B6447158DD93403B
+      - type: covered_by
+        target: TEST-e2e-break-threshold-sets-the-exit-code
+  - id: SYM-test-e2e-html-report-is-self-contained
+    title: html_report_is_self_contained
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-html-report-is-self-contained
+  - id: SYM-report-write-report
+    title: write_report
+    sourceFile: prolog/mutalog/report.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-CB32BF7DBFE62DAA
+      - type: covered_by
+        target: TEST-e2e-html-report-is-self-contained
+  - id: SYM-report-html-template
+    title: report.html
+    sourceFile: prolog/mutalog/report.html
+    symbol_role: behavioral
+    granularity_reason: config-artifact
+    relationships:
+      - type: implements
+        target: REQ-AUTO-CB32BF7DBFE62DAA
+      - type: covered_by
+        target: TEST-e2e-html-report-is-self-contained
+  - id: SYM-test-e2e-json-report-follows-schema-v2
+    title: json_report_follows_schema_v2
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-json-report-follows-schema-v2
+  - id: SYM-report-report-dict
+    title: report_dict
+    sourceFile: prolog/mutalog/report.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-20DC4E062C4C1FC7
+      - type: covered_by
+        target: TEST-e2e-json-report-follows-schema-v2
+  - id: SYM-report-mutant-entry
+    title: mutant_entry
+    sourceFile: prolog/mutalog/report.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-20DC4E062C4C1FC7
+      - type: covered_by
+        target: TEST-e2e-json-report-follows-schema-v2
+  - id: SYM-test-e2e-installs-as-a-pack
+    title: installs_as_a_pack
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-installs-as-a-pack
+  - id: SYM-pack-manifest
+    title: pack.pl
+    sourceFile: pack.pl
+    symbol_role: behavioral
+    granularity_reason: config-artifact
+    relationships:
+      - type: implements
+        target: REQ-AUTO-957337CBB4A00275
+      - type: covered_by
+        target: TEST-e2e-installs-as-a-pack
+      - type: implements
+        target: REQ-AUTO-674E6097A8013135
+      - type: covered_by
+        target: TEST-e2e-pack-needs-only-swi-prolog
+  - id: SYM-mutalog-main
+    title: main
+    sourceFile: prolog/mutalog.pl
+    symbol_role: behavioral
+    granularity_reason: extractor-miss
+    relationships:
+      - type: implements
+        target: REQ-AUTO-957337CBB4A00275
+      - type: covered_by
+        target: TEST-e2e-installs-as-a-pack
+  - id: SYM-test-e2e-pack-needs-only-swi-prolog
+    title: pack_needs_only_swi_prolog
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-pack-needs-only-swi-prolog
+  - id: SYM-test-e2e-pack-has-no-node-dependency
+    title: pack_has_no_node_dependency
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-pack-has-no-node-dependency
+  - id: SYM-bin-mutalog
+    title: bin/mutalog
+    sourceFile: bin/mutalog
+    symbol_role: behavioral
+    granularity_reason: config-artifact
+    relationships:
+      - type: implements
+        target: REQ-AUTO-E3EDF783E91FB673
+      - type: covered_by
+        target: TEST-e2e-pack-has-no-node-dependency
+  - id: SYM-test-e2e-release-check-requires-a-changelog-section
+    title: release_check_requires_a_changelog_section
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-release-check-requires-a-changelog-section
+  - id: SYM-release-check-script
+    title: scripts/release-check.sh
+    sourceFile: scripts/release-check.sh
+    symbol_role: behavioral
+    granularity_reason: config-artifact
+    relationships:
+      - type: implements
+        target: REQ-release-changelog-matches-pack
+      - type: covered_by
+        target: TEST-e2e-release-check-requires-a-changelog-section
+      - type: implements
+        target: REQ-release-refuse-tagged-version
+      - type: covered_by
+        target: TEST-e2e-release-refuses-a-tagged-version
+  - id: SYM-test-e2e-release-refuses-a-tagged-version
+    title: release_refuses_a_tagged_version
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-release-refuses-a-tagged-version
+  - id: SYM-ci-workflow
+    title: ci.yml
+    sourceFile: .github/workflows/ci.yml
+    symbol_role: behavioral
+    granularity_reason: config-artifact
+    relationships:
+      - type: implements
+        target: REQ-release-changelog-matches-pack
+      - type: covered_by
+        target: TEST-ci-runs-release-check
+      - type: covered_by
+        target: TEST-e2e-release-check-requires-a-changelog-section
+  - id: SYM-test-ci-runs-release-check
+    title: release-check.sh
+    sourceFile: scripts/release-check.sh
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-ci-runs-release-check

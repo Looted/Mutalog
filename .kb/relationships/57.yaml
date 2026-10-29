@@ -6,3 +6,10 @@ relationships:
     created_at: "2026-10-29T16:05:45.705Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-a-mutant-that-halts-its-worker-does-not-stop-the-run
+    to: TEST-e2e-crash-is-isolated-in-a-worker-process
+    created_at: 2026-10-29T17:52:41.712Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-9210f55eda91

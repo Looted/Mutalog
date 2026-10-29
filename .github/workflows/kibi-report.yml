@@ -43,7 +43,17 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - name: Install SWI-Prolog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y swi-prolog-nox
       - run: npm exec -- kibi sync
+      # Proof receipts expire after a week and go stale when the code they
+      # cover changes, so re-run the end-to-end tests before every report.
+      # A failing test lowers the badge instead of blocking the report.
+      - name: Prove requirements
+        continue-on-error: true
+        run: npm exec -- kibi prove --all
       - run: npm exec -- kibi report --output kibi-report
       - name: Upload Kibi PR report
         if: ${{ github.event_name == 'pull_request' }}

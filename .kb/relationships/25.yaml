@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-81aa505c256b
+    type: verified_by
+    from: SCEN-the-clause-drop-operator-removes-one-clause
+    to: TEST-e2e-operator-clause-drop
+    created_at: "2026-10-29T17:52:26.086Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

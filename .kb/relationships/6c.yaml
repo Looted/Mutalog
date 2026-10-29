@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-258aa5553036
+    type: verified_by
+    from: SCEN-a-failing-test-stops-the-run-before-any-mutant
+    to: TEST-e2e-failing-test-stops-the-run
+    created_at: "2026-10-29T17:52:34.607Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

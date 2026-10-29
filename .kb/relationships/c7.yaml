@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-f27e4da7d6f5
+    type: verified_by
+    from: SCEN-a-mutant-runs-only-the-tests-that-cover-it
+    to: TEST-e2e-runs-only-covering-tests
+    created_at: "2026-10-29T17:52:37.728Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
