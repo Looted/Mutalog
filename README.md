@@ -1,4 +1,9 @@
-# Mutalog
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo/mutalog-logo-dark.svg">
+    <img src="assets/logo/mutalog-logo.svg" alt="Mutalog" height="64">
+  </picture>
+</h1>
 
 [![Kibi requirement health](https://looted.github.io/mutalog/kibi-report/badge.svg)](https://looted.github.io/mutalog/kibi-report/)
 
