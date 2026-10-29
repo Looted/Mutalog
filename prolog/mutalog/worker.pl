@@ -47,10 +47,19 @@ of another file is applied, and on `restore`.
 :- discontiguous handle/2.
 
 %   Count error messages so that a load or reload that reports errors
-%   is recognised even when it does not throw.
+%   is recognised even when it does not throw, and keep the text of the
+%   first one so that a compile error can say what went wrong.
 
-user:message_hook(_, error, _) :-
+user:message_hook(_, error, Lines) :-
     flag(mutalog_errors, N, N + 1),
+    (   N =:= 0
+    ->  catch(with_output_to(string(S),
+                             print_message_lines(current_output, '', Lines)),
+              _, S = ""),
+        split_string(S, "", " \t\n", [Text]),
+        nb_setval(mutalog_first_error, Text)
+    ;   true
+    ),
     fail.
 
 %!  worker_main is det.
@@ -191,7 +200,7 @@ handle(mutant(Id, Rel, Start, End, Replacement, Tests, LimitMs),
         (   Applied == ok
         ->  run_mutant_tests(Tests, T0, LimitMs, Status, KilledBy)
         ;   Status = compile_error,
-            KilledBy = none
+            KilledBy = Applied
         )
     ;   Status = no_coverage,
         KilledBy = none
@@ -243,24 +252,54 @@ original(File, Text) :-
         assertz(original_text(File, Text))
     ).
 
-%   The file is unloaded first. On SWI-Prolog 10, reloading a file a
-%   second time from a stream can leave a clause that the new text no
-%   longer has still answering calls, when that clause ran after the
-%   first reload. Unloading removes the clauses but keeps the module
-%   and its procedures, so importers stay linked.
+%   The file is unloaded first. SWI-Prolog before 10.1.19 does not
+%   remove the clauses that a reload drops from the JIT indexes of a
+%   static predicate, so a dropped clause can still answer calls that
+%   go through such an index. Unloading erases the clauses and cleans
+%   the indexes, and keeps the module and its procedures, so importers
+%   stay linked.
+%
+%   Unloading also makes the file look like a non-module file, which
+%   SWI-Prolog refuses to load into another module than the one that
+%   first loaded it. The load-context records are therefore set aside
+%   during the load and put back afterwards. The reload imports nothing
+%   into this module, so mutated modules that export the same name
+%   don't clash here.
+%
+%   Result is `ok`, or load_error(Message) with the first error the
+%   load printed.
 
 reload(File, Text, Result) :-
     flag(mutalog_errors, _, 0),
+    nb_setval(mutalog_first_error, ""),
+    catch(findall(M-O, system:'$load_context_module'(File, M, O), Contexts),
+          _, Contexts = []),
     unload_file(File),
     setup_call_cleanup(
-        open_string(Text, In),
-        catch(load_files(File, [stream(In), silent(true)]), E, true),
-        close(In)),
+        retractall(system:'$load_context_module'(File, _, _)),
+        load_text(File, Text, E),
+        restore_load_contexts(File, Contexts)),
+    (   nonvar(E)
+    ->  print_message(error, E)
+    ;   true
+    ),
     flag(mutalog_errors, Errors, 0),
-    (   var(E), Errors =:= 0
+    (   Errors =:= 0
     ->  Result = ok
-    ;   Result = error
+    ;   nb_getval(mutalog_first_error, Message),
+        Result = load_error(Message)
     ).
+
+load_text(File, Text, E) :-
+    setup_call_cleanup(
+        open_string(Text, In),
+        catch(load_files(File, [stream(In), silent(true), imports([])]), E, true),
+        close(In)).
+
+restore_load_contexts(File, Contexts) :-
+    retractall(system:'$load_context_module'(File, _, _)),
+    forall(member(M-O, Contexts),
+           assertz(system:'$load_context_module'(File, M, O))).
 
 %   Run the covering tests one by one, stopping at the first failure.
 %   Each test gets what is left of the mutant's time budget.

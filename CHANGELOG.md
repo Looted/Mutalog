@@ -2,6 +2,12 @@
 
 All notable changes to Mutalog are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## 0.3.2 (2026-10-29)
+
+- Fixes a regression in 0.3.1: every mutant of a module that another loaded module imports came back as a compile error. The worker still unloads a file before loading a mutant, which keeps the 0.3.1 fix, but it now keeps SWI-Prolog's record of which modules loaded the file.
+- Mutants of two modules that export the same name no longer come back as compile errors.
+- A run where more than half of the mutants did not load prints a warning and, with `break` above 0, exits with 1. The clear-text output shows the first load error of each file, and the JSON report gives it as the mutant's `statusReason`.
+
 ## 0.3.1 (2026-10-29)
 
 - On SWI-Prolog 10, a mutant could run against a clause left over from the previous mutant of the same file, so it survived or was killed depending on which mutants its worker ran before it. The worker now unloads a file before it reloads it.

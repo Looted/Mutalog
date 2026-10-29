@@ -24,6 +24,7 @@ OPTIONS: [--config FILE] [--root DIR] [--mutate GLOB]... [--tests GLOB]...
 
 :- use_module(library(lists)).
 :- use_module(library(apply)).
+:- use_module(library(aggregate)).
 :- use_module(library(http/json)).
 :- use_module(mutalog/config).
 :- use_module(mutalog/discover).
@@ -227,6 +228,7 @@ print_run(run(_, Results, Tests, _)) :-
         format("~nTimed out (~d):~n", [NT]),
         forall(member(r(M, _, _, _, _), Timeouts), print_mutant(M))
     ),
+    print_compile_errors(Results),
     run_table(Results),
     mutant_counts(Results, Counts),
     mutation_score(Counts, Score, Covered),
@@ -234,13 +236,59 @@ print_run(run(_, Results, Tests, _)) :-
     percent_text(Covered, CT),
     format("~nMutation score: ~w (covered code: ~w)~n", [ST, CT]).
 
-%   Exit code 1 when the score is below the break threshold.
+%   Mutants that did not load, counted per file with the first error,
+%   which usually points at the cause when many of them fail alike.
+
+print_compile_errors(Results) :-
+    include(status_is(compile_error), Results, Errors),
+    (   Errors == []
+    ->  true
+    ;   length(Errors, N),
+        format("~nCompile errors (~d):~n", [N]),
+        findall(F, ( member(r(M, _, _, _, _), Errors), get_dict(file, M, F) ), Fs0),
+        sort(Fs0, Fs),
+        forall(member(F, Fs), print_file_compile_errors(F, Errors))
+    ).
+
+print_file_compile_errors(F, Errors) :-
+    include(result_file(F), Errors, FileErrors),
+    length(FileErrors, N),
+    format("  ~w: ~d mutant(s) did not load~n", [F, N]),
+    (   member(r(_, _, load_error(Message), _, _), FileErrors),
+        Message \== ""
+    ->  split_string(Message, "\n", "", Lines),
+        format("      first error:~n"),
+        forall(member(Line, Lines), format("        ~w~n", [Line]))
+    ;   true
+    ).
+
+%   Exit code 1 when the score is below the break threshold, or when
+%   most mutants did not load and break is above 0: generated mutants
+%   always parse, so that points at a broken run, not at the mutants.
 
 run_code(run(Config, Results, _, _), Code) :-
     mutant_counts(Results, Counts),
     mutation_score(Counts, Score, _),
     (   memberchk(thresholds(H, L, B), Config)
-    ->  break_code(thresholds(H, L, B), Score, Code)
+    ->  break_code(thresholds(H, L, B), Score, Code0),
+        compile_error_code(Counts, B, Code1),
+        Code is max(Code0, Code1)
+    ;   Code = 0
+    ).
+
+compile_error_code(Counts, break(B), Code) :-
+    memberchk(compile_error-CE, Counts),
+    memberchk(ignored-I, Counts),
+    aggregate_all(sum(C), member(_-C, Counts), All),
+    Total is All - I,
+    (   CE * 2 > Total
+    ->  format(user_error,
+               "mutalog: ~d of ~d mutants did not load (compile errors), so the run is probably broken~n",
+               [CE, Total]),
+        (   number(B), B > 0
+        ->  Code = 1
+        ;   Code = 0
+        )
     ;   Code = 0
     ).
 

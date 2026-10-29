@@ -30,7 +30,7 @@ stale_reloads(Dir, I, Stale) :-
           ""
         ], "\n", Text),
     write_file(File, Text),
-    use_module(File),
+    use_module(File, []),
     replace_once(Text, "check(Lo, Hi) :- ne", "check(Lo, Hi) :- true, ne", First),
     replace_once(Text, "ne(interval(Lo, _, Hi, _, _)) :- Lo < Hi, !.\n", "", Dropped),
     aggregate_all(count,
