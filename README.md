@@ -6,7 +6,7 @@ Mutation testing for SWI-Prolog.
 
 Mutalog makes small changes to your Prolog code, such as a flipped comparison, a removed cut or a dropped clause, and checks that your plunit tests notice. A change the tests do not notice is a *surviving mutant*: a behaviour no test pins down.
 
-> **Status: 0.1.2, first release.** Mutalog generates mutants, runs your plunit tests against each one on parallel workers, and reports a mutation score in the terminal, as HTML and as JSON. See [Roadmap](#roadmap) for what is in it.
+> **Status: released, see [CHANGELOG.md](CHANGELOG.md).** Mutalog generates mutants, runs your plunit tests against each one on parallel workers, and reports a mutation score in the terminal, as HTML and as JSON. See [Roadmap](#roadmap) for what is in it.
 
 ## Requirements
 
@@ -143,7 +143,7 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 2. **Dry run and worker**: `mutalog run` and `mutalog dry-run` with one worker. Done.
 3. **Pool, scheduler, timeouts**: parallel workers, longest-first scheduling, hard time limits, retries for crashes. Done.
 4. **Reports and thresholds**: clear text, JSON in the open mutation-testing report schema, a self-contained HTML report, `break` threshold exit code. Done.
-5. **Release**: BSD-2-Clause license, installable as a pack with a `swipl mutalog` app, versioned releases.
+5. **Release**: BSD-2-Clause license, installable as a pack with a `swipl mutalog` app, versioned releases. Done in 0.1.2, see [CHANGELOG.md](CHANGELOG.md).
 
 ## Development
 
@@ -152,6 +152,13 @@ swipl test/run.pl                                    # tests
 bin/mutalog list --mutate 'prolog/**/*.pl' --check   # Mutalog's own mutants re-read
 (cd test/project && ../../bin/mutalog run)           # the example project
 ```
+
+### Releasing
+
+1. In a pull request, bump `version('X.Y.Z')` in `pack.pl` and add a `## X.Y.Z` section to `CHANGELOG.md`. CI fails if the two disagree.
+2. Merge it, then run the **Release** workflow on `master` from the Actions tab.
+
+The workflow refuses a version that is already tagged. It creates the `vX.Y.Z` tag and GitHub release with the changelog section as notes, and publishes the pack. Don't create tags or releases by hand: a tag on a commit whose `pack.pl` disagrees can't be reused.
 
 ## License
 
