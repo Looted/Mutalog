@@ -11,6 +11,7 @@
 :- use_module('../prolog/mutalog/report').
 :- use_module(library(http/json)).
 :- use_module(library(readutil)).
+:- use_module(library(process)).
 
 fixtures_dir(Dir) :-
     source_file(fixtures_dir(_), File),
@@ -220,6 +221,31 @@ test(self_mutants_reread) :-
            assertion(C-Id == ok-Id)).
 
 :- end_tests(self).
+
+:- begin_tests(worker).
+
+%   Reloading a file over a previous mutant must not leave a clause of
+%   that mutant answering calls. SWI-Prolog 10 did so for a clause that
+%   ran between the two reloads unless the file is unloaded first.
+%   Whether it shows varies from process to process, so the scenario
+%   runs in several fresh processes.
+
+test(reload_drops_stale_clauses, Counts == [0, 0, 0, 0, 0, 0, 0, 0]) :-
+    fixtures_dir(Fixtures),
+    file_directory_name(Fixtures, TestDir),
+    directory_file_path(TestDir, 'reload_scenario.pl', Script),
+    current_prolog_flag(executable, Exe),
+    length(Counts, 8),
+    maplist(run_reload_scenario(Exe, Script), Counts).
+
+run_reload_scenario(Exe, Script, Count) :-
+    process_create(Exe, ['-q', '-g', main, '-t', halt, Script],
+                   [stdout(pipe(Out)), process(Pid)]),
+    read_term(Out, Count, []),
+    close(Out),
+    process_wait(Pid, exit(0)).
+
+:- end_tests(worker).
 
 :- begin_tests(run).
 
