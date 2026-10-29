@@ -12,7 +12,8 @@ notices.
 Command line:
 
 ```
-mutalog run     [OPTIONS] [--only ID,ID] [--concurrency N] [--verbose]
+mutalog run     [OPTIONS] [--only ID,ID] [--concurrency N]
+                [--reporters a,b] [--verbose]
 mutalog dry-run [OPTIONS]
 mutalog list    [OPTIONS] [--format text|json] [--check]
 
@@ -30,6 +31,7 @@ OPTIONS: [--config FILE] [--mutate GLOB]... [--tests GLOB]...
 :- use_module(mutalog/operators).
 :- use_module(mutalog/generate).
 :- use_module(mutalog/run).
+:- use_module(mutalog/report).
 
 :- initialization(check_version).
 
@@ -69,7 +71,18 @@ run_cli([run|Args], Code) :-
     working_directory(Cwd, Cwd),
     cli_overrides(Opts, Overrides),
     mutalog_run(Cwd, Overrides, Run),
-    print_run(Run, Code).
+    Run = run(Config, _, _, _),
+    config_value(reporters, Config, Reporters),
+    (   memberchk(clear_text, Reporters)
+    ->  print_run(Run)
+    ;   true
+    ),
+    write_reports(Run, Written),
+    directory_file_path(Cwd, x, Here),
+    forall(member(F, Written),
+           ( relative_file_name(F, Here, Rel),
+             format("Report: ~w~n", [Rel]) )),
+    run_code(Run, Code).
 run_cli(['dry-run'|Args], Code) :-
     !,
     parse_options(Args, Opts),
@@ -94,6 +107,7 @@ usage :-
                        "  --timeout-ms N      extra time per mutant",
                        "  run:  --only ID,ID  run only these mutants",
                        "        -c, --concurrency N  number of workers (default CPUs - 1)",
+                       "        --reporters a,b  clear_text, progress, html, json",
                        "        --verbose     show the project's own output",
                        "  list: --format text|json, --check"
                      ]),
@@ -124,6 +138,10 @@ parse_options(['--concurrency', N|T], [concurrency(V)|Os]) :-
 parse_options(['-c', N|T], Os) :-
     !,
     parse_options(['--concurrency', N|T], Os).
+parse_options(['--reporters', L|T], [reporters(Rs)|Os]) :-
+    !,
+    atomic_list_concat(Rs, ',', L),
+    parse_options(T, Os).
 parse_options(['--verbose'|T], [verbose(true)|Os]) :- !, parse_options(T, Os).
 parse_options([X|_], _) :-
     domain_error(mutalog_option, X).
@@ -141,7 +159,7 @@ cli_overrides(Opts, Overrides) :-
     ),
     findall(X, ( member(X, Opts),
                  ( X = timeout_ms(_) ; X = only(_) ; X = verbose(_) ;
-                   X = concurrency(_) ) ),
+                   X = concurrency(_) ; X = reporters(_) ) ),
             Passed),
     append(Passed, O00, O1),
     (   memberchk(operators(Ops), Opts)
@@ -187,7 +205,7 @@ check_result(result(Files), Code) :-
 %   ---------------------------------------------------------------
 %   Output: run
 
-print_run(run(Config, Results, Tests), Code) :-
+print_run(run(_, Results, Tests, _)) :-
     length(Tests, NTests),
     format("~nRan ~d tests in the dry run.~n", [NTests]),
     include(status_is(survived), Results, Survived),
@@ -212,7 +230,13 @@ print_run(run(Config, Results, Tests), Code) :-
     mutation_score(Counts, Score, Covered),
     percent_text(Score, ST),
     percent_text(Covered, CT),
-    format("~nMutation score: ~w (covered code: ~w)~n", [ST, CT]),
+    format("~nMutation score: ~w (covered code: ~w)~n", [ST, CT]).
+
+%   Exit code 1 when the score is below the break threshold.
+
+run_code(run(Config, Results, _, _), Code) :-
+    mutant_counts(Results, Counts),
+    mutation_score(Counts, Score, _),
     (   memberchk(thresholds(H, L, B), Config)
     ->  break_code(thresholds(H, L, B), Score, Code)
     ;   Code = 0
@@ -260,7 +284,7 @@ table_row(Name, Rs) :-
 %   ---------------------------------------------------------------
 %   Output: dry run
 
-print_dry_run(dry(_, Files, Results, _), Code) :-
+print_dry_run(dry(_, Files, Results, _, _), Code) :-
     format("~w~t~60|~t~w~70|~t~w~80|~n", ['Test', 'Time (ms)', 'Clauses']),
     forall(member(t(Test, Status, Ms, Covered), Results),
            ( length(Covered, NC),

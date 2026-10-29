@@ -107,10 +107,11 @@ start_worker(Ctx, W) :-
 
 %!  mutalog_dry_run(+Root, +Overrides, -DryRun) is det.
 %
-%   DryRun is dry(Config, Files, Results): the dry-run result per test
-%   and the generated mutants.
+%   DryRun is dry(Config, Files, Results, Ctx, TestInfo): the generated
+%   mutants, the dry-run result per test, the worker context and one
+%   test(Id, File, Line) per test.
 
-mutalog_dry_run(Root, Overrides, dry(Config, Files, Results, Ctx)) :-
+mutalog_dry_run(Root, Overrides, dry(Config, Files, Results, Ctx, TestInfo)) :-
     load_config(Root, Overrides, Config),
     collect_mutants(Config, ProjectRoot, Files),
     project_tests(Config, ProjectRoot, Tests),
@@ -120,19 +121,31 @@ mutalog_dry_run(Root, Overrides, dry(Config, Files, Results, Ctx)) :-
     Ctx = ctx(ProjectRoot, WOpts, Loads, Tests, Rels),
     start_worker(Ctx, W),
     worker_call(W, dry_run, 3600, Reply),
-    worker_stop(W),
     (   Reply = dry(Results)
     ->  true
-    ;   throw(error(mutalog(dry_run(Reply)), _))
+    ;   worker_stop(W),
+        throw(error(mutalog(dry_run(Reply)), _))
+    ),
+    worker_call(W, test_info, 600, InfoReply),
+    worker_stop(W),
+    (   InfoReply = tests(TestInfo)
+    ->  true
+    ;   TestInfo = []
     ).
 
 %!  mutalog_run(+Root, +Overrides, -Run) is det.
 %
-%   Run is run(Config, Results, Tests) where Results holds one
-%   r(Mutant, Status, KilledBy, Ms, CoveredBy) per mutant.
+%   Run is run(Config, Results, DryResults, Info) where Results holds
+%   one r(Mutant, Status, KilledBy, Ms, CoveredBy) per mutant, in
+%   source order, and Info is info(Files, TestInfo, Timing) with
+%   Timing = timing(DryRunMs, MutantsMs), for the reporters.
 
-mutalog_run(Root, Overrides, run(Config, Results, DryResults)) :-
-    mutalog_dry_run(Root, Overrides, dry(Config, Files, DryResults, Ctx)),
+mutalog_run(Root, Overrides,
+            run(Config, Results, DryResults, info(Files, TestInfo, timing(DryMs, MutMs)))) :-
+    get_time(T0),
+    mutalog_dry_run(Root, Overrides, dry(Config, Files, DryResults, Ctx, TestInfo)),
+    get_time(T1),
+    DryMs is round((T1 - T0) * 1000),
     include([t(_, failed, _, _)]>>true, DryResults, Failed),
     (   Failed \== []
     ->  findall(T, member(t(T, failed, _, _), Failed), FailedTests),
@@ -149,7 +162,11 @@ mutalog_run(Root, Overrides, run(Config, Results, DryResults)) :-
     config_value(worker_reuse, Config, Reuse),
     (   memberchk(progress(Progress), Overrides)
     ->  true
-    ;   Progress = true
+    ;   config_value(reporters, Config, Reporters),
+        (   memberchk(progress, Reporters)
+        ->  Progress = true
+        ;   Progress = false
+        )
     ),
     findall(I-M, nth1(I, All, M), Numbered),
     foldl(plan_mutant(Index, Times, TimeoutMs, Factor), Numbered,
@@ -161,7 +178,9 @@ mutalog_run(Root, Overrides, run(Config, Results, DryResults)) :-
              progress(Progress, Total, Done), Ran),
     append(Uncovered, Ran, All1),
     keysort(All1, Sorted),
-    pairs_values(Sorted, Results).
+    pairs_values(Sorted, Results),
+    get_time(T2),
+    MutMs is round((T2 - T1) * 1000).
 
 %   A planned mutant is either resolved at once (no covering test) or
 %   becomes job(I, M, Tests, LimitMs) for the pool.

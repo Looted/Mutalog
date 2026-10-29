@@ -8,6 +8,9 @@
 :- use_module('../prolog/mutalog/generate').
 :- use_module('../prolog/mutalog/operators').
 :- use_module('../prolog/mutalog/run').
+:- use_module('../prolog/mutalog/report').
+:- use_module(library(http/json)).
+:- use_module(library(readutil)).
 
 fixtures_dir(Dir) :-
     source_file(fixtures_dir(_), File),
@@ -189,7 +192,7 @@ project_dir(Dir) :-
 
 project_run(Results) :-
     project_dir(Dir),
-    mutalog_run(Dir, [progress(false)], run(_, Results, Tests)),
+    mutalog_run(Dir, [progress(false)], run(_, Results, Tests, _)),
     length(Tests, 7).
 
 status_of(Results, Id, Status) :-
@@ -224,12 +227,12 @@ test(killed_by) :-
 
 test(only) :-
     project_dir(Dir),
-    mutalog_run(Dir, [progress(false), only(["src/calc.pl:14:30:arith:1"])], run(_, Results, _)),
+    mutalog_run(Dir, [progress(false), only(["src/calc.pl:14:30:arith:1"])], run(_, Results, _, _)),
     assertion(Results = [r(_, timeout, _, _, _)]).
 
 test(dry_run_coverage) :-
     project_dir(Dir),
-    mutalog_dry_run(Dir, [], dry(_, _, Results, _)),
+    mutalog_dry_run(Dir, [], dry(_, _, Results, _, _)),
     assertion(memberchk(t(calc:max_first, passed, _, ['src/calc.pl'-16]), Results)),
     assertion(\+ ( member(t(_, _, _, Cov), Results),
                    memberchk('src/calc.pl'-19, Cov) )).
@@ -252,8 +255,8 @@ id_statuses(Results, Pairs) :-
 
 test(pool_matches_single_worker) :-
     project_dir(Dir),
-    mutalog_run(Dir, [progress(false), concurrency(1)], run(_, R1, _)),
-    mutalog_run(Dir, [progress(false), concurrency(3)], run(_, R3, _)),
+    mutalog_run(Dir, [progress(false), concurrency(1)], run(_, R1, _, _)),
+    mutalog_run(Dir, [progress(false), concurrency(3)], run(_, R3, _, _)),
     id_statuses(R1, P1),
     id_statuses(R3, P3),
     assertion(P1 == P3).
@@ -268,7 +271,7 @@ test(results_in_source_order) :-
 
 test(worker_reuse) :-
     project_dir(Dir),
-    mutalog_run(Dir, [progress(false), concurrency(2), worker_reuse(1)], run(_, R, _)),
+    mutalog_run(Dir, [progress(false), concurrency(2), worker_reuse(1)], run(_, R, _, _)),
     mutant_counts(R, Counts),
     assertion(memberchk(killed-35, Counts)),
     assertion(memberchk(survived-12, Counts)).
@@ -290,7 +293,7 @@ test(schedule_longest_first) :-
 test(crash_is_runtime_error) :-
     tmp_project(Dir, "p(X) :- ( X =:= 1 -> true ; halt(3) ).\n",
                 ":- use_module('../src/p').\n:- begin_tests(c).\ntest(one) :- p(1).\n:- end_tests(c).\n"),
-    mutalog_run(Dir, [progress(false), operators([literal])], run(_, R, _)),
+    mutalog_run(Dir, [progress(false), operators([literal])], run(_, R, _, _)),
     assertion(status_of(R, 'src/p.pl:2:17:literal:1', runtime_error)),
     assertion(status_of(R, 'src/p.pl:2:34:literal:1', survived)).
 
@@ -300,8 +303,45 @@ test(crash_is_runtime_error) :-
 test(swallowed_time_limit) :-
     tmp_project(Dir, "p(N) :- catch(count(N), _, count(N)).\ncount(0) :- !.\ncount(N) :- N1 is N - 1, count(N1).\n",
                 ":- use_module('../src/p').\n:- begin_tests(s).\ntest(three) :- p(3).\n:- end_tests(s).\n"),
-    mutalog_run(Dir, [progress(false), operators([arith]), timeout_ms(200)], run(_, R, _)),
+    mutalog_run(Dir, [progress(false), operators([arith]), timeout_ms(200)], run(_, R, _, _)),
     assertion(R = [r(_, timeout, _, _, _)]).
+
+%   M4: reports
+
+test(report_dict) :-
+    project_dir(Dir),
+    mutalog_run(Dir, [progress(false)], Run),
+    report_dict(Run, D),
+    assertion(D.schemaVersion == "2"),
+    assertion(D.thresholds = _{high: 80, low: 60}),
+    get_dict('src/calc.pl', D.files, F),
+    length(F.mutants, 55),
+    assertion(F.language == "prolog"),
+    get_dict('test/calc.plt', D.testFiles, TF),
+    length(TF.tests, 7),
+    Tests = TF.tests,
+    findall(Id, ( member(T, Tests), get_dict(id, T, Id) ), TestIds),
+    Ms = F.mutants,
+    assertion(forall(( member(M, Ms), get_dict(coveredBy, M, Cs), member(C, Cs) ),
+                     memberchk(C, TestIds))),
+    member(K, F.mutants), K.id == 'src/calc.pl:10:35:arith:1', !,
+    assertion(K.status == "Killed"),
+    assertion(K.killedBy == ["calc:sum"]),
+    assertion(K.location.start = _{line: 10, column: 35}).
+
+test(write_reports) :-
+    project_dir(Dir),
+    tmp_file(mutalog_reports, Out),
+    mutalog_run(Dir, [progress(false), report_dir(Out), reporters([html, json])], Run),
+    write_reports(Run, Written),
+    length(Written, 2), !,
+    directory_file_path(Out, 'mutation.html', Html),
+    read_file_to_string(Html, Text, []),
+    assertion(\+ sub_string(Text, _, _, _, "/*MUTALOG_REPORT*/null")),
+    assertion(sub_string(Text, _, _, _, "src/calc.pl:10:35:arith:1")),
+    directory_file_path(Out, 'mutation.json', Json),
+    setup_call_cleanup(open(Json, read, In), json_read_dict(In, J), close(In)),
+    assertion(J.schemaVersion == "2").
 
 tmp_project(Dir, Src, Test) :-
     tmp_file(mutalog_proj, Dir),
