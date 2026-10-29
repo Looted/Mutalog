@@ -3,6 +3,10 @@ name: Release
 # Pushing a tag vX.Y.Z publishes that version: installing the tagged
 # archive once from its URL registers it with the SWI-Prolog pack
 # server, after which pack_install(mutalog) finds it by name.
+#
+# The archive URL spells the repository in lower case. SWI-Prolog takes
+# the pack name from that path segment and refuses to install when it
+# differs from the name in pack.pl; GitHub serves either spelling.
 
 on:
   push:
@@ -35,7 +39,7 @@ jobs:
 
       - name: Register the tagged archive
         run: |
-          swipl -g "pack_install('https://github.com/Looted/Mutalog/archive/${GITHUB_REF_NAME}.zip', [interactive(false), inquiry(true), package_directory('/tmp/packs-url')])" -t halt
+          swipl -g "pack_install('https://github.com/Looted/mutalog/archive/${GITHUB_REF_NAME}.zip', [interactive(false), inquiry(true), package_directory('/tmp/packs-url')])" -t halt
 
       - name: Install by name and run the example project
         run: |
