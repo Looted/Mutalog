@@ -1,0 +1,4 @@
+#!/bin/sh
+# Mutalog command-line wrapper. Runs from a checkout or an installed pack.
+dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+exec "${SWIPL:-swipl}" -q -g mutalog:main -t 'halt(2)' "$dir/prolog/mutalog.pl" -- "$@"
