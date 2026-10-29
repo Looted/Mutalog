@@ -13,3 +13,17 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-e2322c2e50ff
+  - type: verified_by
+    from: SCEN-the-negate-operator-removes-a-negation-or-negates-a-conditio
+    to: TEST-e2e-operator-negate
+    created_at: 2026-10-29T17:52:21.825Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-68904344a7fe
+  - type: specified_by
+    from: REQ-AUTO-F7474BB290B90F77
+    to: SCEN-the-dry-run-reports-each-test-with-its-time-and-clauses
+    created_at: 2026-10-29T17:53:20.196Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-412224871e96

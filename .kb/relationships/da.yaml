@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-a00c0187d6d9
+    type: verified_by
+    from: SCEN-the-hard-limit-stops-code-that-catches-the-time-limit
+    to: TEST-e2e-hard-limit-stops-a-swallowed-time-limit
+    created_at: "2026-10-29T17:52:40.789Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

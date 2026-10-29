@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-3f3aab70945d
+    type: verified_by
+    from: SCEN-the-html-report-needs-no-network
+    to: TEST-e2e-html-report-is-self-contained
+    created_at: "2026-10-29T17:52:46.897Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

@@ -13,3 +13,17 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-d882549d9909
+  - type: verified_by
+    from: SCEN-a-crashing-mutant-is-retried-on-a-fresh-worker
+    to: TEST-e2e-crash-is-retried-on-a-fresh-worker
+    created_at: 2026-10-29T17:52:42.691Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-7ef9adb6a2b4
+  - type: specified_by
+    from: REQ-AUTO-20DC4E062C4C1FC7
+    to: SCEN-the-json-report-follows-schema-version-2
+    created_at: 2026-10-29T17:53:36.842Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-78d07ca1de0e

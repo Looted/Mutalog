@@ -13,3 +13,17 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-d6ef2fe58407
+  - type: verified_by
+    from: SCEN-the-pack-has-no-node-dependency
+    to: TEST-e2e-pack-has-no-node-dependency
+    created_at: 2026-10-29T17:52:50.845Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-471466f7f921
+  - type: specified_by
+    from: REQ-AUTO-178AB1F1C5F1EFE0
+    to: SCEN-the-clause-drop-operator-removes-one-clause
+    created_at: 2026-10-29T17:53:12.004Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-d4c513f8eee0

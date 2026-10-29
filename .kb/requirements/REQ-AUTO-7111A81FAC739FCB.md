@@ -31,6 +31,8 @@ origin:
   recorded_at: '2026-10-29T16:05:25.940Z'
 firmness: firm
 required_evidence: asserted
+proof_exempt: true
+proof_exempt_reason: "process rule about repository content and pull request text, enforced in review; there is no behaviour to run"
 id: REQ-AUTO-7111A81FAC739FCB
 type: req
 ---

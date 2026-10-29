@@ -1,0 +1,19 @@
+{
+  "version": "kibi.proof-integration.v1",
+  "integrations": [
+    {
+      "id": "unit",
+      "producer": "command",
+      "command": [
+        "npx",
+        "kibi",
+        "proof",
+        "run-steps"
+      ],
+      "targets": [
+        "default"
+      ],
+      "description": "Command proof: runs npx kibi proof run-steps once per kibi prove and judges every selected test by its exit code."
+    }
+  ]
+}

@@ -13,3 +13,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-2bdf3245dc02
+  - type: specified_by
+    from: REQ-AUTO-408D5C7AFB1C4E71
+    to: SCEN-files-with-their-own-operators-read-correctly
+    created_at: 2026-10-29T17:53:16.873Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-ffbb73f2b18f

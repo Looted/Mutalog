@@ -1,0 +1,372 @@
+[
+  {
+    "test_id": "TEST-e2e-list-prints-mutants-without-running",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:list_prints_mutants_without_running"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-list-check-rereads-every-mutant",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:list_check_rereads_every_mutant"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-mutant-ids-name-file-line-column-operator",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:mutant_ids_name_file_line_column_operator"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-operator-arith",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_arith"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-operator-compare",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_compare"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-operator-unify",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_unify"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-operator-negate",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_negate"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-operator-cut",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_cut"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-operator-goal-true",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_goal_true"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-operator-goal-fail",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_goal_fail"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-operator-clause-drop",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_clause_drop"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-operator-literal",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_literal"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-custom-operator-from-a-project",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:custom_operator_from_a_project"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-never-mutates-directives-dcg-or-tests",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:never_mutates_directives_dcg_or_tests"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-reads-custom-operators-and-syntax",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:reads_custom_operators_and_syntax"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-mutates-itself",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:mutates_itself"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-config-file-is-optional-and-read",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:config_file_is_optional_and_read"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-dry-run-records-time-and-clauses",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:dry_run_records_time_and_clauses"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-failing-test-stops-the-run",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:failing_test_stops_the_run"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-run-reports-statuses-and-score",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:run_reports_statuses_and_score"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-uncovered-mutants-are-not-run",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:uncovered_mutants_are_not_run"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-runs-only-covering-tests",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:runs_only_covering_tests"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-applies-mutants-to-static-code",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:applies_mutants_to_static_code"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-time-limit-from-dry-run",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:time_limit_from_dry_run"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-hard-limit-stops-a-swallowed-time-limit",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:hard_limit_stops_a_swallowed_time_limit"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-crash-is-isolated-in-a-worker-process",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:crash_is_isolated_in_a_worker_process"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-crash-is-retried-on-a-fresh-worker",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:crash_is_retried_on_a_fresh_worker"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-longest-limits-start-first",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:longest_limits_start_first"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-only-runs-the-chosen-mutants",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:only_runs_the_chosen_mutants"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-break-threshold-sets-the-exit-code",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:break_threshold_sets_the_exit_code"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-html-report-is-self-contained",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:html_report_is_self_contained"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-json-report-follows-schema-v2",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:json_report_follows_schema_v2"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-installs-as-a-pack",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:installs_as_a_pack"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-pack-needs-only-swi-prolog",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:pack_needs_only_swi_prolog"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-pack-has-no-node-dependency",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:pack_has_no_node_dependency"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-release-check-requires-a-changelog-section",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:release_check_requires_a_changelog_section"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-release-refuses-a-tagged-version",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:release_refuses_a_tagged_version"
+      ]
+    ]
+  }
+]

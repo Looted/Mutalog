@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-1fc114cc21b9
+    type: verified_by
+    from: SCEN-the-break-threshold-sets-the-exit-code
+    to: TEST-e2e-break-threshold-sets-the-exit-code
+    created_at: "2026-10-29T17:52:45.811Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

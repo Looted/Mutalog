@@ -29,6 +29,8 @@ origin:
   recorded_at: '2026-10-29T16:10:31.786Z'
 firmness: firm
 required_evidence: asserted
+proof_exempt: true
+proof_exempt_reason: "publishing needs GitHub and the SWI-Prolog pack server, so it is verified by the Release workflow run itself, not by a local test"
 id: REQ-release-run-workflow-on-master
 type: req
 ---

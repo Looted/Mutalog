@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-6cb4f564affe
+    type: verified_by
+    from: SCEN-the-dry-run-reports-each-test-with-its-time-and-clauses
+    to: TEST-e2e-dry-run-records-time-and-clauses
+    created_at: "2026-10-29T17:52:33.537Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-419aaedd2b16
+    type: verified_by
+    from: SCEN-mutant-ids-name-the-file-line-column-and-operator
+    to: TEST-e2e-mutant-ids-name-file-line-column-operator
+    created_at: "2026-10-29T17:52:17.841Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
