@@ -62,7 +62,8 @@ collect_mutants(Config, ProjectRoot, Files) :-
     ),
     maplist(file_mutants(ProjectRoot, Ops), Rels, Files0),
     warn_stale_ignores(IgnoreIds, Rels, Ops, Files0),
-    maplist(drop_ignored(IgnoreIds), Files0, Files).
+    maplist(drop_ignored(IgnoreIds), Files0, Files1),
+    maplist(drop_suppressed, Files1, Files).
 
 to_atom(X, A) :- atom_string(A, X).
 
@@ -84,6 +85,62 @@ drop_ignored(IgnoreIds, file(Rel, Ms0, Source), file(Rel, Ms, Source)) :-
 
 ignored_mutant(IgnoreIds, M) :-
     memberchk(M.id, IgnoreIds).
+
+%   A comment line `% mutalog-disable-next-line` suppresses every
+%   mutant that starts on the line below it. Operator names after the
+%   marker, separated by commas or spaces, limit it to those operators;
+%   text after a colon is a free-form reason.
+%
+%   ```
+%   % mutalog-disable-next-line cut_insert: maplist/3 is det here
+%   ```
+
+drop_suppressed(file(Rel, Ms0, Source), file(Rel, Ms, Source)) :-
+    source_text(Source, Text),
+    suppressions(Text, Suppressions),
+    exclude(suppressed_mutant(Suppressions), Ms0, Ms).
+
+suppressed_mutant(Suppressions, M) :-
+    get_dict(line, M, Line),
+    get_dict(operator, M, Op),
+    member(Line-Ops, Suppressions),
+    (   Ops == all
+    ->  true
+    ;   memberchk(Op, Ops)
+    ),
+    !.
+
+suppressions(Text, Suppressions) :-
+    split_string(Text, "\n", "", Lines),
+    findall(Next-Ops,
+            ( nth1(N, Lines, Line),
+              suppression_comment(Line, Ops),
+              Next is N + 1
+            ),
+            Suppressions).
+
+suppression_comment(Line, Ops) :-
+    sub_string(Line, Before, _, 0, Comment),
+    sub_string(Comment, 0, 1, _, "%"),
+    \+ sub_string(Line, 0, Before, _, "%"),
+    sub_string(Comment, 1, _, 0, Rest0),
+    normalize_space(string(Rest1), Rest0),
+    string_concat("mutalog-disable-next-line", Args0, Rest1),
+    (   Args0 == ""
+    ;   sub_string(Args0, 0, 1, _, C),
+        memberchk(C, [" ", ":"])
+    ),
+    !,
+    (   sub_string(Args0, B, _, _, ":")
+    ->  sub_string(Args0, 0, B, _, Args)
+    ;   Args = Args0
+    ),
+    split_string(Args, ", ", ", ", Parts),
+    exclude(==(""), Parts, Names),
+    (   Names == []
+    ->  Ops = all
+    ;   maplist([S, A]>>atom_string(A, S), Names, Ops)
+    ).
 
 %   An `ignore_mutants` id goes stale when the code above it moves.
 %   Warn about ids that name a mutated file and an enabled operator

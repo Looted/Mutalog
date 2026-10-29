@@ -43,7 +43,8 @@ mutalog:operator(arith,       "Swap an arithmetic operator: + and -, * and /, //
 mutalog:operator(compare,     "Move an arithmetic or standard-order comparison across its boundary or flip it").
 mutalog:operator(unify,       "Swap = and \\=, == and \\==, =@= and \\=@=").
 mutalog:operator(negate,      "Remove a \\+, or negate the condition of an if-then-else").
-mutalog:operator(cut,         "Remove a cut, or insert one after the first goal of a non-last clause").
+mutalog:operator(cut,         "Remove a cut").
+mutalog:operator(cut_insert,  "Insert a cut after the first goal of a non-last clause that has none").
 mutalog:operator(goal_true,   "Replace a body goal with true").
 mutalog:operator(goal_fail,   "Replace a body goal with fail").
 mutalog:operator(clause_drop, "Remove one clause of a multi-clause predicate").
@@ -142,11 +143,14 @@ mutalog:mutate(negate, site(cond, _), C, \+ C) :-
     C \= (\+ _).
 
 %   ---------------------------------------------------------------
-%   cut
+%   cut and cut_insert
+%
+%   An inserted cut after a goal with one solution changes nothing, so
+%   cut_insert is a separate operator that a project can switch off.
 
 mutalog:mutate(cut, site(goal, _), G, true) :-
     G == !.
-mutalog:mutate(cut, site(goal, Flags), G, (G, !)) :-
+mutalog:mutate(cut_insert, site(goal, Flags), G, (G, !)) :-
     G \== !,
     memberchk(first_goal, Flags),
     memberchk(cut_insertable, Flags).
