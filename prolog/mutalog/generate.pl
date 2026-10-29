@@ -11,7 +11,7 @@ each enabled operator for mutations at every site, and produces one
 mutant per change. A mutant is a dict:
 
 ```
-_{ id, file, operator, clause, path,
+_{ id, file, operator, clause, clause_line, path,
    start, end, line, column, end_line, end_column,
    original, replacement, mutated_clause, var_names }
 ```
@@ -105,6 +105,7 @@ body_has_cut((A*->B)) :- !, ( body_has_cut(A) ; body_has_cut(B) ).
 
 clause_mutant(Source, Text, Counts, Ops, C, M) :-
     C = clause(I, Term, Pos, VarNames, Start, End, clause),
+    offset_line_col(Source, Start, ClauseLine, _),
     clause_flags(Counts, I, Term, ClauseFlags),
     (   memberchk(clause_drop, Ops),
         memberchk(multi_clause, ClauseFlags),
@@ -130,7 +131,7 @@ clause_mutant(Source, Text, Counts, Ops, C, M) :-
                 original: Original, replacement: Replacement,
                 mutated_clause: MutatedClause, var_names: VarNames }
     ),
-    position_fields(Source, M0, M).
+    position_fields(Source, M0.put(clause_line, ClauseLine), M).
 
 %   original_texts(+Text, +Term, +Pos, -Pairs)
 %

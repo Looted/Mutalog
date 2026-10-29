@@ -43,6 +43,10 @@ jobs:
       - name: List mutants of Mutalog itself
         run: bin/mutalog list --mutate 'prolog/**/*.pl' --check > /dev/null
 
+      - name: Run the example project
+        working-directory: test/project
+        run: ../../bin/mutalog run
+
   dogfood-kibi:
     name: Dogfood on Kibi
     runs-on: ubuntu-24.04
@@ -75,3 +79,16 @@ jobs:
             --mutate 'scripts/*.pl' \
             --check > ../kibi-mutants.txt
           tail -12 ../kibi-mutants.txt
+
+      # The logic IR module against its own tests: the dry run in full,
+      # and the arithmetic and comparison mutants, which keep the job to
+      # a few minutes. The full operator set runs outside CI.
+      - name: Dry run on logic_ir
+        working-directory: kibi
+        run: |
+          cp ../examples/kibi/mutalog.config.pl .
+          ../bin/mutalog dry-run
+
+      - name: Run arithmetic and comparison mutants on logic_ir
+        working-directory: kibi
+        run: ../bin/mutalog run --operators arith,compare,unify

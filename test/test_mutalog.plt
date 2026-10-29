@@ -7,6 +7,7 @@
 :- use_module('../prolog/mutalog/reader').
 :- use_module('../prolog/mutalog/generate').
 :- use_module('../prolog/mutalog/operators').
+:- use_module('../prolog/mutalog/run').
 
 fixtures_dir(Dir) :-
     source_file(fixtures_dir(_), File),
@@ -175,3 +176,91 @@ test(self_mutants_reread) :-
            assertion(C-Id == ok-Id)).
 
 :- end_tests(self).
+
+:- begin_tests(run).
+
+%   test/project has strong tests for most of calc.pl, a weak test for
+%   max2/3, none for unused/1, and a mutant that loops forever.
+
+project_dir(Dir) :-
+    fixtures_dir(Fixtures),
+    file_directory_name(Fixtures, TestDir),
+    directory_file_path(TestDir, project, Dir).
+
+project_run(Results) :-
+    project_dir(Dir),
+    mutalog_run(Dir, [progress(false)], run(_, Results, Tests)),
+    length(Tests, 7).
+
+status_of(Results, Id, Status) :-
+    member(r(M, Status, _, _, _), Results),
+    get_dict(id, M, Id),
+    !.
+
+test(counts) :-
+    project_run(Results),
+    mutant_counts(Results, Counts),
+    assertion(memberchk(killed-35, Counts)),
+    assertion(memberchk(survived-12, Counts)),
+    assertion(memberchk(timeout-2, Counts)),
+    assertion(memberchk(no_coverage-6, Counts)),
+    assertion(memberchk(compile_error-0, Counts)),
+    assertion(memberchk(runtime_error-0, Counts)).
+
+test(statuses) :-
+    project_run(Results),
+    assertion(status_of(Results, 'src/calc.pl:14:30:arith:1', timeout)),
+    assertion(status_of(Results, 'src/calc.pl:19:14:unify:1', no_coverage)),
+    assertion(status_of(Results, 'src/calc.pl:16:18:compare:1', survived)),
+    assertion(status_of(Results, 'src/calc.pl:10:35:arith:1', killed)).
+
+test(killed_by) :-
+    project_run(Results),
+    member(r(M, killed, By, _, Covering), Results),
+    get_dict(id, M, 'src/calc.pl:10:35:arith:1'),
+    !,
+    assertion(By == calc:sum),
+    assertion(memberchk(calc:sum, Covering)).
+
+test(only) :-
+    project_dir(Dir),
+    mutalog_run(Dir, [progress(false), only(["src/calc.pl:14:30:arith:1"])], run(_, Results, _)),
+    assertion(Results = [r(_, timeout, _, _, _)]).
+
+test(dry_run_coverage) :-
+    project_dir(Dir),
+    mutalog_dry_run(Dir, [], dry(_, _, Results, _)),
+    assertion(memberchk(t(calc:max_first, passed, _, ['src/calc.pl'-16]), Results)),
+    assertion(\+ ( member(t(_, _, _, Cov), Results),
+                   memberchk('src/calc.pl'-19, Cov) )).
+
+test(initial_test_run_failed,
+     error(mutalog(initial_test_run_failed([broken:fails])), _)) :-
+    tmp_project(Dir, "p(1).\n", ":- use_module('../src/p').\n:- begin_tests(broken).\ntest(fails) :- p(2).\n:- end_tests(broken).\n"),
+    mutalog_run(Dir, [progress(false)], _).
+
+test(score) :-
+    mutation_score([killed-3, timeout-1, survived-2, no_coverage-2], S, C),
+    assertion(S =:= 50),
+    assertion(C =:= 400/6),
+    mutation_score([killed-0, timeout-0, survived-0, no_coverage-0], none, none).
+
+tmp_project(Dir, Src, Test) :-
+    tmp_file(mutalog_proj, Dir),
+    make_directory(Dir),
+    directory_file_path(Dir, src, SrcDir),
+    directory_file_path(Dir, test, TestDir),
+    make_directory(SrcDir),
+    make_directory(TestDir),
+    directory_file_path(SrcDir, 'p.pl', SrcFile),
+    directory_file_path(TestDir, 'p.plt', TestFile),
+    write_file(SrcFile, ":- module(p, [p/1]).\n"),
+    append_file(SrcFile, Src),
+    write_file(TestFile, Test).
+
+write_file(File, Text) :-
+    setup_call_cleanup(open(File, write, Out), write(Out, Text), close(Out)).
+append_file(File, Text) :-
+    setup_call_cleanup(open(File, append, Out), write(Out, Text), close(Out)).
+
+:- end_tests(run).

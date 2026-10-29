@@ -4,7 +4,7 @@ Mutation testing for SWI-Prolog, modelled on [Stryker](https://stryker-mutator.i
 
 Mutalog makes small changes to your Prolog code, such as a flipped comparison, a removed cut or a dropped clause, and checks that your plunit tests notice. A change the tests do not notice is a *surviving mutant*: a behaviour no test pins down.
 
-> **Status: early draft.** This version reads sources and generates mutants (`mutalog list`). Running tests against mutants, the mutation score and reports come next; see [Roadmap](#roadmap).
+> **Status: early draft.** Mutalog generates mutants, runs your plunit tests against each one and reports a mutation score. Parallel workers and HTML/JSON reports come next; see [Roadmap](#roadmap).
 
 ## Requirements
 
@@ -30,21 +30,45 @@ As a pack, once published:
 Run from your project root:
 
 ```sh
-mutalog list                                  # mutants for every file matched by `mutate`
-mutalog list --mutate 'src/parser.pl'         # one file
-mutalog list --operators compare,cut          # only some operators
-mutalog list --format json                    # machine-readable
-mutalog list --check                          # verify every mutant re-reads; exit 1 if not
+mutalog run                                   # mutate, run the tests, report the score
+mutalog run --only 'src/eval.pl:42:9:compare:1'   # re-run chosen mutants while fixing tests
+mutalog dry-run                               # run the suite once: per-test times and coverage
+mutalog list                                  # print the mutants without running anything
+mutalog list --format json --check            # machine-readable; verify every mutant re-reads
 ```
 
-Each mutant is printed with its id, the original source text and the replacement:
+Every command takes `--mutate GLOB` and `--tests GLOB` (both repeatable), `--operators a,b`, `--timeout-ms N` and `--config FILE`. `run` also takes `--verbose` to show the project's own output.
+
+`mutalog run` prints each mutant as it finishes, then the survivors with their source change, and a summary:
 
 ```
-packages/core/src/logic_ir.pl:86:29:compare:1
-    Arity =< 8  ->  Arity < 8
+Survived (12):
+  src/calc.pl:16:18:compare:1
+      X >= Y  ->  X > Y
+      covered by 1 test(s)
+
+File                                       Score  Killed   Surv. Timeout No cov.  Errors
+src/calc.pl                                67.3%      35      12       2       6       0
+
+Mutation score: 67.3% (covered code: 75.5%)
 ```
 
-Ids have the form `file:line:column:operator:n`. They are stable while the code above the mutant does not move, and are what `ignore_mutants` takes.
+A survivor is a change no test notices: add a test that pins the behaviour down, or list the mutant in `ignore_mutants` if the change is equivalent. Ids have the form `file:line:column:operator:n`. They stay stable as long as the code above the mutant doesn't move.
+
+### Statuses and score
+
+The statuses and score definitions are Stryker's.
+
+| Status | Meaning |
+| --- | --- |
+| killed | A test that covers the mutated clause failed |
+| survived | Every covering test passed |
+| timeout | The tests ran past the time limit, usually because the mutant loops |
+| no coverage | No test entered the mutated clause, so nothing was run |
+| compile error | The mutated file did not load |
+| runtime error | The worker process crashed |
+
+The mutation score is the share of mutants detected, counting killed and timeout, out of killed, timeout, survived and no coverage. The covered-code score leaves out no coverage. `mutalog run` exits with 1 when the score is below `thresholds(_, _, break(N))`.
 
 ## Configuration
 
@@ -53,12 +77,18 @@ Put a `mutalog.config.pl` in the project root. Every key is optional; names foll
 ```prolog
 mutate(["src/**/*.pl"]).              % files to mutate (globs, ** for any depth)
 ignore(["src/generated/**"]).         % files to skip
+tests(["test/**/*.plt"]).             % plunit files to load and run
+load(["load.pl"]).                    % files to load before the tests, if they need it
 operators([arith, compare, unify, negate, cut,
            goal_true, goal_fail, clause_drop, literal]).
 ignore_mutants(["src/eval.pl:42:9:compare:1"]).
+timeout_ms(5000).                     % time limit per mutant is
+timeout_factor(1.5).                  %   factor * covering tests' time + timeout_ms
+stack_limit('1g').                    % for the worker process
+thresholds(high(80), low(60), break(0)).
 ```
 
-Keys for running tests (`tests`, `load`, `concurrency`, `timeout_ms`, `timeout_factor`, `retries`, `stack_limit`, `thresholds`, `reporters`, `report_dir`) are accepted already and take effect once the runner lands.
+`concurrency`, `retries`, `reporters` and `report_dir` are accepted already and take effect in a later version.
 
 ## Mutation operators
 
@@ -80,14 +110,16 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 
 ## How it works
 
-Mutalog reads each file with SWI-Prolog's own reader (`prolog_read_source_term/4`), so operators, quoting, dicts and strings are handled exactly as the compiler handles them, including operators imported from libraries. Each clause comes with its subterm positions, which is what lets a mutant be reported as a character range and a replacement, as Stryker does.
+1. **Read.** Each file is read with SWI-Prolog's own reader (`prolog_read_source_term/4`), so operators, quoting, dicts and strings are handled exactly as the compiler handles them. That includes operators imported from libraries. Each clause comes with its subterm positions, so a mutant can be reported as a character range and a replacement, as Stryker does.
+2. **Dry run.** A child `swipl` loads the tests and runs each one under SWI-Prolog's coverage instrumentation. It records how long each test took and which clauses of the mutated files it entered. A failing test stops the run, because mutants can only be judged against a green suite.
+3. **Mutants.** The same child process applies each mutant by reloading its file from the source text with the replacement spliced in. It then runs only the tests that entered the mutated clause, stopping at the first failure. Each mutant gets a time limit derived from its tests' dry-run time. If a mutant hangs the process, the process is killed and a fresh one is started.
 
-`--check` splices each replacement into the clause text, reads it back and compares it with the mutated clause the runner will execute. On [Kibi](https://github.com/Looted/kibi)'s Prolog core, 23 files, that is 29,908 mutants, all of which pass.
+`mutalog list --check` re-reads every spliced mutant and compares it with the clause the runner will load. On [Kibi](https://github.com/Looted/kibi)'s Prolog core, 23 files, that is 29,908 mutants, all of which pass.
 
 ## Roadmap
 
-1. **Read and generate** (this version): `mutalog list`.
-2. **Dry run and worker**: run the plunit suite under coverage, apply one mutant in a child `swipl` and run the tests that cover it.
+1. **Read and generate**: `mutalog list`. Done.
+2. **Dry run and worker**: `mutalog run` and `mutalog dry-run` with one worker. Done.
 3. **Pool, scheduler, timeouts**: parallel workers, per-test selection, time limits from the dry run, retries for flaky tests.
 4. **Reports and thresholds**: clear text, JSON in Stryker's `mutation-testing-report-schema`, HTML, `break` threshold exit code.
 5. **Kibi dogfood**: a `test:mutation:prolog` lane in Kibi next to its Stryker lane.
@@ -95,6 +127,7 @@ Mutalog reads each file with SWI-Prolog's own reader (`prolog_read_source_term/4
 ## Development
 
 ```sh
-swipl test/run.pl                              # tests
-bin/mutalog list --mutate 'prolog/**/*.pl' --check   # Mutalog on itself
+swipl test/run.pl                                    # tests
+bin/mutalog list --mutate 'prolog/**/*.pl' --check   # Mutalog's own mutants re-read
+(cd test/project && ../../bin/mutalog run)           # the example project
 ```
