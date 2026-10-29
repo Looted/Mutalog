@@ -56,7 +56,13 @@ collect_mutants(Config, ProjectRoot, Files) :-
     maplist(to_atom, IgnoreIds0, IgnoreIds),
     check_operators(Ops),
     discover_files(ProjectRoot, Patterns, Ignore, Rels),
-    maplist(file_mutants(ProjectRoot, Ops, IgnoreIds), Rels, Files).
+    (   Rels == []
+    ->  throw(error(mutalog(no_source_files(Patterns, ProjectRoot)), _))
+    ;   true
+    ),
+    maplist(file_mutants(ProjectRoot, Ops), Rels, Files0),
+    warn_stale_ignores(IgnoreIds, Rels, Ops, Files0),
+    maplist(drop_ignored(IgnoreIds), Files0, Files).
 
 to_atom(X, A) :- atom_string(A, X).
 
@@ -68,14 +74,46 @@ check_operators(Ops) :-
            ;   domain_error(mutalog_operator, Op)
            )).
 
-file_mutants(Root, Ops, IgnoreIds, Rel, file(Rel, Mutants, Source)) :-
+file_mutants(Root, Ops, Rel, file(Rel, Mutants, Source)) :-
     directory_file_path(Root, Rel, Path),
     read_source(Path, Source),
-    source_mutants(Source, Rel, Ops, Mutants0),
-    exclude(ignored_mutant(IgnoreIds), Mutants0, Mutants).
+    source_mutants(Source, Rel, Ops, Mutants).
+
+drop_ignored(IgnoreIds, file(Rel, Ms0, Source), file(Rel, Ms, Source)) :-
+    exclude(ignored_mutant(IgnoreIds), Ms0, Ms).
 
 ignored_mutant(IgnoreIds, M) :-
     memberchk(M.id, IgnoreIds).
+
+%   An `ignore_mutants` id goes stale when the code above it moves.
+%   Warn about ids that name a mutated file and an enabled operator
+%   but match no mutant; ids for files or operators outside this run
+%   are left alone.
+
+warn_stale_ignores(IgnoreIds, Rels, Ops, Files) :-
+    findall(Id, ( member(file(_, Ms, _), Files),
+                  member(M, Ms),
+                  get_dict(id, M, Id) ), Ids),
+    include(stale_ignore(Rels, Ops, Ids), IgnoreIds, Stale),
+    (   Stale == []
+    ->  true
+    ;   print_message(warning, mutalog(stale_ignore_mutants(Stale)))
+    ).
+
+stale_ignore(Rels, Ops, Ids, Id) :-
+    \+ memberchk(Id, Ids),
+    id_file_operator(Id, Rel, Op),
+    memberchk(Rel, Rels),
+    memberchk(Op, Ops).
+
+%   Ids have the form file:line:column:operator:n; the file part may
+%   itself hold colons.
+
+id_file_operator(Id, Rel, Op) :-
+    atomic_list_concat(Parts, ':', Id),
+    append(FileParts, [_Line, _Col, Op, _N], Parts),
+    FileParts \== [],
+    atomic_list_concat(FileParts, ':', Rel).
 
 %   ---------------------------------------------------------------
 %   Worker setup
@@ -84,7 +122,7 @@ project_tests(Config, Root, Tests) :-
     config_value(tests, Config, Patterns),
     discover_files(Root, Patterns, [], Tests),
     (   Tests == []
-    ->  throw(error(mutalog(no_test_files(Patterns)), _))
+    ->  throw(error(mutalog(no_test_files(Patterns, Root)), _))
     ;   true
     ).
 
@@ -114,6 +152,7 @@ start_worker(Ctx, W) :-
 mutalog_dry_run(Root, Overrides, dry(Config, Files, Results, Ctx, TestInfo)) :-
     load_config(Root, Overrides, Config),
     collect_mutants(Config, ProjectRoot, Files),
+    check_only(Overrides, Files),
     project_tests(Config, ProjectRoot, Tests),
     config_value(load, Config, Loads),
     worker_options(Config, Overrides, WOpts),
@@ -394,6 +433,23 @@ select_only(Overrides, All, Selected) :-
 selected_mutant(Ids, M) :-
     memberchk(M.id, Ids).
 
+%   Every --only id must name a generated mutant; checked before the
+%   dry run so that a typo or a stale id fails fast.
+
+check_only(Overrides, Files) :-
+    (   memberchk(only(Ids0), Overrides)
+    ->  maplist(to_atom, Ids0, Ids),
+        findall(Id, ( member(file(_, Ms, _), Files),
+                      member(M, Ms),
+                      get_dict(id, M, Id) ), Known),
+        exclude([Id]>>memberchk(Id, Known), Ids, Unknown),
+        (   Unknown == []
+        ->  true
+        ;   throw(error(mutalog(unknown_mutants(Unknown)), _))
+        )
+    ;   true
+    ).
+
 %   Index maps Rel-Line to the tests that entered that clause, in dry
 %   run order; Times maps each test to its dry-run time in ms.
 
@@ -448,3 +504,39 @@ percentage(_, Total0, none) :-
     !.
 percentage(Part, Total, P) :-
     P is 100 * Part / Total.
+
+%   ---------------------------------------------------------------
+%   Messages
+
+:- multifile
+    prolog:error_message//1,
+    prolog:message//1.
+
+prolog:error_message(mutalog(E)) -->
+    mutalog_error(E).
+
+prolog:message(mutalog(stale_ignore_mutants(Ids))) -->
+    { atomic_list_concat(Ids, ', ', List) },
+    [ 'ignore_mutants entries that match no mutant: ~w'-[List], nl,
+      'Ids change when the code above them moves; `mutalog list` shows the current ones.'
+    ].
+
+mutalog_error(no_source_files(Patterns, Root)) -->
+    { atomic_list_concat(Patterns, ', ', List) },
+    [ 'No files to mutate match ~w (resolved against ~w)'-[List, Root] ].
+mutalog_error(no_test_files(Patterns, Root)) -->
+    { atomic_list_concat(Patterns, ', ', List) },
+    [ 'No test files match ~w (resolved against ~w)'-[List, Root] ].
+mutalog_error(unknown_mutants(Ids)) -->
+    { atomic_list_concat(Ids, ', ', List) },
+    [ 'No mutant has the id ~w'-[List], nl,
+      'Ids change when the code above them moves; `mutalog list` shows the current ones.'
+    ].
+mutalog_error(initial_test_run_failed(Tests)) -->
+    [ 'Tests fail before any mutant is applied: ~q'-[Tests], nl,
+      'Mutants can only be judged against a passing suite.'
+    ].
+mutalog_error(worker_init(Reply)) -->
+    [ 'The worker could not load the project and its tests: ~p'-[Reply] ].
+mutalog_error(dry_run(Reply)) -->
+    [ 'The dry run did not complete: ~p'-[Reply] ].

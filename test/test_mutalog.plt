@@ -34,6 +34,22 @@ replacements(File, Op, Rs) :-
     fixture_mutants(File, [Op], Ms),
     maplist([M, R]>>get_dict(replacement, M, R), Ms, Rs).
 
+write_file(File, Text) :-
+    setup_call_cleanup(open(File, write, Out), write(Out, Text), close(Out)).
+append_file(File, Text) :-
+    setup_call_cleanup(open(File, append, Out), write(Out, Text), close(Out)).
+
+%   The text print_message/2 shows for Term, without printing it.
+
+message_text(Term, Text) :-
+    setup_call_cleanup(
+        asserta((user:message_hook(Term, _, Lines) :-
+                    with_output_to(string(S), print_message_lines(current_output, '', Lines)),
+                    nb_setval(mutalog_message, S)), Ref),
+        print_message(error, Term),
+        erase(Ref)),
+    nb_getval(mutalog_message, Text).
+
 :- begin_tests(operators).
 
 test(arith)       :- op_count('sample.pl', arith, 1).
@@ -162,6 +178,28 @@ test(unknown_key, error(domain_error(_, bogus(1)))) :-
                        close(Out)),
     load_config(Dir, [], _).
 
+%   The project root is the config file's directory, moved by a root/1
+%   term (relative to that directory) or a root/1 override (relative
+%   to the directory Mutalog runs in).
+
+test(config_root) :-
+    tmp_file(mutalog_cfg, Dir),
+    directory_file_path(Dir, conf, ConfDir),
+    directory_file_path(Dir, proj, ProjDir),
+    make_directory(Dir),
+    make_directory(ConfDir),
+    make_directory(ProjDir),
+    directory_file_path(ConfDir, 'a.config.pl', A),
+    directory_file_path(ConfDir, 'b.config.pl', B),
+    write_file(A, "timeout_ms(1).\n"),
+    write_file(B, "root(\"../proj\").\n"),
+    load_config(Dir, [config('conf/a.config.pl')], CA),
+    assertion(config_value(root, CA, ConfDir)),
+    load_config(Dir, [config('conf/b.config.pl')], CB),
+    assertion(config_value(root, CB, ProjDir)),
+    load_config(Dir, [config('conf/b.config.pl'), root(conf)], CC),
+    assertion(config_value(root, CC, ConfDir)).
+
 :- end_tests(config).
 
 :- begin_tests(self).
@@ -241,6 +279,38 @@ test(initial_test_run_failed,
      error(mutalog(initial_test_run_failed([broken:fails])), _)) :-
     tmp_project(Dir, "p(1).\n", ":- use_module('../src/p').\n:- begin_tests(broken).\ntest(fails) :- p(2).\n:- end_tests(broken).\n"),
     mutalog_run(Dir, [progress(false)], _).
+
+test(no_test_files, error(mutalog(no_test_files(['nope/*.plt'], Dir)), _)) :-
+    project_dir(Dir),
+    mutalog_dry_run(Dir, [tests(['nope/*.plt'])], _).
+
+test(no_source_files, error(mutalog(no_source_files(['nope/*.pl'], Dir)), _)) :-
+    project_dir(Dir),
+    mutalog_dry_run(Dir, [mutate(['nope/*.pl'])], _).
+
+test(unknown_only, error(mutalog(unknown_mutants(['src/calc.pl:1:1:arith:1'])), _)) :-
+    project_dir(Dir),
+    mutalog_dry_run(Dir, [only(["src/calc.pl:14:30:arith:1", "src/calc.pl:1:1:arith:1"])], _).
+
+%   Stale ignore_mutants ids are reported only for files and operators
+%   in the run.
+
+test(stale_ignore_warning, Stale == ['src/calc.pl:1:1:arith:1']) :-
+    project_dir(Dir),
+    setup_call_cleanup(
+        asserta((user:message_hook(mutalog(stale_ignore_mutants(Ids)), warning, _) :-
+                    nb_setval(mutalog_stale, Ids)), Ref),
+        ( nb_setval(mutalog_stale, []),
+          mutalog_list(Dir, [operators([arith]),
+                             ignore_mutants([ "src/calc.pl:1:1:arith:1",
+                                              "src/calc.pl:1:1:cut:1",
+                                              "other.pl:1:1:arith:1" ])], _),
+          nb_getval(mutalog_stale, Stale) ),
+        erase(Ref)).
+
+test(error_message) :-
+    message_text(error(mutalog(no_test_files(['t/*.plt'], '/p')), _), S),
+    assertion(sub_string(S, _, _, _, "No test files match t/*.plt (resolved against /p)")).
 
 test(score) :-
     mutation_score([killed-3, timeout-1, survived-2, no_coverage-2], S, C),
@@ -355,10 +425,5 @@ tmp_project(Dir, Src, Test) :-
     write_file(SrcFile, ":- module(p, [p/1]).\n"),
     append_file(SrcFile, Src),
     write_file(TestFile, Test).
-
-write_file(File, Text) :-
-    setup_call_cleanup(open(File, write, Out), write(Out, Text), close(Out)).
-append_file(File, Text) :-
-    setup_call_cleanup(open(File, append, Out), write(Out, Text), close(Out)).
 
 :- end_tests(run).

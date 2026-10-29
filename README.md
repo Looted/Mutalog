@@ -48,7 +48,7 @@ mutalog list                                  # print the mutants without runnin
 mutalog list --format json --check            # machine-readable; verify every mutant re-reads
 ```
 
-Every command takes `--mutate GLOB` and `--tests GLOB` (both repeatable), `--operators a,b`, `--timeout-ms N` and `--config FILE`. `run` also takes `-c N` or `--concurrency N` for the number of workers, `--reporters a,b` to pick the outputs, and `--verbose` to show the project's own output.
+Every command takes `--mutate GLOB` and `--tests GLOB` (both repeatable), `--operators a,b`, `--timeout-ms N`, `--config FILE` and `--root DIR`. `run` also takes `-c N` or `--concurrency N` for the number of workers, `--reporters a,b` to pick the outputs, and `--verbose` to show the project's own output.
 
 `mutalog run` prints each mutant as it finishes, then the survivors with their source change, and a summary:
 
@@ -69,7 +69,7 @@ It also writes two report files to `reports/mutation/`:
 - `mutation.html` is one self-contained page with no network access. It shows the score per file and the source with every mutant marked. You can filter by status and click a mutant to see the change and the tests that cover it.
 - `mutation.json` follows the open `mutation-testing-report-schema` format, schema version 2, so other tools that read the format can use it.
 
-A survivor is a change no test notices: add a test that pins the behaviour down, or list the mutant in `ignore_mutants` if the change is equivalent. Ids have the form `file:line:column:operator:n`. They stay stable as long as the code above the mutant doesn't move.
+A survivor is a change no test notices: add a test that pins the behaviour down, or list the mutant in `ignore_mutants` if the change is equivalent. Ids have the form `file:line:column:operator:n`. They stay stable as long as the code above the mutant doesn't move. When they do move, `--only` stops with an error naming the ids it didn't find, and `ignore_mutants` entries that no longer match print a warning.
 
 ### Statuses and score
 
@@ -82,11 +82,13 @@ A survivor is a change no test notices: add a test that pins the behaviour down,
 | compile error | The mutated file did not load |
 | runtime error | The worker process crashed, on every retry |
 
-The mutation score is the share of mutants detected, counting killed and timeout, out of killed, timeout, survived and no coverage. The covered-code score leaves out no coverage. `mutalog run` exits with 1 when the score is below `thresholds(_, _, break(N))`.
+The mutation score is the share of mutants detected, counting killed and timeout, out of killed, timeout, survived and no coverage. The covered-code score leaves out no coverage. `mutalog run` exits with 1 when the score is below `thresholds(_, _, break(N))`, or when `N` is above 0 and no mutant was scored. A `mutate` or `tests` glob that matches no files is an error.
 
 ## Configuration
 
 Put a `mutalog.config.pl` in the project root. Every key is optional.
+
+Globs and `report_dir` are resolved against the project root, which is the directory that holds the config file. So `--config FILE` also moves the root to the directory of `FILE`. To keep configs elsewhere, for example one per module, set `root(Dir)` in the file (relative to the file's directory) or pass `--root DIR` (relative to the current directory).
 
 ```prolog
 mutate(["src/**/*.pl"]).              % files to mutate (globs, ** for any depth)
@@ -105,6 +107,7 @@ worker_reuse(0).                      % replace a worker after N mutants; 0 neve
 thresholds(high(80), low(60), break(0)). % report colours; exit 1 below break
 reporters([clear_text, progress, html, json]).
 report_dir("reports/mutation").
+root("..").                           % project root, relative to this file
 ```
 
 In the reports a score at or above `high` shows green, at or above `low` amber, and below `low` red. Set `break` above 0 to fail CI when the score drops below it.
