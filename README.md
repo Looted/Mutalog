@@ -114,7 +114,7 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 2. **Dry run.** A child `swipl` loads the tests and runs each one under SWI-Prolog's coverage instrumentation. It records how long each test took and which clauses of the mutated files it entered. A failing test stops the run, because mutants can only be judged against a green suite.
 3. **Mutants.** The same child process applies each mutant by reloading its file from the source text with the replacement spliced in. It then runs only the tests that entered the mutated clause, stopping at the first failure. Each mutant gets a time limit derived from its tests' dry-run time. If a mutant hangs the process, the process is killed and a fresh one is started.
 
-`mutalog list --check` re-reads every spliced mutant and compares it with the clause the runner will load. On [Kibi](https://github.com/Looted/kibi)'s Prolog core, 23 files, that is 29,908 mutants, all of which pass.
+`mutalog list --check` re-reads every spliced mutant and compares it with the clause the runner will load.
 
 ## Roadmap
 
@@ -122,7 +122,7 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 2. **Dry run and worker**: `mutalog run` and `mutalog dry-run` with one worker. Done.
 3. **Pool, scheduler, timeouts**: parallel workers, per-test selection, time limits from the dry run, retries for flaky tests.
 4. **Reports and thresholds**: clear text, JSON in Stryker's `mutation-testing-report-schema`, HTML, `break` threshold exit code.
-5. **Kibi dogfood**: a `test:mutation:prolog` lane in Kibi next to its Stryker lane.
+5. **Release**: publish as a SWI-Prolog pack and validate on real-world projects.
 
 ## Development
 
