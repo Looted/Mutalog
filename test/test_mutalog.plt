@@ -77,6 +77,9 @@ test(literal_text, Rs == ["11", "-10", "11", "-10", "[_]", "1"]) :-
     replacements('sample.pl', literal, Rs).
 
 test(cut_insert, Rs == ["(member(X, Y), !)"]) :-
+    replacements('cut_insert.pl', cut_insert, Rs).
+
+test(cut_removes_only, Rs == []) :-
     replacements('cut_insert.pl', cut, Rs).
 
 test(clause_drop_text) :-
@@ -307,6 +310,20 @@ test(stale_ignore_warning, Stale == ['src/calc.pl:1:1:arith:1']) :-
                                               "other.pl:1:1:arith:1" ])], _),
           nb_getval(mutalog_stale, Stale) ),
         erase(Ref)).
+
+%   `% mutalog-disable-next-line` drops the mutants that start on the
+%   next line: all of them, or only the operators it names.
+
+test(disable_next_line) :-
+    tmp_project(Dir,
+                "p(X) :-\n    % mutalog-disable-next-line cut_insert: det\n    X > 0,\n    true.\np(0).\n% mutalog-disable-next-line\nq(1).\n",
+                ""),
+    mutalog_list(Dir, [mutate(['src/p.pl'])], result([file(_, Ms, _)])),
+    findall(L-Op, ( member(M, Ms), get_dict(line, M, L), get_dict(operator, M, Op) ), Pairs),
+    assertion(\+ memberchk(4-cut_insert, Pairs)),
+    assertion(memberchk(4-compare, Pairs)),
+    assertion(memberchk(6-literal, Pairs)),
+    assertion(\+ memberchk(8-_, Pairs)).
 
 test(error_message) :-
     message_text(error(mutalog(no_test_files(['t/*.plt'], '/p')), _), S),

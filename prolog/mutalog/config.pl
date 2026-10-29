@@ -27,7 +27,7 @@ operators([arith, compare, cut]).
 %
 %   The operators enabled when the config does not name any.
 
-default_operators([ arith, compare, unify, negate, cut,
+default_operators([ arith, compare, unify, negate, cut, cut_insert,
                     goal_true, goal_fail, clause_drop, literal ]).
 
 defaults([ root('.'),

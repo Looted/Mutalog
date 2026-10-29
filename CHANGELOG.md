@@ -2,6 +2,11 @@
 
 All notable changes to Mutalog are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 (2026-10-29)
+
+- Cut insertion is now its own operator, `cut_insert`; `cut` only removes cuts. An inserted cut after a goal with one solution can't change any answer, so a project can now drop `cut_insert` from `operators` and keep cut removal. Ids and `ignore_mutants` entries for inserted cuts change from `:cut:` to `:cut_insert:`.
+- A `% mutalog-disable-next-line` comment suppresses the mutants on the line below it, optionally only for the operators it names (`% mutalog-disable-next-line cut_insert: reason`). Unlike an `ignore_mutants` id, it moves with the code.
+
 ## 0.2.0 (2026-10-29)
 
 - A `mutate` glob that matches no files is now an error, like a `tests` glob that matches none. Both errors name the patterns and the directory they were resolved against.

@@ -74,7 +74,19 @@ It also writes two report files to `reports/mutation/`:
 - `mutation.html` is one self-contained page with no network access. It shows the score per file and the source with every mutant marked. You can filter by status and click a mutant to see the change and the tests that cover it.
 - `mutation.json` follows the open `mutation-testing-report-schema` format, schema version 2, so other tools that read the format can use it.
 
-A survivor is a change no test notices: add a test that pins the behaviour down, or list the mutant in `ignore_mutants` if the change is equivalent. Ids have the form `file:line:column:operator:n`. They stay stable as long as the code above the mutant doesn't move. When they do move, `--only` stops with an error naming the ids it didn't find, and `ignore_mutants` entries that no longer match print a warning.
+A survivor is a change no test notices: add a test that pins the behaviour down. If the change is equivalent, so that no test could tell it apart, suppress it with a comment on the line above it, or list its id in `ignore_mutants`:
+
+```prolog
+size(node(L, R), N) :-
+    % mutalog-disable-next-line cut_insert: size/2 has one solution
+    size(L, NL),
+    size(R, NR),
+    N is NL + NR + 1.
+```
+
+`% mutalog-disable-next-line` suppresses the mutants that start on the next line. Operator names after it, separated by commas, limit it to those operators, and text after a colon is a free-form reason. The comment moves with the code, so it survives edits elsewhere in the file.
+
+Ids, as `--only` and `ignore_mutants` take them, have the form `file:line:column:operator:n`. They stay stable as long as the code above the mutant doesn't move. When they do move, `--only` stops with an error naming the ids it didn't find, and `ignore_mutants` entries that no longer match print a warning.
 
 ### Statuses and score
 
@@ -100,7 +112,7 @@ mutate(["src/**/*.pl"]).              % files to mutate (globs, ** for any depth
 ignore(["src/generated/**"]).         % files to skip
 tests(["test/**/*.plt"]).             % plunit files to load and run
 load(["load.pl"]).                    % files to load before the tests, if they need it
-operators([arith, compare, unify, negate, cut,
+operators([arith, compare, unify, negate, cut, cut_insert,
            goal_true, goal_fail, clause_drop, literal]).
 ignore_mutants(["src/eval.pl:42:9:compare:1"]).
 timeout_ms(5000).                     % time limit per mutant is
@@ -125,7 +137,8 @@ In the reports a score at or above `high` shows green, at or above `low` amber, 
 | `compare` | Arithmetic and standard-order comparisons, across the boundary and flipped | `X > 0` to `X >= 0`, `X =< 0` |
 | `unify` | `=` and `\=`, `==` and `\==`, `=@=` and `\=@=` | `X == Y` to `X \== Y` |
 | `negate` | Removes a `\+`; negates the condition of an if-then-else | `\+ member(X, L)` to `member(X, L)` |
-| `cut` | Removes a cut; inserts one after the first goal of a non-last clause that has none | `p :- q, !, r.` to `p :- q, true, r.` |
+| `cut` | Removes a cut | `p :- q, !, r.` to `p :- q, true, r.` |
+| `cut_insert` | Inserts a cut after the first goal of a non-last clause that has none. When that goal has only one solution the mutant is equivalent; drop the operator or suppress those mutants | `p :- q, r.` to `p :- q, !, r.` |
 | `goal_true` | Replaces a body goal with `true` | `p :- q, r.` to `p :- true, r.` |
 | `goal_fail` | Replaces a body goal with `fail` | `p :- q, r.` to `p :- q, fail.` |
 | `clause_drop` | Removes one clause of a multi-clause predicate | the second of `p(a). p(b).` |
