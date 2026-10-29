@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-63df33aa82d7
+    type: executable_for
+    from: SYM-test-worker-reload-drops-stale-clauses
+    to: TEST-worker-reload-drops-stale-clauses
+    created_at: "2026-10-29T19:06:23.834Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

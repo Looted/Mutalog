@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-c2c0e482aad0
+    type: verified_by
+    from: SCEN-a-clause-that-a-mutant-drops-stops-answering-after-the-reload
+    to: TEST-worker-reload-drops-stale-clauses
+    created_at: "2026-10-29T19:06:24.577Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-a-clause-that-a-mutant-drops-stops-answering-after-the-reload
+    to: TEST-e2e-dropped-clause-mutant-is-killed
+    created_at: 2026-10-29T19:10:02.154Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-f277bd3f5cf0

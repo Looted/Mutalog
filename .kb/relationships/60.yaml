@@ -6,3 +6,10 @@ relationships:
     created_at: "2026-10-29T17:52:31.569Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-mutants-of-modules-that-export-the-same-name-load
+    to: TEST-e2e-mutates-modules-that-export-the-same-name
+    created_at: 2026-10-29T19:06:12.384Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-fd162fc696d5

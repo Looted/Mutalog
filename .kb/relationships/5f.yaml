@@ -1,0 +1,22 @@
+relationships:
+  - id: rel-e99fdcf2ccfc
+    type: constrains
+    from: REQ-same-export-names-load
+    to: FACT-SUBJECT-21FC64F8432E6711
+    created_at: "2026-10-29T19:06:15.099Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: requires_property
+    from: REQ-same-export-names-load
+    to: FACT-PROP-BF89BBAA759E6327
+    created_at: 2026-10-29T19:06:15.100Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-0ec68f9a8a9f
+  - type: specified_by
+    from: REQ-same-export-names-load
+    to: SCEN-mutants-of-modules-that-export-the-same-name-load
+    created_at: 2026-10-29T19:06:15.110Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-6215a8ef5f6d

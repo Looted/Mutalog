@@ -1,0 +1,22 @@
+relationships:
+  - id: rel-28bc3b1ccb85
+    type: constrains
+    from: REQ-dropped-clauses-stop-answering
+    to: FACT-SUBJECT-4B7EAF99301B76CE
+    created_at: "2026-10-29T19:06:27.326Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: requires_property
+    from: REQ-dropped-clauses-stop-answering
+    to: FACT-PROP-3BB81498BA54BB25
+    created_at: 2026-10-29T19:06:27.326Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-060fe7b18a1f
+  - type: specified_by
+    from: REQ-dropped-clauses-stop-answering
+    to: SCEN-a-clause-that-a-mutant-drops-stops-answering-after-the-reload
+    created_at: 2026-10-29T19:06:27.335Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-3fd6c5d22cb2

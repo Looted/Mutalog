@@ -531,6 +531,23 @@ test(mutates_modules_that_export_the_same_name) :-
     forall(( get_dict(_, R.files, F), member(M, F.mutants) ),
            assertion(M.status == "Killed")).
 
+%   A mutant that drops the clause a test needs is killed, even after
+%   earlier mutants of the same predicate ran in the same worker.
+
+test(dropped_clause_mutant_is_killed) :-
+    new_dir(Dir),
+    write_in(Dir, 'src/m.pl', ":- module(m, [check/2]).\ncheck(Lo, Hi) :- ne(interval(Lo, open, Hi, open, [])).\nne(interval(ninf, _, _, _, _)) :- !.\nne(interval(_, _, pinf, _, _)) :- !.\nne(interval(Lo, _, Hi, _, _)) :- Lo < Hi, !.\nne(interval(Lo, closed, Hi, closed, Excluded)) :-\n    Lo =:= Hi,\n    \\+ ( member(Value, Excluded), Value =:= Lo ).\n"),
+    write_in(Dir, 'test/m.plt', ":- use_module('../src/m').\n:- begin_tests(m).\ntest(lt) :- check(1, 2).\n:- end_tests(m).\n"),
+    write_in(Dir, 'mutalog.config.pl', "mutate([\"src/*.pl\"]).\nconcurrency(1).\noperators([goal_true, clause_drop]).\n"),
+    mutalog(Dir, [run, '--reporters', json], _, _),
+    json_report(Dir, R),
+    get_dict(_, R.files, F),
+    member(M, F.mutants),
+    M.mutatorName == "clause_drop",
+    M.location.start.line == 5,
+    !,
+    assertion(M.status == "Killed").
+
 %   A run in which most mutants don't load is broken, whatever its
 %   score: it fails a positive break threshold and shows the first
 %   load error. Here q.pl throws whenever it is loaded again.
