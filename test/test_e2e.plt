@@ -496,6 +496,65 @@ test(break_threshold_sets_the_exit_code) :-
     mutalog(Dir, [run, '--reporters', clear_text], Above, _),
     assertion(Above == 0).
 
+%   A mutated module that another mutated module imports. Each mutant
+%   is loaded over the previous one in the same worker, and every one
+%   must load: generated mutants always parse.
+
+test(mutates_a_module_another_module_imports) :-
+    new_dir(Dir),
+    write_in(Dir, 'src/a.pl', ":- module(a, [double/2]).\ndouble(X, Y) :- Y is X * 2.\n"),
+    write_in(Dir, 'src/b.pl', ":- module(b, [quad/2]).\n:- use_module(a).\nquad(X, Y) :- double(X, Z), double(Z, Y).\n"),
+    write_in(Dir, 'test/a.plt', ":- use_module('../src/a').\n:- begin_tests(a).\ntest(double) :- double(4, Y), Y =:= 8.\n:- end_tests(a).\n"),
+    write_in(Dir, 'test/b.plt', ":- use_module('../src/b').\n:- begin_tests(b).\ntest(quad) :- quad(3, Y), Y =:= 12.\n:- end_tests(b).\n"),
+    write_in(Dir, 'mutalog.config.pl', "mutate([\"src/*.pl\"]).\nconcurrency(1).\n"),
+    mutalog(Dir, [run, '--reporters', 'clear_text,json'], Exit, Out),
+    assertion(Exit == 0),
+    assertion(\+ sub_string(Out, _, _, _, "Compile errors")),
+    json_report(Dir, R),
+    forall(( get_dict(_, R.files, F), member(M, F.mutants) ),
+           assertion(M.status == "Killed")).
+
+%   Two mutated modules that export the same name: reloading one must
+%   not clash with the other.
+
+test(mutates_modules_that_export_the_same_name) :-
+    new_dir(Dir),
+    write_in(Dir, 'src/a.pl', ":- module(a, [f/2]).\nf(X, Y) :- Y is X + 1.\n"),
+    write_in(Dir, 'src/c.pl', ":- module(c, [f/2]).\nf(X, Y) :- Y is X * 3.\n"),
+    write_in(Dir, 'test/a.plt', ":- use_module('../src/a', []).\n:- begin_tests(a).\ntest(f) :- a:f(1, Y), Y =:= 2.\n:- end_tests(a).\n"),
+    write_in(Dir, 'test/c.plt', ":- use_module('../src/c', []).\n:- begin_tests(c).\ntest(f) :- c:f(2, Y), Y =:= 6.\n:- end_tests(c).\n"),
+    write_in(Dir, 'mutalog.config.pl', "mutate([\"src/*.pl\"]).\nconcurrency(1).\n"),
+    mutalog(Dir, [run, '--reporters', 'clear_text,json'], Exit, Out),
+    assertion(Exit == 0),
+    assertion(\+ sub_string(Out, _, _, _, "Compile errors")),
+    json_report(Dir, R),
+    forall(( get_dict(_, R.files, F), member(M, F.mutants) ),
+           assertion(M.status == "Killed")).
+
+%   A run in which most mutants don't load is broken, whatever its
+%   score: it fails a positive break threshold and shows the first
+%   load error. Here q.pl throws whenever it is loaded again.
+
+test(mostly_compile_errors_fails_the_break) :-
+    new_dir(Dir),
+    write_in(Dir, 'src/p.pl', ":- module(p, [p/2]).\np(X, Y) :- Y is X + 1.\n"),
+    write_in(Dir, 'src/q.pl', ":- module(q, [q/2]).\n:- ( flag(q_loads, N, N + 1), N > 0 -> throw(error(reloaded_q, _)) ; true ).\nq(X, Y) :- Y is X * 2, Y > 0.\nq(_, 0).\n"),
+    write_in(Dir, 'test/p.plt', ":- use_module('../src/p').\n:- use_module('../src/q').\n:- begin_tests(p).\ntest(p) :- p(1, Y), Y =:= 2.\ntest(q) :- q(2, Y), Y =:= 4.\ntest(q0) :- q(-1, Y), Y =:= 0.\n:- end_tests(p).\n"),
+    write_in(Dir, 'mutalog.config.pl', "mutate([\"src/*.pl\"]).\nconcurrency(1).\nthresholds(high(80), low(60), break(50)).\n"),
+    mutalog(Dir, [run, '--reporters', 'clear_text,json'], Exit, Out, Err),
+    assertion(Exit == 1),
+    assertion(sub_string(Out, _, _, _, "Compile errors")),
+    assertion(sub_string(Out, _, _, _, "reloaded_q")),
+    assertion(sub_string(Err, _, _, _, "did not load")),
+    json_report(Dir, R),
+    forall(member(M, R.files.'src/q.pl'.mutants),
+           ( assertion(M.status == "CompileError"),
+             assertion(sub_string(M.statusReason, _, _, _, "reloaded_q")) )).
+
+write_in(Dir, Rel, Text) :-
+    directory_file_path(Dir, Rel, File),
+    write_file(File, Text).
+
 test(html_report_is_self_contained) :-
     example_project(Dir),
     mutalog(Dir, [run, '--reporters', html], 0, _),

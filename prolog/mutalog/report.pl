@@ -144,6 +144,8 @@ mutant_entry(r(M, Status, KilledBy, Ms, Covering), Entry) :-
     (   Status == killed, KilledBy \== none
     ->  test_id(KilledBy, K),
         Entry = E0.put(killedBy, [K])
+    ;   KilledBy = load_error(Message), Message \== ""
+    ->  Entry = E0.put(statusReason, Message)
     ;   Entry = E0
     ).
 

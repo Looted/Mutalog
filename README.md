@@ -99,7 +99,7 @@ Ids, as `--only` and `ignore_mutants` take them, have the form `file:line:column
 | compile error | The mutated file did not load |
 | runtime error | The worker process crashed, on every retry |
 
-The mutation score is the share of mutants detected, counting killed and timeout, out of killed, timeout, survived and no coverage. The covered-code score leaves out no coverage. `mutalog run` exits with 1 when the score is below `thresholds(_, _, break(N))`, or when `N` is above 0 and no mutant was scored. A `mutate` or `tests` glob that matches no files is an error.
+The mutation score is the share of mutants detected, counting killed and timeout, out of killed, timeout, survived and no coverage. The covered-code score leaves out no coverage. `mutalog run` exits with 1 when the score is below `thresholds(_, _, break(N))`, or when `N` is above 0 and either no mutant was scored or more than half of the mutants did not load. Generated mutants always parse, so many compile errors mean the run itself is broken; the clear-text output shows the first load error of each file, and the JSON report puts it in `statusReason`. A `mutate` or `tests` glob that matches no files is an error.
 
 ## Configuration
 
