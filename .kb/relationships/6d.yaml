@@ -20,3 +20,24 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-66cc351f7e17
+  - type: constrains
+    from: REQ-mostly-compile-errors-fail-break
+    to: FACT-SUBJECT-661197B80F0F7C83
+    created_at: 2026-10-29T19:06:21.293Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-2dce9156d3d3
+  - type: requires_property
+    from: REQ-mostly-compile-errors-fail-break
+    to: FACT-PROP-4BB035F3A05D4F6F
+    created_at: 2026-10-29T19:06:21.304Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-ce487aece190
+  - type: specified_by
+    from: REQ-mostly-compile-errors-fail-break
+    to: SCEN-a-run-where-most-mutants-do-not-load-fails-the-break-threshold
+    created_at: 2026-10-29T19:06:21.307Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-ef697fde436b

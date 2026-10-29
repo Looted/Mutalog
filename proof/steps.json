@@ -376,5 +376,55 @@
         "scripts/release-check.sh"
       ]
     ]
+  },
+  {
+    "test_id": "TEST-e2e-mutates-a-module-another-module-imports",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:mutates_a_module_another_module_imports"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-mutates-modules-that-export-the-same-name",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:mutates_modules_that_export_the_same_name"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-mostly-compile-errors-fails-the-break",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:mostly_compile_errors_fails_the_break"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-worker-reload-drops-stale-clauses",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "worker:reload_drops_stale_clauses"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-dropped-clause-mutant-is-killed",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:dropped_clause_mutant_is_killed"
+      ]
+    ]
   }
 ]

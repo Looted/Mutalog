@@ -558,11 +558,26 @@ symbols:
     sourceFile: prolog/mutalog/worker.pl
     symbol_role: behavioral
     granularity_reason: extractor-miss
+    status: active
     relationships:
-      - type: implements
-        target: REQ-AUTO-2919CA799C575688
       - type: covered_by
         target: TEST-e2e-applies-mutants-to-static-code
+      - type: covered_by
+        target: TEST-e2e-dropped-clause-mutant-is-killed
+      - type: covered_by
+        target: TEST-e2e-mutates-a-module-another-module-imports
+      - type: covered_by
+        target: TEST-e2e-mutates-modules-that-export-the-same-name
+      - type: covered_by
+        target: TEST-worker-reload-drops-stale-clauses
+      - type: implements
+        target: REQ-AUTO-2919CA799C575688
+      - type: implements
+        target: REQ-dropped-clauses-stop-answering
+      - type: implements
+        target: REQ-mutants-of-imported-modules-load
+      - type: implements
+        target: REQ-same-export-names-load
   - id: SYM-test-e2e-time-limit-from-dry-run
     title: time_limit_from_dry_run
     sourceFile: test/test_e2e.plt
@@ -734,11 +749,16 @@ symbols:
     sourceFile: prolog/mutalog.pl
     symbol_role: behavioral
     granularity_reason: extractor-miss
+    status: active
     relationships:
-      - type: implements
-        target: REQ-AUTO-B6447158DD93403B
       - type: covered_by
         target: TEST-e2e-break-threshold-sets-the-exit-code
+      - type: covered_by
+        target: TEST-e2e-mostly-compile-errors-fails-the-break
+      - type: implements
+        target: REQ-AUTO-B6447158DD93403B
+      - type: implements
+        target: REQ-mostly-compile-errors-fail-break
   - id: SYM-test-e2e-html-report-is-self-contained
     title: html_report_is_self_contained
     sourceFile: test/test_e2e.plt
@@ -903,3 +923,53 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-ci-runs-release-check
+  - id: SYM-test-e2e-mutates-a-module-another-module-imports
+    title: mutates_a_module_another_module_imports
+    sourceFile: test/test_e2e.plt
+    status: active
+    origin:
+      kind: agent
+      recorded_at: 2026-10-29T19:05:44.356Z
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-mutates-a-module-another-module-imports
+  - id: SYM-test-e2e-mutates-modules-that-export-the-same-name
+    title: mutates_modules_that_export_the_same_name
+    sourceFile: test/test_e2e.plt
+    status: active
+    origin:
+      kind: agent
+      recorded_at: 2026-10-29T19:06:11.581Z
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-mutates-modules-that-export-the-same-name
+  - id: SYM-test-e2e-mostly-compile-errors-fails-the-break
+    title: mostly_compile_errors_fails_the_break
+    sourceFile: test/test_e2e.plt
+    status: active
+    origin:
+      kind: agent
+      recorded_at: 2026-10-29T19:06:17.766Z
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-mostly-compile-errors-fails-the-break
+  - id: SYM-test-worker-reload-drops-stale-clauses
+    title: reload_drops_stale_clauses
+    sourceFile: test/test_mutalog.plt
+    status: active
+    origin:
+      kind: agent
+      recorded_at: 2026-10-29T19:06:23.778Z
+    relationships:
+      - type: executable_for
+        target: TEST-worker-reload-drops-stale-clauses
+  - id: SYM-test-e2e-dropped-clause-mutant-is-killed
+    title: dropped_clause_mutant_is_killed
+    sourceFile: test/test_e2e.plt
+    status: active
+    origin:
+      kind: agent
+      recorded_at: 2026-10-29T19:10:01.380Z
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-dropped-clause-mutant-is-killed

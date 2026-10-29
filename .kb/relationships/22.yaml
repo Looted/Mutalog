@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-6c28f66aa3a1
+    type: verified_by
+    from: SCEN-a-run-where-most-mutants-do-not-load-fails-the-break-threshold
+    to: TEST-e2e-mostly-compile-errors-fails-the-break
+    created_at: "2026-10-29T19:06:18.585Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

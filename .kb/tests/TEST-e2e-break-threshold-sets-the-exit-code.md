@@ -17,17 +17,17 @@ id: TEST-e2e-break-threshold-sets-the-exit-code
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-248c6fc81f033b0464dc7de2
+    receipt_id: PR-f9e09184945e3b420e267bd0
     test_id: TEST-e2e-break-threshold-sets-the-exit-code
     scope: end_to_end
     outcome: passed
-    code_snapshot: 2f6e624f3911adb9cf78f8559299244a7a72fc7e02ca53c4319289bab545b210
+    code_snapshot: 8c382182cf0ed41e201f16a096fef2ad75944e46d7d2ca835c1f878cc233fb12
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-10-29T18:05:48.772Z'
-    finished_at: '2026-10-29T18:06:25.804Z'
-    artifact_digest: 11c7c63d178616c342276a172c41f3f1f4545f5bd37c1e205f6c5b6c8490153c
+    started_at: '2026-10-29T19:11:28.926Z'
+    finished_at: '2026-10-29T19:11:31.721Z'
+    artifact_digest: d5346c2217ed1e4eb52509870d6933ae0b9d055e50add494046aed7ef5b2f869
     contract_hash: 28437c41b013dc18627b6e44fca6b15d2e21eaa1b5fb876f124ac4ef6792f62a
-    binding_hash: 262669178e86070096a39e8aa13f6f86083a42add827216e7690851b40835132
+    binding_hash: 2de6482f696ece908035922ee4af81df7ef2c0bc3523e4cf42957bce0da83b2b
     fingerprint: f81e1fb847c03bff8b0e43842e48af032ad89bee12401e0719c59a32824cf539
     fingerprint_components:
       contract: 28437c41b013dc18627b6e44fca6b15d2e21eaa1b5fb876f124ac4ef6792f62a

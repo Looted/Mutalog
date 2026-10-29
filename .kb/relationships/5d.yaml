@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-bd28524f5663
+    type: executable_for
+    from: SYM-test-e2e-mostly-compile-errors-fails-the-break
+    to: TEST-e2e-mostly-compile-errors-fails-the-break
+    created_at: "2026-10-29T19:06:17.816Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
