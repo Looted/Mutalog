@@ -20,6 +20,8 @@ Commands and replies:
        mutate files
   - mutant(Id, File, Start, End, Replacement, Tests, LimitMs)
     -> result(Id, Status, KilledBy, Ms)
+  - test_info -> tests(Infos), one test(Unit:Test, File, Line) per
+    test, File relative to the project root or `none`
   - restore -> restored
   - halt
 
@@ -196,6 +198,22 @@ handle(mutant(Id, Rel, Start, End, Replacement, Tests, LimitMs),
     ),
     get_time(T1),
     Ms is round((T1 - T0) * 1000).
+
+handle(test_info, tests(Infos)) :-
+    working_directory(Dir, Dir),
+    findall(test(Unit:Test, File, Line),
+            ( plunit:current_test(Unit, Test, Line, _, _),
+              unit_rel_file(Dir, Unit, File)
+            ),
+            Infos).
+
+unit_rel_file(Dir, Unit, Rel) :-
+    (   catch(plunit:unit_file(Unit, File), _, fail),
+        atom(File)
+    ->  directory_file_path(Dir, x, Ref),
+        relative_file_name(File, Ref, Rel)
+    ;   Rel = none
+    ).
 
 handle(restore, restored) :-
     restore_all.

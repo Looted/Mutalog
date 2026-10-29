@@ -4,7 +4,7 @@ Mutation testing for SWI-Prolog.
 
 Mutalog makes small changes to your Prolog code, such as a flipped comparison, a removed cut or a dropped clause, and checks that your plunit tests notice. A change the tests do not notice is a *surviving mutant*: a behaviour no test pins down.
 
-> **Status: early draft.** Mutalog generates mutants, runs your plunit tests against each one on parallel workers and reports a mutation score. HTML and JSON reports come next; see [Roadmap](#roadmap).
+> **Status: early draft.** Mutalog generates mutants, runs your plunit tests against each one on parallel workers, and reports a mutation score in the terminal, as HTML and as JSON. Publishing it as a pack comes next; see [Roadmap](#roadmap).
 
 ## Requirements
 
@@ -37,7 +37,7 @@ mutalog list                                  # print the mutants without runnin
 mutalog list --format json --check            # machine-readable; verify every mutant re-reads
 ```
 
-Every command takes `--mutate GLOB` and `--tests GLOB` (both repeatable), `--operators a,b`, `--timeout-ms N` and `--config FILE`. `run` also takes `-c N` or `--concurrency N` for the number of workers, and `--verbose` to show the project's own output.
+Every command takes `--mutate GLOB` and `--tests GLOB` (both repeatable), `--operators a,b`, `--timeout-ms N` and `--config FILE`. `run` also takes `-c N` or `--concurrency N` for the number of workers, `--reporters a,b` to pick the outputs, and `--verbose` to show the project's own output.
 
 `mutalog run` prints each mutant as it finishes, then the survivors with their source change, and a summary:
 
@@ -52,6 +52,11 @@ src/calc.pl                                67.3%      35      12       2       6
 
 Mutation score: 67.3% (covered code: 75.5%)
 ```
+
+It also writes two report files to `reports/mutation/`:
+
+- `mutation.html` is one self-contained page with no network access. It shows the score per file and the source with every mutant marked. You can filter by status and click a mutant to see the change and the tests that cover it.
+- `mutation.json` follows the open `mutation-testing-report-schema` format, schema version 2, so other tools that read the format can use it.
 
 A survivor is a change no test notices: add a test that pins the behaviour down, or list the mutant in `ignore_mutants` if the change is equivalent. Ids have the form `file:line:column:operator:n`. They stay stable as long as the code above the mutant doesn't move.
 
@@ -86,10 +91,12 @@ stack_limit('1g').                    % for each worker process
 concurrency(0).                       % workers; 0 means CPU count - 1
 retries(1).                           % extra attempts for a mutant that crashes a worker
 worker_reuse(0).                      % replace a worker after N mutants; 0 never
-thresholds(high(80), low(60), break(0)).
+thresholds(high(80), low(60), break(0)). % report colours; exit 1 below break
+reporters([clear_text, progress, html, json]).
+report_dir("reports/mutation").
 ```
 
-`reporters` and `report_dir` are accepted already and take effect in a later version.
+In the reports a score at or above `high` shows green, at or above `low` amber, and below `low` red. Set `break` above 0 to fail CI when the score drops below it.
 
 ## Mutation operators
 
@@ -124,7 +131,7 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 1. **Read and generate**: `mutalog list`. Done.
 2. **Dry run and worker**: `mutalog run` and `mutalog dry-run` with one worker. Done.
 3. **Pool, scheduler, timeouts**: parallel workers, longest-first scheduling, hard time limits, retries for crashes. Done.
-4. **Reports and thresholds**: clear text, JSON in the open `mutation-testing-report-schema` format, HTML, `break` threshold exit code.
+4. **Reports and thresholds**: clear text, JSON in the open mutation-testing report schema, a self-contained HTML report, `break` threshold exit code. Done.
 5. **Release**: publish as a SWI-Prolog pack and validate on real-world projects.
 
 ## Development

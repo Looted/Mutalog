@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mutation report</title>
+<style>
+:root {
+  --bg: #ffffff; --fg: #1d1f23; --muted: #626873; --line: #e3e5e8; --panel: #f6f7f9;
+  --code-bg: #fbfbfc; --accent: #2f5bd3;
+  --killed: #1f8a4c; --survived: #c62828; --timeout: #8a6d00; --nocov: #6b7280;
+  --error: #7b3fb5; --ignored: #9aa0a6;
+  --killed-bg: #e3f4ea; --survived-bg: #fde4e4; --timeout-bg: #fbf1cc; --nocov-bg: #eceef1;
+  --error-bg: #efe4fa; --ignored-bg: #f1f2f4;
+  --good: #1f8a4c; --warn: #a86b00; --bad: #c62828;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --fg: #e6e8eb; --muted: #9aa1ab; --line: #2b2f35; --panel: #1c1f23;
+    --code-bg: #181a1e; --accent: #7aa2ff;
+    --killed: #5bd08d; --survived: #ff7b7b; --timeout: #e8c547; --nocov: #a3aab5;
+    --error: #c79bf2; --ignored: #6f757d;
+    --killed-bg: #173726; --survived-bg: #4a1f22; --timeout-bg: #3d3412; --nocov-bg: #2a2e34;
+    --error-bg: #34234a; --ignored-bg: #24272c;
+    --good: #5bd08d; --warn: #e8b547; --bad: #ff7b7b;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 32px 0 12px; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.muted { color: var(--muted); }
+.score-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.tile { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; min-width: 120px; }
+.tile .v { font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tile .k { color: var(--muted); font-size: 13px; }
+.good { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--muted); font-weight: 500; font-size: 13px; }
+.bar { display: inline-block; width: 80px; height: 8px; border-radius: 4px; background: var(--nocov-bg); vertical-align: middle; overflow: hidden; margin-right: 8px; }
+.bar > span { display: block; height: 100%; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: 13px; cursor: pointer; user-select: none; background: var(--panel); color: var(--fg); }
+.chip[aria-pressed="false"] { opacity: .45; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+pre.src { background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 0; overflow-x: auto; font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin: 0; }
+.ln { display: block; padding: 0 12px 0 0; white-space: pre; }
+.ln.hit { background: var(--panel); }
+.ln.sel { outline: 2px solid var(--accent); outline-offset: -2px; }
+.no { display: inline-block; width: 4.5em; padding-right: 12px; text-align: right; color: var(--muted); user-select: none; }
+.mark { border-radius: 3px; cursor: pointer; }
+.s-Killed { background: var(--killed-bg); } .s-Survived { background: var(--survived-bg); }
+.s-Timeout { background: var(--timeout-bg); } .s-NoCoverage { background: var(--nocov-bg); }
+.s-CompileError, .s-RuntimeError { background: var(--error-bg); } .s-Ignored { background: var(--ignored-bg); }
+.mutants { margin-top: 16px; }
+.mutant { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; background: var(--bg); }
+.mutant.sel { border-color: var(--accent); }
+.mutant .id { font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--muted); word-break: break-all; }
+.mutant code { font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--panel); padding: 1px 4px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; }
+.status { font-weight: 600; font-size: 13px; }
+.back { display: inline-block; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const REPORT = /*MUTALOG_REPORT*/null;
+const STATUSES = ["Survived", "NoCoverage", "Timeout", "Killed", "CompileError", "RuntimeError", "Ignored"];
+const COLORS = { Killed: "--killed", Survived: "--survived", Timeout: "--timeout", NoCoverage: "--nocov",
+  CompileError: "--error", RuntimeError: "--error", Ignored: "--ignored" };
+const LABELS = { Killed: "Killed", Survived: "Survived", Timeout: "Timeout", NoCoverage: "No coverage",
+  CompileError: "Compile error", RuntimeError: "Runtime error", Ignored: "Ignored" };
+const app = document.getElementById("app");
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+function counts(mutants) {
+  const c = {}; STATUSES.forEach(s => c[s] = 0);
+  mutants.forEach(m => c[m.status] = (c[m.status] || 0) + 1);
+  return c;
+}
+function score(c) {
+  const det = c.Killed + c.Timeout, all = det + c.Survived + c.NoCoverage, cov = det + c.Survived;
+  return { all: all ? 100 * det / all : null, covered: cov ? 100 * det / cov : null };
+}
+function cls(p) {
+  if (p === null) return "muted";
+  const t = REPORT.thresholds;
+  return p >= t.high ? "good" : p >= t.low ? "warn" : "bad";
+}
+function pct(p) { return p === null ? "n/a" : p.toFixed(1) + "%"; }
+function allMutants() { return Object.values(REPORT.files).flatMap(f => f.mutants); }
+
+function summary() {
+  const c = counts(allMutants()), s = score(c);
+  const files = Object.keys(REPORT.files).sort();
+  let rows = files.map(name => {
+    const fc = counts(REPORT.files[name].mutants), fs = score(fc);
+    const w = fs.all === null ? 0 : fs.all;
+    return `<tr><td><a href="#${encodeURIComponent(name)}">${esc(name)}</a></td>
+      <td><span class="bar"><span style="width:${w}%;background:var(${fs.all === null ? "--nocov" : "--" + ({good:"good",warn:"warn",bad:"bad"})[cls(fs.all)]})"></span></span><span class="${cls(fs.all)}">${pct(fs.all)}</span></td>
+      <td>${fc.Killed}</td><td>${fc.Survived}</td><td>${fc.Timeout}</td><td>${fc.NoCoverage}</td>
+      <td>${fc.CompileError + fc.RuntimeError}</td></tr>`;
+  }).join("");
+  const perf = REPORT.performance || {};
+  app.innerHTML = `
+    <h1>Mutation report</h1>
+    <div class="muted">${esc(REPORT.projectRoot)} · ${esc(REPORT.framework.name)} ${esc(REPORT.framework.version)}</div>
+    <div class="score-row">
+      <div class="tile"><div class="v ${cls(s.all)}">${pct(s.all)}</div><div class="k">Mutation score</div></div>
+      <div class="tile"><div class="v ${cls(s.covered)}">${pct(s.covered)}</div><div class="k">Score on covered code</div></div>
+      <div class="tile"><div class="v">${allMutants().length}</div><div class="k">Mutants</div></div>
+      <div class="tile"><div class="v">${((perf.initialRun || 0) / 1000 + (perf.mutation || 0) / 1000).toFixed(0)} s</div><div class="k">Run time</div></div>
+    </div>
+    <div class="muted" style="margin-top:8px">Thresholds: high ${REPORT.thresholds.high}%, low ${REPORT.thresholds.low}%</div>
+    <h2>Files</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>File</th><th>Score</th><th>Killed</th><th>Survived</th><th>Timeout</th><th>No coverage</th><th>Errors</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
+}
+
+let filter = new Set(["Survived", "NoCoverage", "Timeout"]);
+let selected = null;
+
+function fileView(name) {
+  const f = REPORT.files[name];
+  if (!f) { location.hash = ""; return; }
+  const c = counts(f.mutants), s = score(c);
+  const lines = f.source.split("\n");
+  const shown = f.mutants.filter(m => filter.has(m.status));
+  const byLine = {};
+  shown.forEach(m => (byLine[m.location.start.line] = byLine[m.location.start.line] || []).push(m));
+  const src = lines.map((text, i) => {
+    const n = i + 1, ms = byLine[n] || [];
+    let html = esc(text);
+    if (ms.length) {
+      // Mark the first shown mutant per start column on this line, if it fits on the line.
+      const seen = new Set();
+      const marks = ms.filter(m => m.location.end.line === n && !seen.has(m.location.start.column) && seen.add(m.location.start.column))
+        .sort((a, b) => b.location.start.column - a.location.start.column);
+      const t = text;
+      let last = t.length;
+      const parts = [];
+      for (const m of marks) {
+        const a = m.location.start.column - 1, b = Math.min(m.location.end.column - 1, t.length);
+        if (b > last || a < 0) continue;
+        parts.unshift(esc(t.slice(b, last)));
+        parts.unshift(`<span class="mark s-${m.status}" data-id="${esc(m.id)}" title="${esc(LABELS[m.status])}: ${esc(m.mutatorName)}">${esc(t.slice(a, b)) || "&nbsp;"}</span>`);
+        last = a;
+      }
+      parts.unshift(esc(t.slice(0, last)));
+      html = parts.join("");
+    }
+    const sel = selected && shown.some(m => m.id === selected && m.location.start.line === n);
+    return `<span class="ln${ms.length ? " hit" : ""}${sel ? " sel" : ""}" id="L${n}"><span class="no">${n}</span>${html}</span>`;
+  }).join("");
+  const chips = STATUSES.filter(st => c[st] > 0).map(st =>
+    `<button class="chip" data-status="${st}" aria-pressed="${filter.has(st)}"><span class="dot" style="background:var(${COLORS[st]})"></span>${LABELS[st]} ${c[st]}</button>`).join("");
+  const list = shown.map(m => {
+    const orig = originalText(lines, m);
+    return `<div class="mutant${m.id === selected ? " sel" : ""}" data-id="${esc(m.id)}">
+      <span class="status" style="color:var(${COLORS[m.status]})">${LABELS[m.status]}</span>
+      <span class="muted"> · ${esc(m.mutatorName)} · line ${m.location.start.line}</span>
+      <div><code>${esc(orig) || "(empty)"}</code> → <code>${esc(m.replacement) || "(removed)"}</code></div>
+      <div class="muted" style="font-size:13px">${m.killedBy ? "Killed by " + esc(m.killedBy.join(", ")) + ". " : ""}${m.coveredBy && m.coveredBy.length ? "Covered by " + m.coveredBy.length + " test(s)." : "No test covers this clause."}</div>
+      <div class="id">${esc(m.id)}</div></div>`;
+  }).join("") || `<div class="muted">No mutants with the selected statuses.</div>`;
+  app.innerHTML = `
+    <a class="back" href="#">← All files</a>
+    <h1>${esc(name)}</h1>
+    <div class="score-row">
+      <div class="tile"><div class="v ${cls(s.all)}">${pct(s.all)}</div><div class="k">Mutation score</div></div>
+      <div class="tile"><div class="v ${cls(s.covered)}">${pct(s.covered)}</div><div class="k">Score on covered code</div></div>
+      <div class="tile"><div class="v">${f.mutants.length}</div><div class="k">Mutants</div></div>
+    </div>
+    <div class="chips">${chips}</div>
+    <pre class="src">${src}</pre>
+    <div class="mutants">${list}</div>`;
+  app.querySelectorAll(".chip").forEach(b => b.onclick = () => {
+    const st = b.dataset.status; filter.has(st) ? filter.delete(st) : filter.add(st); fileView(name);
+  });
+  app.querySelectorAll("[data-id]").forEach(el => el.onclick = () => {
+    selected = el.dataset.id; fileView(name);
+    const m = f.mutants.find(x => x.id === selected);
+    const target = el.classList.contains("mark") ? app.querySelector(`.mutant[data-id="${CSS.escape(selected)}"]`) : document.getElementById("L" + m.location.start.line);
+    if (target) target.scrollIntoView({ block: "center" });
+  });
+}
+
+function originalText(lines, m) {
+  const s = m.location.start, e = m.location.end;
+  if (s.line === e.line) return lines[s.line - 1].slice(s.column - 1, e.column - 1);
+  const parts = [lines[s.line - 1].slice(s.column - 1)];
+  for (let i = s.line; i < e.line - 1; i++) parts.push(lines[i]);
+  parts.push(lines[e.line - 1].slice(0, e.column - 1));
+  return parts.join("\n");
+}
+
+function route() {
+  selected = null;
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h) fileView(h); else summary();
+  window.scrollTo(0, 0);
+}
+if (!REPORT) app.innerHTML = "<p>This page has no report data.</p>";
+else { window.addEventListener("hashchange", route); route(); }
+</script>
+</body>
+</html>

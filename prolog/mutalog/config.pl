@@ -44,8 +44,8 @@ defaults([ root('.'),
            worker_reuse(0),
            stack_limit('1g'),
            thresholds(high(80), low(60), break(0)),
-           reporters([clear_text]),
-           report_dir("reports/mutation/prolog")
+           reporters([clear_text, progress, html, json]),
+           report_dir("reports/mutation")
          ]) :-
     default_operators(Ops).
 
