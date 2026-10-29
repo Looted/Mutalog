@@ -4,7 +4,7 @@ Mutation testing for SWI-Prolog.
 
 Mutalog makes small changes to your Prolog code, such as a flipped comparison, a removed cut or a dropped clause, and checks that your plunit tests notice. A change the tests do not notice is a *surviving mutant*: a behaviour no test pins down.
 
-> **Status: early draft.** Mutalog generates mutants, runs your plunit tests against each one and reports a mutation score. Parallel workers and HTML/JSON reports come next; see [Roadmap](#roadmap).
+> **Status: early draft.** Mutalog generates mutants, runs your plunit tests against each one on parallel workers and reports a mutation score. HTML and JSON reports come next; see [Roadmap](#roadmap).
 
 ## Requirements
 
@@ -37,7 +37,7 @@ mutalog list                                  # print the mutants without runnin
 mutalog list --format json --check            # machine-readable; verify every mutant re-reads
 ```
 
-Every command takes `--mutate GLOB` and `--tests GLOB` (both repeatable), `--operators a,b`, `--timeout-ms N` and `--config FILE`. `run` also takes `--verbose` to show the project's own output.
+Every command takes `--mutate GLOB` and `--tests GLOB` (both repeatable), `--operators a,b`, `--timeout-ms N` and `--config FILE`. `run` also takes `-c N` or `--concurrency N` for the number of workers, and `--verbose` to show the project's own output.
 
 `mutalog run` prints each mutant as it finishes, then the survivors with their source change, and a summary:
 
@@ -64,7 +64,7 @@ A survivor is a change no test notices: add a test that pins the behaviour down,
 | timeout | The tests ran past the time limit, usually because the mutant loops |
 | no coverage | No test entered the mutated clause, so nothing was run |
 | compile error | The mutated file did not load |
-| runtime error | The worker process crashed |
+| runtime error | The worker process crashed, on every retry |
 
 The mutation score is the share of mutants detected, counting killed and timeout, out of killed, timeout, survived and no coverage. The covered-code score leaves out no coverage. `mutalog run` exits with 1 when the score is below `thresholds(_, _, break(N))`.
 
@@ -82,11 +82,14 @@ operators([arith, compare, unify, negate, cut,
 ignore_mutants(["src/eval.pl:42:9:compare:1"]).
 timeout_ms(5000).                     % time limit per mutant is
 timeout_factor(1.5).                  %   factor * covering tests' time + timeout_ms
-stack_limit('1g').                    % for the worker process
+stack_limit('1g').                    % for each worker process
+concurrency(0).                       % workers; 0 means CPU count - 1
+retries(1).                           % extra attempts for a mutant that crashes a worker
+worker_reuse(0).                      % replace a worker after N mutants; 0 never
 thresholds(high(80), low(60), break(0)).
 ```
 
-`concurrency`, `retries`, `reporters` and `report_dir` are accepted already and take effect in a later version.
+`reporters` and `report_dir` are accepted already and take effect in a later version.
 
 ## Mutation operators
 
@@ -110,7 +113,9 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 
 1. **Read.** Each file is read with SWI-Prolog's own reader (`prolog_read_source_term/4`), so operators, quoting, dicts and strings are handled exactly as the compiler handles them. That includes operators imported from libraries. Each clause comes with its subterm positions, so a mutant can be reported as a character range and a replacement.
 2. **Dry run.** A child `swipl` loads the tests and runs each one under SWI-Prolog's coverage instrumentation. It records how long each test took and which clauses of the mutated files it entered. A failing test stops the run, because mutants can only be judged against a green suite.
-3. **Mutants.** The same child process applies each mutant by reloading its file from the source text with the replacement spliced in. It then runs only the tests that entered the mutated clause, stopping at the first failure. Each mutant gets a time limit derived from its tests' dry-run time. If a mutant hangs the process, the process is killed and a fresh one is started.
+3. **Mutants.** A pool of child processes, one per worker, applies each mutant by reloading its file from the source text with the replacement spliced in. A worker then runs only the tests that entered the mutated clause, stopping at the first failure. Mutants with no covering test are settled without running anything.
+4. **Time limits.** Each mutant gets a limit of `timeout_factor` times its covering tests' dry-run time, plus `timeout_ms`. The worker enforces it with `call_with_time_limit/2`. Code under test can catch that exception and loop on, so the controller also enforces a hard limit 10 seconds later. It kills a worker that misses it and starts a fresh one.
+5. **Scheduling and retries.** Mutants with the longest limits start first, so a slow mutant doesn't leave the other workers idle at the end. A mutant that crashes its worker is tried again on a fresh worker, up to `retries` times. Timeouts aren't retried, because a timeout already counts as detected. Results are reported in source order whatever the order they finished in.
 
 `mutalog list --check` re-reads every spliced mutant and compares it with the clause the runner will load.
 
@@ -118,7 +123,7 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 
 1. **Read and generate**: `mutalog list`. Done.
 2. **Dry run and worker**: `mutalog run` and `mutalog dry-run` with one worker. Done.
-3. **Pool, scheduler, timeouts**: parallel workers, per-test selection, time limits from the dry run, retries for flaky tests.
+3. **Pool, scheduler, timeouts**: parallel workers, longest-first scheduling, hard time limits, retries for crashes. Done.
 4. **Reports and thresholds**: clear text, JSON in the open `mutation-testing-report-schema` format, HTML, `break` threshold exit code.
 5. **Release**: publish as a SWI-Prolog pack and validate on real-world projects.
 

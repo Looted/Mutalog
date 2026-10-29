@@ -55,24 +55,57 @@ worker_start(Root, Options, worker(Pid, In, Out)) :-
 %!  worker_call(+Worker, +Command, +TimeoutS, -Reply) is det.
 %
 %   Reply is the worker's answer, `timeout` when it did not answer
-%   within TimeoutS seconds, or `crashed` when its output closed. In
-%   both of the latter cases the worker has been stopped.
+%   within TimeoutS seconds, or `crashed` when its output closed or
+%   was not a term. In both of the latter cases the worker has been
+%   stopped.
 
 worker_call(W, Command, TimeoutS, Reply) :-
-    W = worker(_, In, Out),
+    W = worker(_, In, _),
     catch(( write_term(In, Command, [quoted(true), fullstop(true), nl(true)]),
             flush_output(In)
           ), _, true),
-    (   wait_for_input([Out], Ready, TimeoutS),
-        Ready \== []
-    ->  catch(read_term(Out, Reply0, []), _, Reply0 = end_of_file),
-        (   Reply0 == end_of_file
-        ->  worker_stop(W),
-            Reply = crashed
-        ;   Reply = Reply0
-        )
-    ;   worker_kill(W),
+    get_time(Now),
+    Deadline is Now + TimeoutS,
+    read_reply(W, Deadline, [], Reply0),
+    (   Reply0 == timeout
+    ->  worker_kill(W),
         Reply = timeout
+    ;   Reply0 == crashed
+    ->  worker_stop(W),
+        Reply = crashed
+    ;   Reply = Reply0
+    ).
+
+%   Replies are one term per line. The line is collected from whatever
+%   input is pending, never with a blocking read, so that a worker that
+%   writes part of a line and then hangs still meets the deadline.
+
+read_reply(W, Deadline, Codes0, Reply) :-
+    W = worker(_, _, Out),
+    get_time(Now),
+    Left is Deadline - Now,
+    (   Left > 0,
+        catch(wait_for_input([Out], Ready, Left), _, Ready = [Out]),
+        Ready \== []
+    ->  (   catch(( fill_buffer(Out),
+                    \+ at_end_of_stream(Out),
+                    read_pending_codes(Out, New, [])
+                  ), _, fail)
+        ->  append(Codes0, New, Codes),
+            (   append(Line, [0'\n|_], Codes)
+            ->  parse_reply(Line, Reply)
+            ;   read_reply(W, Deadline, Codes, Reply)
+            )
+        ;   Reply = crashed
+        )
+    ;   Reply = timeout
+    ).
+
+parse_reply(Line, Reply) :-
+    (   catch(term_string(Reply0, Line), _, fail),
+        nonvar(Reply0)
+    ->  Reply = Reply0
+    ;   Reply = crashed
     ).
 
 %!  worker_stop(+Worker) is det.
