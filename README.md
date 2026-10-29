@@ -141,7 +141,7 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 2. **Dry run and worker**: `mutalog run` and `mutalog dry-run` with one worker. Done.
 3. **Pool, scheduler, timeouts**: parallel workers, longest-first scheduling, hard time limits, retries for crashes. Done.
 4. **Reports and thresholds**: clear text, JSON in the open mutation-testing report schema, a self-contained HTML report, `break` threshold exit code. Done.
-5. **Release**: BSD-2-Clause license, installable as a pack with a `swipl mutalog` app, versioned releases.
+5. **Release**: BSD-2-Clause license, installable as a pack with a `swipl mutalog` app, versioned releases. Done in 0.1.2, see [CHANGELOG.md](CHANGELOG.md).
 
 ## Development
 
