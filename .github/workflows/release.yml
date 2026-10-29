@@ -1,0 +1,44 @@
+name: Release
+
+# Pushing a tag vX.Y.Z publishes that version: installing the tagged
+# archive once from its URL registers it with the SWI-Prolog pack
+# server, after which pack_install(mutalog) finds it by name.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to the pack list
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install SWI-Prolog
+        run: |
+          sudo apt-add-repository -y ppa:swi-prolog/stable
+          sudo apt-get update
+          sudo apt-get install -y swi-prolog-nox
+          swipl --version
+
+      - name: Check the tag matches pack.pl
+        run: |
+          version=$(swipl -g "setup_call_cleanup(open('pack.pl',read,In),(repeat,read(In,T),(T=version(V)->true;T==end_of_file->V=none)),close(In)),write(V)" -t halt)
+          echo "pack.pl version: $version, tag: $GITHUB_REF_NAME"
+          test "v$version" = "$GITHUB_REF_NAME"
+
+      - name: Register the tagged archive
+        run: |
+          swipl -g "pack_install('https://github.com/Looted/Mutalog/archive/${GITHUB_REF_NAME}.zip', [interactive(false), inquiry(true), package_directory('/tmp/packs-url')])" -t halt
+
+      - name: Install by name and run the example project
+        run: |
+          swipl -g "pack_install(mutalog, [interactive(false), package_directory('/tmp/packs-name')])" -t halt
+          cd test/project
+          swipl -p pack=/tmp/packs-name -g "attach_packs('/tmp/packs-name')" -g "use_module(library(mutalog))" -g mutalog:main -t 'halt(2)' -- run --reporters clear_text
