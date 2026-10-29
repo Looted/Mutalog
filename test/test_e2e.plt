@@ -571,14 +571,24 @@ test(pack_needs_only_swi_prolog) :-
     assertion(forall(member(R, Requires), R = (prolog >= _))),
     install_pack(Packs),
     format(atom(Attach), "attach_packs('~w', [])", [Packs]),
-    format(atom(Report),
-           "forall(( source_file(F), sub_atom(F, 0, _, _, '~w') ), (file_name_extension(_, Ext, F), writeln(Ext)))",
-           [Packs]),
+    % Ask where the pack is rather than assume Packs: the layout of the
+    % pack directory differs between versions.
+    Report = 'pack_property(mutalog, directory(D)), forall(( source_file(F), sub_atom(F, 0, _, _, D) ), (file_name_extension(_, Ext, F), writeln(Ext)))',
     swipl(Packs, ['-q', '-g', Attach, '-g', 'use_module(library(mutalog))',
                   '-g', Report, '-t', halt],
           0, Out, _),
     split_string(Out, "\n", "", Exts0),
     exclude(==(""), Exts0, Exts),
+    (   Exts == []
+    ->  format(user_error, "No pack file loaded; pack directory and loaded files:~n", []),
+        format(atom(Dump),
+               "forall(pack_property(mutalog, directory(D)), writeln(D)), forall(( source_file(F), sub_atom(F, _, _, _, mutalog) ), writeln(F))",
+               []),
+        swipl(Packs, ['-q', '-g', Attach, '-g', 'use_module(library(mutalog))',
+                      '-g', Dump, '-t', halt], _, DumpOut, _),
+        format(user_error, "~s~n", [DumpOut])
+    ;   true
+    ),
     assertion(Exts \== []),
     assertion(forall(member(E, Exts), E == "pl")).
 

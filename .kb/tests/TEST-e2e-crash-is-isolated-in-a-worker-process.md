@@ -17,17 +17,17 @@ id: TEST-e2e-crash-is-isolated-in-a-worker-process
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-5e1fc0ddd95bbc5180f657c7
+    receipt_id: PR-a3cd5509a815316a8ae0bd7b
     test_id: TEST-e2e-crash-is-isolated-in-a-worker-process
     scope: end_to_end
     outcome: passed
-    code_snapshot: a95ee68a2a610c0c668098b10a28caaf9741529d5976f0236818875d4a98802a
+    code_snapshot: 2f6e624f3911adb9cf78f8559299244a7a72fc7e02ca53c4319289bab545b210
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-10-29T17:54:05.698Z'
-    finished_at: '2026-10-29T17:54:42.477Z'
-    artifact_digest: 6513638fbbfa44a19362a4a5642caa03e2f48271d15b8303e0d16b7274d5e932
+    started_at: '2026-10-29T18:05:48.772Z'
+    finished_at: '2026-10-29T18:06:25.804Z'
+    artifact_digest: 11c7c63d178616c342276a172c41f3f1f4545f5bd37c1e205f6c5b6c8490153c
     contract_hash: 48bd8f61f97e9866aac43eb0a043f7891528bc5ff334634f0a5d659153f75c88
-    binding_hash: 727b103e6a1c5d63c78e137c2444fcabb2eed272cef6b40b3a924abab7c7fc6b
+    binding_hash: 38c1b6bc5b74762ce481829d4e5aa7141f8c42b5617ed6daea9fb55741ec7fe6
     fingerprint: 1aa1021af3c63acbae2107386a9fca1f9e235fa443f324c493926b29eaddc487
     fingerprint_components:
       contract: 48bd8f61f97e9866aac43eb0a043f7891528bc5ff334634f0a5d659153f75c88
