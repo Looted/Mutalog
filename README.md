@@ -4,7 +4,7 @@ Mutation testing for SWI-Prolog.
 
 Mutalog makes small changes to your Prolog code, such as a flipped comparison, a removed cut or a dropped clause, and checks that your plunit tests notice. A change the tests do not notice is a *surviving mutant*: a behaviour no test pins down.
 
-> **Status: early draft.** Mutalog generates mutants, runs your plunit tests against each one on parallel workers, and reports a mutation score in the terminal, as HTML and as JSON. Publishing it as a pack comes next; see [Roadmap](#roadmap).
+> **Status: 0.1.0, first release.** Mutalog generates mutants, runs your plunit tests against each one on parallel workers, and reports a mutation score in the terminal, as HTML and as JSON. See [Roadmap](#roadmap) for what is in it.
 
 ## Requirements
 
@@ -12,18 +12,27 @@ SWI-Prolog 9.0 or later. Mutalog has no dependencies outside the SWI-Prolog dist
 
 ## Install
 
-From a checkout:
-
-```sh
-git clone https://github.com/Looted/Mutalog.git
-Mutalog/bin/mutalog list
-```
-
-As a pack, once published:
+As a pack:
 
 ```prolog
 ?- pack_install(mutalog).
 ```
+
+Then, from your project root:
+
+```sh
+swipl mutalog run                     # SWI-Prolog 9.1.22 or later
+swipl -g "use_module(library(mutalog))" -g mutalog:main -t 'halt(2)' -- run   # any 9.x
+```
+
+Or from a checkout, with no install:
+
+```sh
+git clone https://github.com/Looted/Mutalog.git
+Mutalog/bin/mutalog run
+```
+
+The examples below use `mutalog` for whichever of these you use.
 
 ## Usage
 
@@ -132,7 +141,7 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 2. **Dry run and worker**: `mutalog run` and `mutalog dry-run` with one worker. Done.
 3. **Pool, scheduler, timeouts**: parallel workers, longest-first scheduling, hard time limits, retries for crashes. Done.
 4. **Reports and thresholds**: clear text, JSON in the open mutation-testing report schema, a self-contained HTML report, `break` threshold exit code. Done.
-5. **Release**: publish as a SWI-Prolog pack and validate on real-world projects.
+5. **Release**: BSD-2-Clause license, installable as a pack with a `swipl mutalog` app, versioned releases.
 
 ## Development
 
@@ -141,3 +150,7 @@ swipl test/run.pl                                    # tests
 bin/mutalog list --mutate 'prolog/**/*.pl' --check   # Mutalog's own mutants re-read
 (cd test/project && ../../bin/mutalog run)           # the example project
 ```
+
+## License
+
+BSD-2-Clause. See [LICENSE](LICENSE).
