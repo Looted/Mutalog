@@ -2,6 +2,10 @@
 
 All notable changes to Mutalog are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## 0.3.1 (2026-10-29)
+
+- On SWI-Prolog 10, a mutant could run against a clause left over from the previous mutant of the same file, so it survived or was killed depending on which mutants its worker ran before it. The worker now unloads a file before it reloads it.
+
 ## 0.3.0 (2026-10-29)
 
 - Cut insertion is now its own operator, `cut_insert`; `cut` only removes cuts. An inserted cut after a goal with one solution can't change any answer, so a project can now drop `cut_insert` from `operators` and keep cut removal. Ids and `ignore_mutants` entries for inserted cuts change from `:cut:` to `:cut_insert:`.

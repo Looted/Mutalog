@@ -243,8 +243,15 @@ original(File, Text) :-
         assertz(original_text(File, Text))
     ).
 
+%   The file is unloaded first. On SWI-Prolog 10, reloading a file a
+%   second time from a stream can leave a clause that the new text no
+%   longer has still answering calls, when that clause ran after the
+%   first reload. Unloading removes the clauses but keeps the module
+%   and its procedures, so importers stay linked.
+
 reload(File, Text, Result) :-
     flag(mutalog_errors, _, 0),
+    unload_file(File),
     setup_call_cleanup(
         open_string(Text, In),
         catch(load_files(File, [stream(In), silent(true)]), E, true),
