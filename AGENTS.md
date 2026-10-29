@@ -17,3 +17,10 @@ swipl test/run.pl                              # tests
 bin/mutalog list --mutate 'prolog/**/*.pl' --check  # mutants of Mutalog itself
 (cd test/project && ../../bin/mutalog run)     # the example project
 ```
+
+## Releasing
+
+Releases go through the Release workflow (see the README's Releasing
+section). A version bump in `pack.pl` and its `CHANGELOG.md` section
+land together in one pull request, before the release is run. Never
+create release tags by hand.
