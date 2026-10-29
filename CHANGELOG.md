@@ -2,6 +2,14 @@
 
 All notable changes to Mutalog are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 (2026-10-29)
+
+- A `mutate` glob that matches no files is now an error, like a `tests` glob that matches none. Both errors name the patterns and the directory they were resolved against.
+- `thresholds(_, _, break(N))` with `N` above 0 now fails a run that scored no mutants, instead of passing it.
+- `mutalog run --only` stops with an error when an id matches no mutant. `ignore_mutants` entries that match no mutant in a mutated file print a warning.
+- Mutalog's own errors print as sentences instead of `Unknown error term`.
+- New `root(Dir)` config key and `--root DIR` option set the project root, so a config file can live outside it. The README now says that `--config FILE` makes the file's directory the root.
+
 ## 0.1.2 (2026-10-29)
 
 First release. Versions 0.1.0 and 0.1.1 were tagged but never published.

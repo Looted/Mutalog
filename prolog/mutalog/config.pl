@@ -59,6 +59,11 @@ known_key(Key) :-
 %   Build the configuration for the project rooted at Root. When
 %   Overrides contains config(File), that file is read instead of
 %   Root/mutalog.config.pl. A missing default file is not an error.
+%
+%   Globs and `report_dir` are resolved against the project root: the
+%   directory that holds the config file, or Root when there is none.
+%   A `root(Dir)` term in the config file moves it, relative to the
+%   file's directory; root(Dir) in Overrides moves it relative to Root.
 
 load_config(Root, Overrides, Config) :-
     defaults(Defaults),
@@ -76,8 +81,24 @@ load_config(Root, Overrides, Config) :-
     ;   FileTerms = [],
         ConfigRoot = Root
     ),
-    exclude([T]>>functor(T, config, 1), Overrides, Overrides1),
-    merge_layers([Defaults, [root(ConfigRoot)], FileTerms, Overrides1], Config).
+    (   memberchk(root(Dir0), FileTerms)
+    ->  project_dir(ConfigRoot, Dir0, FileRoot)
+    ;   FileRoot = ConfigRoot
+    ),
+    (   memberchk(root(Dir1), Overrides)
+    ->  project_dir(Root, Dir1, ProjectRoot)
+    ;   ProjectRoot = FileRoot
+    ),
+    exclude([T]>>( functor(T, config, 1) ; functor(T, root, 1) ),
+            Overrides, Overrides1),
+    merge_layers([Defaults, FileTerms, Overrides1, [root(ProjectRoot)]], Config).
+
+project_dir(Base, Dir0, Dir) :-
+    absolute_file_name(Dir0, Dir,
+                       [ relative_to(Base),
+                         file_type(directory),
+                         access(exist)
+                       ]).
 
 read_config_file(File, Terms) :-
     setup_call_cleanup(

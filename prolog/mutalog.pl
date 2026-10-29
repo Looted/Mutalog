@@ -17,7 +17,7 @@ mutalog run     [OPTIONS] [--only ID,ID] [--concurrency N]
 mutalog dry-run [OPTIONS]
 mutalog list    [OPTIONS] [--format text|json] [--check]
 
-OPTIONS: [--config FILE] [--mutate GLOB]... [--tests GLOB]...
+OPTIONS: [--config FILE] [--root DIR] [--mutate GLOB]... [--tests GLOB]...
          [--operators a,b] [--timeout-ms N]
 ```
 */
@@ -101,6 +101,7 @@ run_cli(_, 0) :-
 usage :-
     forall(member(L, [ "Usage: mutalog run|dry-run|list [OPTIONS]",
                        "  --config FILE       config file (default mutalog.config.pl)",
+                       "  --root DIR          project root (default: the config file's directory)",
                        "  --mutate GLOB       files to mutate, repeatable",
                        "  --tests GLOB        test files, repeatable",
                        "  --operators a,b     operators to use",
@@ -115,6 +116,7 @@ usage :-
 
 parse_options([], []).
 parse_options(['--config', F|T], [config(F)|Os]) :- !, parse_options(T, Os).
+parse_options(['--root', D|T], [root(D)|Os]) :- !, parse_options(T, Os).
 parse_options(['--mutate', G|T], [mutate(G)|Os]) :- !, parse_options(T, Os).
 parse_options(['--operators', L|T], [operators(Ops)|Os]) :-
     !,
@@ -158,7 +160,7 @@ cli_overrides(Opts, Overrides) :-
     ;   O00 = [tests(TestGlobs)|O0]
     ),
     findall(X, ( member(X, Opts),
-                 ( X = timeout_ms(_) ; X = only(_) ; X = verbose(_) ;
+                 ( X = timeout_ms(_) ; X = only(_) ; X = verbose(_) ; X = root(_) ;
                    X = concurrency(_) ; X = reporters(_) ) ),
             Passed),
     append(Passed, O00, O1),
@@ -247,9 +249,15 @@ status_is(S, r(_, S, _, _, _)).
 percent_text(none, 'n/a') :- !.
 percent_text(P, T) :- format(atom(T), '~1f%', [P]).
 
+%   A run that scored no mutants has no score to compare, so it fails
+%   any positive break threshold rather than passing it unseen.
+
 break_code(thresholds(_, _, break(B)), Score, Code) :-
     (   number(Score), number(B), Score < B
     ->  format(user_error, "mutalog: score ~1f% is below break threshold ~w%~n", [Score, B]),
+        Code = 1
+    ;   Score == none, number(B), B > 0
+    ->  format(user_error, "mutalog: no mutants were scored, so the break threshold ~w% is not met~n", [B]),
         Code = 1
     ;   Code = 0
     ).
