@@ -37,6 +37,9 @@ jobs:
           sudo apt-get install -y swi-prolog-nox
           swipl --version
 
+      - name: Check pack.pl and CHANGELOG.md agree
+        run: scripts/release-check.sh
+
       - name: Run tests
         run: swipl test/run.pl
 
