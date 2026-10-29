@@ -368,5 +368,13 @@
         "e2e:release_refuses_a_tagged_version"
       ]
     ]
+  },
+  {
+    "test_id": "TEST-ci-runs-release-check",
+    "steps": [
+      [
+        "scripts/release-check.sh"
+      ]
+    ]
   }
 ]
