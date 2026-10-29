@@ -1,5 +1,7 @@
 # Mutalog
 
+[![Kibi requirement health](https://looted.github.io/mutalog/kibi-report/badge.svg)](https://looted.github.io/mutalog/kibi-report/)
+
 Mutation testing for SWI-Prolog.
 
 Mutalog makes small changes to your Prolog code, such as a flipped comparison, a removed cut or a dropped clause, and checks that your plunit tests notice. A change the tests do not notice is a *surviving mutant*: a behaviour no test pins down.

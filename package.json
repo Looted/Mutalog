@@ -1,0 +1,11 @@
+{
+  "name": "mutalog-devtools",
+  "private": true,
+  "description": "Development tooling for the Mutalog repository. Not part of the SWI-Prolog pack.",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "kibi-cli": "^2.36.0",
+    "kibi-core": "^0.26.1",
+    "kibi-mcp": "^3.21.0"
+  }
+}

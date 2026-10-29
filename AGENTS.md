@@ -9,6 +9,11 @@ SWI-Prolog. Keep it independent of any particular downstream project.
   in `test/project/` or generic examples instead.
 - Validation against real-world codebases happens outside this
   repository; report only generic findings here.
+- Exception: the repository uses Kibi as development tooling. Its
+  knowledge base (`.kb/`), `package.json`, the `kibi-report` workflow
+  and the README badge may name it. Library code, tests, fixtures,
+  examples and the pack itself stay free of it, and commit messages and
+  pull request descriptions mention it only to name the tool.
 
 ## Development
 
@@ -24,3 +29,9 @@ Releases go through the Release workflow (see the README's Releasing
 section). A version bump in `pack.pl` and its `CHANGELOG.md` section
 land together in one pull request, before the release is run. Never
 create release tags by hand.
+
+## Knowledge base
+
+Requirements and decisions live in `.kb/` and are managed with Kibi
+(`npm ci`, then `npm exec -- kibi <command>`). Run `kibi check` after
+changing them; `kibi report` builds the requirement-health report.

@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-49cf54e72d88
+    type: relates_to
+    from: ADR-reporter-self-contained-html
+    to: REQ-AUTO-CB32BF7DBFE62DAA
+    created_at: "2026-10-29T16:05:49.479Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: relates_to
+    from: ADR-reporter-self-contained-html
+    to: REQ-AUTO-20DC4E062C4C1FC7
+    created_at: 2026-10-29T16:05:49.479Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-ba3ee7ca6e7a
