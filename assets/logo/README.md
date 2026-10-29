@@ -19,5 +19,6 @@ Prolog clause with its terminating `.` mutated.
 | Ink | `#1f2147` | `#ecebfa` |
 | Mutation (the dot) | `#d6336c` | `#ff6b9d` |
 
-The wordmark is IBM Plex Mono SemiBold (SIL Open Font License),
-converted to outlines so the SVGs need no font.
+The wordmark is set in IBM Plex Mono SemiBold (SIL Open Font License).
+The logo SVGs embed a subset of the font holding only the letters of
+"mutalog", so they render the same without the font installed.
