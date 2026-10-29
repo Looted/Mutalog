@@ -46,3 +46,16 @@ jobs:
       - name: Run the example project
         working-directory: test/project
         run: ../../bin/mutalog run
+
+      # Install from this checkout as a pack, then run it the two ways a
+      # pack user would: as an app (9.1.22 and later) or with -g.
+      - name: Install as a pack
+        run: swipl -g "pack_install('file://$GITHUB_WORKSPACE', [interactive(false)])" -t halt
+
+      - name: Run the installed pack
+        working-directory: test/project
+        run: |
+          swipl -g "use_module(library(mutalog))" -g mutalog:main -t 'halt(2)' -- run --reporters clear_text
+          if [ "${{ matrix.swipl }}" = ppa ]; then
+            swipl mutalog run --reporters clear_text
+          fi
