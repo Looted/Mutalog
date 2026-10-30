@@ -1,0 +1,22 @@
+relationships:
+  - id: rel-b203891add3a
+    type: constrains
+    from: REQ-release-on-merge-to-master
+    to: FACT-SUBJECT-CA705549E5B5E998
+    created_at: "2026-10-30T13:57:57.347Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: requires_property
+    from: REQ-release-on-merge-to-master
+    to: FACT-PROP-B1E8715BC367B94C
+    created_at: 2026-10-30T13:57:57.348Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-3432f3ca471e
+  - type: supersedes
+    from: REQ-release-on-merge-to-master
+    to: REQ-release-run-workflow-on-master
+    created_at: 2026-10-30T13:57:57.363Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-7dd8e6022339

@@ -1,25 +1,33 @@
 name: Release
 
-# Publishes the version in pack.pl. To release:
+# Publishes the version in pack.pl when it reaches master untagged.
 #
-#   1. In a pull request, bump version('X.Y.Z') in pack.pl and add a
-#      '## X.Y.Z' section to CHANGELOG.md. CI checks the two agree.
-#   2. Merge it, then run this workflow on master from the Actions tab.
+#   1. Each pull request that changes what users see adds a changeset
+#      (npm run changeset), a .changeset/*.md file naming the bump.
+#   2. To release, run npm run version-packages in a pull request. It
+#      consumes the changesets into the next version in package.json
+#      and pack.pl and a dated CHANGELOG.md section. CI checks the
+#      three agree.
+#   3. Merging it to master runs this workflow. Pushes whose version is
+#      already tagged stop after the first step.
 #
-# The workflow refuses a version whose tag already exists, creates the
-# vX.Y.Z tag and GitHub release (notes from CHANGELOG.md) on the commit
-# it checked, and registers that archive with the SWI-Prolog pack server.
+# For an untagged version the workflow runs CI on the commit, creates
+# the vX.Y.Z tag and GitHub release (notes from CHANGELOG.md) on it,
+# and registers that archive with the SWI-Prolog pack server.
 #
-# A vX.Y.Z tag pushed by hand runs the same checks and publish steps.
+# Running it from the Actions tab retries a release that failed; it
+# refuses a version that is already tagged. A vX.Y.Z tag pushed by hand
+# runs the same checks and publish steps.
 #
 # The archive URL spells the repository in lower case. SWI-Prolog takes
 # the pack name from that path segment and refuses to install when it
 # differs from the name in pack.pl; GitHub serves either spelling.
 
 on:
-  workflow_dispatch:
   push:
+    branches: [master]
     tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -29,8 +37,45 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  check:
+    name: Check for an unreleased version
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      release: ${{ steps.check.outputs.release }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check the version and changelog
+        id: check
+        run: |
+          if [ "$GITHUB_REF_TYPE" = tag ]; then
+            scripts/release-check.sh --tag "$GITHUB_REF_NAME"
+          elif [ "$GITHUB_REF" != refs/heads/master ]; then
+            echo "Run the release from master, not $GITHUB_REF_NAME." >&2
+            exit 1
+          else
+            version=$(scripts/release-check.sh)
+            if [ "$GITHUB_EVENT_NAME" = push ] \
+                && git ls-remote --exit-code --tags origin "refs/tags/v$version" > /dev/null; then
+              echo "v$version is already released; nothing to do."
+              echo "release=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            scripts/release-check.sh --untagged
+          fi
+          echo "release=true" >> "$GITHUB_OUTPUT"
+
+  ci:
+    name: CI
+    needs: check
+    if: needs.check.outputs.release == 'true'
+    uses: ./.github/workflows/ci.yml
+
   tag:
-    name: Check and tag
+    name: Tag and create the release
+    needs: [check, ci]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -41,18 +86,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Check the version and changelog
+      - name: Write the release notes
         id: tag
         run: |
-          if [ "$GITHUB_REF_TYPE" = tag ]; then
-            version=$(scripts/release-check.sh --tag "$GITHUB_REF_NAME")
-          else
-            if [ "$GITHUB_REF" != refs/heads/master ]; then
-              echo "Run the release from master, not $GITHUB_REF_NAME." >&2
-              exit 1
-            fi
-            version=$(scripts/release-check.sh --untagged)
-          fi
+          version=$(scripts/release-check.sh)
           echo "tag=v$version" >> "$GITHUB_OUTPUT"
           scripts/release-notes.sh "$version" > "$RUNNER_TEMP/notes.md"
 

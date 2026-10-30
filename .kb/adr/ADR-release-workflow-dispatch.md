@@ -1,6 +1,6 @@
 ---
 title: Publish releases from a workflow run on master
-status: accepted
+status: superseded
 tags:
   - decision
   - release

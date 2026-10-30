@@ -1,7 +1,7 @@
 ---
 title: Release must refuse a version that is already tagged.
 status: open
-text_ref: readme:README.md#L161
+text_ref: readme:README.md#L185
 tags:
   - strict-modeling
   - confidence:0.80
@@ -25,7 +25,7 @@ semantic_inventory:
       end: 52
 origin:
   kind: import
-  ref: readme:README.md#L161
+  ref: readme:README.md#L185
   recorded_at: '2026-10-29T16:10:35.165Z'
 firmness: firm
 required_evidence: asserted
@@ -44,6 +44,6 @@ PR #9 replaced hand-pushed release tags with a Release workflow run on master, b
 
 ## Source
 
-> The workflow refuses a version that is already tagged. It creates the `vX.Y.Z` tag and GitHub release with the changelog section as notes, and publishes the pack. Don't create tags or releases by hand: a tag on a commit whose `pack.pl` disagrees can't be reused.
+> If a release fails, run the **Release** workflow on `master` from the Actions tab to retry it; it refuses a version that is already tagged. Don't create tags or releases by hand: a tag on a commit whose `pack.pl` disagrees can't be reused.
 
-Source: Mutalog README - README.md#L161
+Source: Mutalog README - README.md#L185

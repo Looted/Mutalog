@@ -426,5 +426,15 @@
         "e2e:dropped_clause_mutant_is_killed"
       ]
     ]
+  },
+  {
+    "test_id": "TEST-e2e-version-step-syncs-pack-and-changelog",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:version_step_syncs_pack_and_changelog"
+      ]
+    ]
   }
 ]

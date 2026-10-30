@@ -27,10 +27,13 @@ bin/mutalog list --mutate 'prolog/**/*.pl' --check  # mutants of Mutalog itself
 
 ## Releasing
 
-Releases go through the Release workflow (see the README's Releasing
-section). A version bump in `pack.pl` and its `CHANGELOG.md` section
-land together in one pull request, before the release is run. Never
-create release tags by hand.
+Releases are driven by changesets (see the README's Releasing section).
+Add a changeset (`npm run changeset`) in the same pull request as any
+change users of the pack would notice, written for the changelog:
+what changes for them first, details after. Don't edit the version in
+`pack.pl` or `package.json`, or add `CHANGELOG.md` sections, by hand;
+`npm run version-packages` does both in a release pull request, and
+merging it to `master` publishes. Never create release tags by hand.
 
 ## Knowledge base
 

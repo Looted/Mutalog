@@ -739,4 +739,38 @@ test(release_refuses_a_tagged_version) :-
     format(string(Msg), "tag ~w already exists", [Tag]),
     assertion(sub_string(Err, _, _, _, Msg)).
 
+%   `changeset version` bumps package.json and writes the new section
+%   under the changelog's title; the version step must carry the bump
+%   into pack.pl and give the section the layout of the others.
+
+test(version_step_syncs_pack_and_changelog) :-
+    release_checkout(Dir, Version),
+    repo_path('scripts/sync-version.mjs', Sync),
+    directory_file_path(Dir, 'scripts/sync-version.mjs', SyncTo),
+    copy_file(Sync, SyncTo),
+    directory_file_path(Dir, 'package.json', Npm),
+    write_file(Npm, "{\n  \"name\": \"mutalog\",\n  \"version\": \"99.1.0\"\n}\n"),
+    directory_file_path(Dir, 'CHANGELOG.md', Log),
+    read_file_to_string(Log, Old, []),
+    sub_string(Old, T, _, _, "\n"), !,
+    sub_string(Old, 0, T, _, Title),
+    sub_string(Old, T, _, 0, Intro),
+    format(string(New),
+           "~w\n\n## 99.1.0\n\n### Minor Changes\n\n- A feature.\n\n  Its details.\n\n### Patch Changes\n\n- A fix.\n~w",
+           [Title, Intro]),
+    write_file(Log, New),
+    run_process(path(node), ['scripts/sync-version.mjs', '2026-01-02'], Dir, [], 0, _, _),
+    run_process(path(bash), ['scripts/release-check.sh'], Dir, [], 0, Out, _),
+    assertion(split_string(Out, "", "\n", ["99.1.0"])),
+    read_file_to_string(Log, Synced, []),
+    assertion(\+ sub_string(Synced, _, _, _, "### ")),
+    format(string(Prev), "\n## ~w ", [Version]),
+    sub_string(Synced, P, _, _, Prev), !,
+    sub_string(Synced, S, _, _, "\n## 99.1.0 (2026-01-02)\n\n- A feature.\n\n  Its details.\n\n- A fix.\n"), !,
+    assertion(S < P),
+    sub_string(Synced, 0, S, _, Head),
+    assertion(Head \== Title),
+    run_process(path(bash), ['scripts/release-notes.sh', '99.1.0'], Dir, [], 0, Notes, _),
+    assertion(Notes == "- A feature.\n\n  Its details.\n\n- A fix.\n").
+
 :- end_tests(e2e).

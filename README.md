@@ -176,10 +176,13 @@ bin/mutalog list --mutate 'prolog/**/*.pl' --check   # Mutalog's own mutants re-
 
 ### Releasing
 
-1. In a pull request, bump `version('X.Y.Z')` in `pack.pl` and add a `## X.Y.Z` section to `CHANGELOG.md`. CI fails if the two disagree.
-2. Merge it, then run the **Release** workflow on `master` from the Actions tab.
+Versions come from [changesets](https://github.com/changesets/changesets). Run `npm ci` once for the tooling.
 
-The workflow refuses a version that is already tagged. It creates the `vX.Y.Z` tag and GitHub release with the changelog section as notes, and publishes the pack. Don't create tags or releases by hand: a tag on a commit whose `pack.pl` disagrees can't be reused.
+1. A pull request that changes what users of the pack see adds a changeset: run `npm run changeset`, pick `patch`, `minor` or `major`, and describe the change for the changelog. See [.changeset/README.md](.changeset/README.md).
+2. To release, run `npm run version-packages` in a pull request. It consumes the pending changesets, bumps the version in `package.json` and `pack.pl`, and writes a dated `## X.Y.Z` section of `CHANGELOG.md` from them. CI fails if the three disagree.
+3. Merge it. The **Release** workflow sees a version in `pack.pl` that has no tag, runs CI on the commit, creates the `vX.Y.Z` tag and GitHub release with the changelog section as notes, and publishes the pack. On other merges it finds the version already tagged and does nothing.
+
+If a release fails, run the **Release** workflow on `master` from the Actions tab to retry it; it refuses a version that is already tagged. Don't create tags or releases by hand: a tag on a commit whose `pack.pl` disagrees can't be reused.
 
 ## License
 

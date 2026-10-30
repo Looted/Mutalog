@@ -1,6 +1,6 @@
 ---
 title: Release must publish the version in pack.pl when the Release workflow is run on master.
-status: open
+status: closed
 text_ref: readme:README.md#L159
 tags:
   - strict-modeling

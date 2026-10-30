@@ -1,7 +1,7 @@
 ---
 title: CI must fail when the version in pack.pl has no matching section in CHANGELOG.md.
 status: open
-text_ref: readme:README.md#L158
+text_ref: readme:README.md#L182
 tags:
   - strict-modeling
   - confidence:0.80
@@ -25,7 +25,7 @@ semantic_inventory:
       end: 80
 origin:
   kind: import
-  ref: readme:README.md#L158
+  ref: readme:README.md#L182
   recorded_at: '2026-10-29T16:10:39.925Z'
 firmness: firm
 required_evidence: asserted
@@ -36,10 +36,10 @@ CI must fail when the version in pack.pl has no matching section in CHANGELOG.md
 
 ## Context
 
-The version bump and its changelog section land together in one pull request, so the release notes always exist before a release is run.
+The version bump and its changelog section land together in one pull request, written by the changesets version step, so the release notes always exist before a release is run.
 
 ## Source
 
-> 1. In a pull request, bump `version('X.Y.Z')` in `pack.pl` and add a `## X.Y.Z` section to `CHANGELOG.md`. CI fails if the two disagree.
+> 2. To release, run `npm run version-packages` in a pull request. It consumes the pending changesets, bumps the version in `package.json` and `pack.pl`, and writes a dated `## X.Y.Z` section of `CHANGELOG.md` from them. CI fails if the three disagree.
 
-Source: Mutalog README - README.md#L158
+Source: Mutalog README - README.md#L182
