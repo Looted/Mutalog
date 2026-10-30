@@ -1,0 +1,8 @@
+relationships:
+  - id: rel-4287d5d45346
+    type: verified_by
+    from: SCEN-the-version-step-syncs-pack-and-changelog
+    to: TEST-e2e-version-step-syncs-pack-and-changelog
+    created_at: "2026-10-30T13:58:24.367Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert

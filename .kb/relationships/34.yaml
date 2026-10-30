@@ -20,3 +20,38 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-c528f9865571
+  - type: supersedes
+    from: ADR-release-changesets
+    to: ADR-release-workflow-dispatch
+    created_at: 2026-10-30T13:58:57.286Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-be15c8c388d8
+  - type: relates_to
+    from: ADR-release-changesets
+    to: REQ-release-on-merge-to-master
+    created_at: 2026-10-30T13:58:57.309Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-c6b22439877e
+  - type: relates_to
+    from: ADR-release-changesets
+    to: REQ-release-version-step-syncs-pack
+    created_at: 2026-10-30T13:58:57.314Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-506abcc469eb
+  - type: relates_to
+    from: ADR-release-changesets
+    to: REQ-release-refuse-tagged-version
+    created_at: 2026-10-30T13:58:57.318Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-16f26a724e86
+  - type: relates_to
+    from: ADR-release-changesets
+    to: REQ-release-changelog-matches-pack
+    created_at: 2026-10-30T13:58:57.323Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-431a2f0d57bf

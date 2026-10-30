@@ -2,6 +2,7 @@
 # Check that the version in pack.pl is ready to release.
 #
 #   scripts/release-check.sh             check pack.pl against CHANGELOG.md
+#                                        and package.json
 #   scripts/release-check.sh --untagged  also require that its tag is unused
 #   scripts/release-check.sh --tag vX.Y.Z  also require pack.pl to match a tag
 #
@@ -18,11 +19,16 @@ grep -q "^## $version\b" CHANGELOG.md \
   || fail "CHANGELOG.md has no '## $version' section for the version in pack.pl"
 [ -n "$(scripts/release-notes.sh "$version")" ] \
   || fail "the '## $version' section of CHANGELOG.md is empty"
+if [ -f package.json ]; then
+  npm_version=$(sed -n 's/^  "version": "\([^"]*\)".*/\1/p' package.json)
+  [ "$npm_version" = "$version" ] \
+    || fail "package.json version '$npm_version' differs from pack.pl version $version; run npm run version-packages"
+fi
 
 case "${1:-}" in
   --untagged)
     if git ls-remote --exit-code --tags origin "refs/tags/v$version" > /dev/null; then
-      fail "tag v$version already exists; bump the version in pack.pl and add a CHANGELOG.md section"
+      fail "tag v$version already exists; run npm run version-packages to release the pending changesets"
     fi ;;
   --tag)
     [ "${2:-}" = "v$version" ] || fail "tag ${2:-} does not match pack.pl version $version" ;;
