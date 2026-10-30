@@ -7,8 +7,8 @@ origin:
 id: SCEN-the-release-check-refuses-an-already-tagged-version
 type: scenario
 ---
-Given a checkout whose origin has no tag for the version, when release-check.sh --untagged runs it passes; after the tag is pushed, it fails saying the tag already exists.
+Given a checkout whose origin has no tag for the version, when release-check.sh --untagged runs it passes; after the tag is pushed, it fails saying the tag already exists. A manual Release run on master (release-decide.sh) then fails with the same message instead of releasing.
 
 ## Context
 
-Checked end to end by `e2e:release_refuses_a_tagged_version`, which runs Mutalog as a separate process.
+Checked end to end by `e2e:release_refuses_a_tagged_version`, which runs the scripts as separate processes, and by a source proof that the Release workflow's check job runs `scripts/release-decide.sh`.

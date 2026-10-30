@@ -13,3 +13,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-56e417d5cb27
+  - type: verified_by
+    from: SCEN-the-release-check-refuses-an-already-tagged-version
+    to: TEST-release-check-job-runs-the-decision-script
+    created_at: 2026-10-30T23:26:33.158Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-b7616c33562e

@@ -6,3 +6,10 @@ relationships:
     created_at: "2026-10-30T13:58:24.367Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-the-version-step-syncs-pack-and-changelog
+    to: TEST-version-step-runs-sync-version
+    created_at: 2026-10-30T23:26:34.043Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-9819487584ee
