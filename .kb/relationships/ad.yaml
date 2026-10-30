@@ -1,18 +1,4 @@
 relationships:
-  - id: rel-426f638d294b
-    type: constrains
-    from: REQ-release-refuse-tagged-version
-    to: FACT-SUBJECT-BA019BBD493A386D
-    created_at: "2026-10-29T16:10:35.175Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-release-refuse-tagged-version
-    to: FACT-PROP-A7901F3365BD6EA0
-    created_at: 2026-10-29T16:10:35.176Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-31f1c9343de9
   - type: supersedes
     from: REQ-release-refuse-tagged-version
     to: REQ-AUTO-28A9B0836A0D675D
@@ -27,3 +13,17 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-43a8dcbdaba1
+  - type: constrains
+    from: REQ-release-refuse-tagged-version
+    to: FACT-SUBJECT-A169A41DBC0126E3
+    created_at: 2026-10-30T23:26:35.024Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-4a982893e784
+  - type: requires_property
+    from: REQ-release-refuse-tagged-version
+    to: FACT-PROP-34D68E4DFB8A5AAF
+    created_at: 2026-10-30T23:26:35.030Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-673812637d43

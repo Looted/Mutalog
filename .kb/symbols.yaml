@@ -997,3 +997,86 @@ symbols:
         target: TEST-e2e-version-step-syncs-pack-and-changelog
       - type: implements
         target: REQ-release-version-step-syncs-pack
+  - id: SYM-release-decide-script
+    title: scripts/release-decide.sh
+    status: active
+    sourceFile: scripts/release-decide.sh
+    symbol_role: behavioral
+    granularity_reason: config-artifact
+    relationships:
+      - type: implements
+        target: REQ-release-refuse-tagged-version
+      - type: implements
+        target: REQ-release-on-merge-to-master
+      - type: covered_by
+        target: TEST-e2e-release-refuses-a-tagged-version
+      - type: covered_by
+        target: TEST-e2e-release-on-push-to-master-with-an-untagged-version
+  - id: SYM-release-workflow
+    title: release.yml
+    status: active
+    sourceFile: .github/workflows/release.yml
+    symbol_role: behavioral
+    granularity_reason: config-artifact
+    relationships:
+      - type: implements
+        target: REQ-release-refuse-tagged-version
+      - type: implements
+        target: REQ-release-on-merge-to-master
+      - type: covered_by
+        target: TEST-release-check-job-runs-the-decision-script
+      - type: covered_by
+        target: TEST-release-runs-on-push-to-master
+      - type: covered_by
+        target: TEST-e2e-release-refuses-a-tagged-version
+      - type: covered_by
+        target: TEST-e2e-release-on-push-to-master-with-an-untagged-version
+  - id: SYM-version-packages-script
+    title: version-packages
+    status: active
+    sourceFile: package.json
+    symbol_role: behavioral
+    granularity_reason: config-artifact
+    relationships:
+      - type: implements
+        target: REQ-release-version-step-syncs-pack
+      - type: covered_by
+        target: TEST-version-step-runs-sync-version
+      - type: covered_by
+        target: TEST-e2e-version-step-syncs-pack-and-changelog
+  - id: SYM-test-e2e-release-on-push-to-master-with-an-untagged-version
+    title: release_on_push_to_master_with_an_untagged_version
+    status: active
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-release-on-push-to-master-with-an-untagged-version
+  - id: SYM-test-release-check-job-runs-the-decision-script
+    title: release-decide.sh
+    status: active
+    sourceFile: scripts/release-decide.sh
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-release-check-job-runs-the-decision-script
+  - id: SYM-test-release-runs-on-push-to-master
+    title: release.yml
+    status: active
+    sourceFile: .github/workflows/release.yml
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-release-runs-on-push-to-master
+  - id: SYM-test-version-step-runs-sync-version
+    title: sync-version.mjs
+    status: active
+    sourceFile: scripts/sync-version.mjs
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-version-step-runs-sync-version

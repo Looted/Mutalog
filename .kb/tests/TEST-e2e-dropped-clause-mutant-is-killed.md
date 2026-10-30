@@ -17,17 +17,17 @@ id: TEST-e2e-dropped-clause-mutant-is-killed
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-fb18d536070c0772c647b97f
+    receipt_id: PR-16627c37b3084b6a1a956bcf
     test_id: TEST-e2e-dropped-clause-mutant-is-killed
     scope: end_to_end
     outcome: passed
-    code_snapshot: 8c382182cf0ed41e201f16a096fef2ad75944e46d7d2ca835c1f878cc233fb12
+    code_snapshot: 90d4af388cfd416a121a101f9f4ea68965d3e4f78fdea212eaa6728422b3826f
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-10-29T19:11:23.146Z'
-    finished_at: '2026-10-29T19:11:23.693Z'
-    artifact_digest: 1a5631789307e2fdd65af4c7fbdf865ab5e44f6e42d7993ba1d2caa8e820a8bc
+    started_at: '2026-10-30T23:27:42.636Z'
+    finished_at: '2026-10-30T23:28:23.412Z'
+    artifact_digest: 464f24c2c41bc0dd0be75d154d606f32803256203b320e487651079547933a70
     contract_hash: be8f247067c23e896313e98cafaf07a778fb2d7c168f6bd659fe4954734a7067
-    binding_hash: 86147551d6fd29623ce7389850e02f1953ef1248bfe876c01ba995057760991c
+    binding_hash: d8a74dfac70ec2f971b1d4dcf48f7ab0f6c6f720c65859256afa09a0021632ec
     fingerprint: 2fe1e89cd5d8c8f69747dd5e992251fbdb1052c9c028a24d9c32471faaafaef7
     fingerprint_components:
       contract: be8f247067c23e896313e98cafaf07a778fb2d7c168f6bd659fe4954734a7067

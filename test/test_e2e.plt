@@ -721,23 +721,70 @@ test(release_check_requires_a_changelog_section) :-
 git(Dir, Args) :-
     run_process(path(git), Args, Dir, [], 0, _, _).
 
-test(release_refuses_a_tagged_version) :-
+%   A release checkout whose master is pushed to a bare origin, as the
+%   Release workflow sees it.
+
+release_repo(Dir, Version) :-
     release_checkout(Dir, Version),
+    repo_path('scripts/release-decide.sh', Decide),
+    directory_file_path(Dir, 'scripts/release-decide.sh', DecideTo),
+    copy_file(Decide, DecideTo),
+    forall(member(F, ['scripts/release-decide.sh', 'scripts/release-check.sh']),
+           ( directory_file_path(Dir, F, Script), chmod(Script, +x) )),
     new_dir(Origin),
     git(Origin, [init, '-q', '--bare']),
     git(Dir, [init, '-q']),
     git(Dir, ['-c', 'user.name=t', '-c', 'user.email=t@t', add, '.']),
     git(Dir, ['-c', 'user.name=t', '-c', 'user.email=t@t', commit, '-q', '-m', release]),
     git(Dir, [remote, add, origin, Origin]),
-    git(Dir, [push, '-q', origin, 'HEAD:refs/heads/master']),
-    run_process(path(bash), ['scripts/release-check.sh', '--untagged'], Dir, [], 0, _, _),
+    git(Dir, [push, '-q', origin, 'HEAD:refs/heads/master']).
+
+push_tag(Dir, Version, Tag) :-
     atom_concat(v, Version, Tag),
     git(Dir, [tag, Tag]),
-    git(Dir, [push, '-q', origin, Tag]),
+    git(Dir, [push, '-q', origin, Tag]).
+
+%   Run scripts/release-decide.sh for a workflow run triggered by Event
+%   on the branch Branch; Output is what it wrote to $GITHUB_OUTPUT.
+
+release_decide(Dir, Event, Branch, Exit, Output, Err) :-
+    tmp_file(github_output, OutputFile),
+    write_file(OutputFile, ""),
+    atom_concat('refs/heads/', Branch, Ref),
+    run_process(path(bash), ['scripts/release-decide.sh'], Dir,
+                [ environment([ 'GITHUB_OUTPUT'=OutputFile,
+                                'GITHUB_EVENT_NAME'=Event,
+                                'GITHUB_REF'=Ref,
+                                'GITHUB_REF_TYPE'=branch,
+                                'GITHUB_REF_NAME'=Branch ]) ],
+                Exit, _, Err),
+    read_file_to_string(OutputFile, Output, []).
+
+test(release_on_push_to_master_with_an_untagged_version) :-
+    release_repo(Dir, Version),
+    release_decide(Dir, push, master, 0, Untagged, _),
+    assertion(Untagged == "release=true\n"),
+    release_decide(Dir, push, feature, Exit, Feature, _),
+    assertion(Exit =\= 0),
+    assertion(Feature == ""),
+    push_tag(Dir, Version, _),
+    release_decide(Dir, push, master, 0, Tagged, _),
+    assertion(Tagged == "release=false\n").
+
+test(release_refuses_a_tagged_version) :-
+    release_repo(Dir, Version),
+    run_process(path(bash), ['scripts/release-check.sh', '--untagged'], Dir, [], 0, _, _),
+    release_decide(Dir, workflow_dispatch, master, 0, Untagged, _),
+    assertion(Untagged == "release=true\n"),
+    push_tag(Dir, Version, Tag),
+    format(string(Msg), "tag ~w already exists", [Tag]),
     run_process(path(bash), ['scripts/release-check.sh', '--untagged'], Dir, [], Exit, _, Err),
     assertion(Exit =\= 0),
-    format(string(Msg), "tag ~w already exists", [Tag]),
-    assertion(sub_string(Err, _, _, _, Msg)).
+    assertion(sub_string(Err, _, _, _, Msg)),
+    release_decide(Dir, workflow_dispatch, master, DExit, Tagged, DErr),
+    assertion(DExit =\= 0),
+    assertion(Tagged == ""),
+    assertion(sub_string(DErr, _, _, _, Msg)).
 
 %   `changeset version` bumps package.json and writes the new section
 %   under the changelog's title; the version step must carry the bump

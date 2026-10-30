@@ -436,5 +436,45 @@
         "e2e:version_step_syncs_pack_and_changelog"
       ]
     ]
+  },
+  {
+    "test_id": "TEST-e2e-release-on-push-to-master-with-an-untagged-version",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:release_on_push_to_master_with_an_untagged_version"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-release-check-job-runs-the-decision-script",
+    "steps": [
+      [
+        "bash",
+        "-n",
+        "scripts/release-decide.sh"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-release-runs-on-push-to-master",
+    "steps": [
+      [
+        "bash",
+        "-n",
+        "scripts/release-decide.sh"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-version-step-runs-sync-version",
+    "steps": [
+      [
+        "node",
+        "--check",
+        "scripts/sync-version.mjs"
+      ]
+    ]
   }
 ]

@@ -49,23 +49,7 @@ jobs:
 
       - name: Check the version and changelog
         id: check
-        run: |
-          if [ "$GITHUB_REF_TYPE" = tag ]; then
-            scripts/release-check.sh --tag "$GITHUB_REF_NAME"
-          elif [ "$GITHUB_REF" != refs/heads/master ]; then
-            echo "Run the release from master, not $GITHUB_REF_NAME." >&2
-            exit 1
-          else
-            version=$(scripts/release-check.sh)
-            if [ "$GITHUB_EVENT_NAME" = push ] \
-                && git ls-remote --exit-code --tags origin "refs/tags/v$version" > /dev/null; then
-              echo "v$version is already released; nothing to do."
-              echo "release=false" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-            scripts/release-check.sh --untagged
-          fi
-          echo "release=true" >> "$GITHUB_OUTPUT"
+        run: scripts/release-decide.sh
 
   ci:
     name: CI
