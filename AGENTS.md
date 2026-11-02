@@ -33,6 +33,19 @@ Pool threads are not recorded there, so pool code needs a test that
 calls it from the main thread. A clause coverage cannot record goes
 in `unrecorded/3` with the test that shows it runs.
 
+Mutalog's own mutation run (about four minutes, score 99.5%):
+
+```sh
+bin/mutalog run --mutate prolog/mutalog.pl \
+  --mutate 'prolog/mutalog/{client,config,discover,generate,operators,reader,report,run}.pl' \
+  --tests test/test_mutalog.plt -c 3
+```
+
+`worker.pl` and `coverage.pl` are left out because the worker that
+applies the mutants is built from them, and the end-to-end tests are
+left out because they run `bin/mutalog` from the files on disk, so
+they cannot see a mutant. The survivors left are equivalent mutants.
+
 ## Releasing
 
 Releases are driven by changesets (see the README's Releasing section).
