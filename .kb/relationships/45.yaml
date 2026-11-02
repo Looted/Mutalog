@@ -6,3 +6,10 @@ relationships:
     created_at: "2026-10-29T17:52:35.642Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-mutalog-run-reports-statuses-and-the-mutation-score
+    to: TEST-cert-score-status-roles
+    created_at: 2026-11-02T12:15:37.270Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-467ab3a14513

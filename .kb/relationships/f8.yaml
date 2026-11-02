@@ -1,18 +1,4 @@
 relationships:
-  - type: constrains
-    from: REQ-AUTO-B2BB75D2FD157B91
-    to: FACT-SUBJECT-F2E8F1DFB5C5B68D
-    created_at: 2026-10-29 16:05:39+00:00
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-9b35d13c555e
-  - type: requires_property
-    from: REQ-AUTO-B2BB75D2FD157B91
-    to: FACT-PROP-A00B9B5046EFCB73
-    created_at: 2026-10-29 16:05:39.003000+00:00
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-bd9c08940b03
   - type: specified_by
     from: REQ-AUTO-B2BB75D2FD157B91
     to: SCEN-mutant-ids-name-the-file-line-column-and-operator
@@ -30,14 +16,28 @@ relationships:
   - type: constrains
     from: REQ-AUTO-7F9EBE3BDABCE064
     to: FACT-SUBJECT-8BA8A11C1ED74069
-    created_at: 2026-11-02T11:27:26.894Z
+    created_at: 2026-11-02 11:27:26.894000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-afdf751b9202
   - type: requires_property
     from: REQ-AUTO-7F9EBE3BDABCE064
     to: FACT-PROP-1CEC6900C832E42A
-    created_at: 2026-11-02T11:27:26.902Z
+    created_at: 2026-11-02 11:27:26.902000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-35c209c2ac4d
+  - type: constrains
+    from: REQ-AUTO-B2BB75D2FD157B91
+    to: FACT-SUBJECT-7780D89E54D89E84
+    created_at: 2026-11-02T12:11:19.207Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-ec9d2da25be3
+  - type: requires_property
+    from: REQ-AUTO-B2BB75D2FD157B91
+    to: FACT-PROP-A2A7ED4347AB1F25
+    created_at: 2026-11-02T12:11:19.215Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-757f313808e0

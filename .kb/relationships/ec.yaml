@@ -1,43 +1,43 @@
 relationships:
-  - id: rel-3994918ed0ef
-    type: constrains
-    from: REQ-AUTO-CE1F43687FF92977
-    to: FACT-SUBJECT-797FAF9B4734E4C7
-    created_at: "2026-10-29T16:05:40.773Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-CE1F43687FF92977
-    to: FACT-PROP-1A0C9C1B8381DEC8
-    created_at: 2026-10-29T16:05:40.773Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-c944d466691c
   - type: relates_to
     from: ADR-runner-two-level-time-limits
     to: REQ-AUTO-5F23006427EE8FC8
-    created_at: 2026-10-29T16:05:48.313Z
+    created_at: 2026-10-29 16:05:48.313000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-0160725a83c6
   - type: relates_to
     from: ADR-runner-two-level-time-limits
     to: REQ-AUTO-A94EF4A2296AFF54
-    created_at: 2026-10-29T16:05:48.332Z
+    created_at: 2026-10-29 16:05:48.332000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-24e3a75cdad7
   - type: relates_to
     from: ADR-runner-two-level-time-limits
     to: REQ-AUTO-8FA9AE813FAC53CA
-    created_at: 2026-10-29T16:05:48.337Z
+    created_at: 2026-10-29 16:05:48.337000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-4049ef8c4cc7
   - type: specified_by
     from: REQ-AUTO-CE1F43687FF92977
     to: SCEN-the-config-file-is-optional-and-read-when-present
-    created_at: 2026-10-29T17:53:19.118Z
+    created_at: 2026-10-29 17:53:19.118000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-ecedc725273f
+  - type: constrains
+    from: REQ-AUTO-CE1F43687FF92977
+    to: FACT-SUBJECT-0B6A19546E65CB65
+    created_at: 2026-11-02T12:11:23.571Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-4dbba929aae2
+  - type: requires_property
+    from: REQ-AUTO-CE1F43687FF92977
+    to: FACT-PROP-B60F579E6B8AFE38
+    created_at: 2026-11-02T12:11:23.580Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-4bcf29188d56

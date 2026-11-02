@@ -25,17 +25,17 @@ id: TEST-cert-reader-uses-swi-prolog-reader
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-ca3e348443c48312912a1f8d
+    receipt_id: PR-ee51bfcda5dd7b2b9d31f775
     test_id: TEST-cert-reader-uses-swi-prolog-reader
     scope: integration
     outcome: passed
-    code_snapshot: 92e3954df4f617ded2727621938b06fd4e05ade1fa7b70daf347fa96818d6d78
+    code_snapshot: c28f5f3868c52cbb35d19153b7e33583599a32c8b77ee042f9c753d4925a6c34
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T11:39:41.926Z'
-    finished_at: '2026-11-02T11:40:29.375Z'
-    artifact_digest: 7d01fd058c5eddf0d483e1e7fec068a609ce5e15ae1c3d99860885d6a7727ec2
+    started_at: '2026-11-02T12:20:49.704Z'
+    finished_at: '2026-11-02T12:21:34.788Z'
+    artifact_digest: 04011dfac1062759f1cefc50cc1535749d7ef6539e9cf5855cf4c642e072e905
     contract_hash: e21b59a1805b059c192586ab1ea55093d00b872c5b7032d4532ffd2ae02cc101
-    binding_hash: 499f577d2123ed153f9927480d937c0ea43c6646738366e580473e231e1ec11b
+    binding_hash: 047dd09aa97d192130123768337e0acb49b3de9714effd672fa6a1788771b0ae
     fingerprint: de5c2b31d2baf19c5d9ff6a560a152c28e3e875d8a91937331ebf29814ddab64
     fingerprint_components:
       contract: e21b59a1805b059c192586ab1ea55093d00b872c5b7032d4532ffd2ae02cc101

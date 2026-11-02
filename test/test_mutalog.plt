@@ -40,16 +40,16 @@ write_file(File, Text) :-
 append_file(File, Text) :-
     setup_call_cleanup(open(File, append, Out), write(Out, Text), close(Out)).
 
-%   The text print_message/2 shows for Term, without printing it.
+%   The text print_message/2 shows for Term, without printing it: the
+%   message goes to a string that stands in for user_error.
 
 message_text(Term, Text) :-
-    setup_call_cleanup(
-        asserta((user:message_hook(Term, _, Lines) :-
-                    with_output_to(string(S), print_message_lines(current_output, '', Lines)),
-                    nb_setval(mutalog_message, S)), Ref),
-        print_message(error, Term),
-        erase(Ref)),
-    nb_getval(mutalog_message, Text).
+    stream_property(Err, alias(user_error)),
+    with_output_to(string(Text),
+                   ( current_output(Out),
+                     setup_call_cleanup(set_stream(Out, alias(user_error)),
+                                        print_message(error, Term),
+                                        set_stream(Err, alias(user_error))) )).
 
 :- begin_tests(operators).
 

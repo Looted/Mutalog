@@ -3,34 +3,41 @@ relationships:
     type: constrains
     from: REQ-AUTO-BC26B2E2E2D88478
     to: FACT-SUBJECT-CA705549E5B5E998
-    created_at: "2026-10-29T16:05:25.140Z"
+    created_at: '2026-10-29T16:05:25.140Z'
     created_by: kibi/upsert
     source: mcp://kibi/upsert
   - type: requires_property
     from: REQ-AUTO-BC26B2E2E2D88478
     to: FACT-PROP-4E870810A9C66E41
-    created_at: 2026-10-29T16:05:25.141Z
+    created_at: 2026-10-29 16:05:25.141000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-4807f1844ed9
-  - type: constrains
-    from: REQ-AUTO-5F23006427EE8FC8
-    to: FACT-SUBJECT-02D62A8548B66126
-    created_at: 2026-10-29T16:05:33.675Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-9cc5dbfa1236
-  - type: requires_property
-    from: REQ-AUTO-5F23006427EE8FC8
-    to: FACT-PROP-2AF770C1BB7ABF32
-    created_at: 2026-10-29T16:05:33.678Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-d56925e4f7cb
   - type: specified_by
     from: REQ-AUTO-5F23006427EE8FC8
     to: SCEN-a-looping-mutant-times-out
-    created_at: 2026-10-29T17:53:27.405Z
+    created_at: 2026-10-29 17:53:27.405000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-78fdfa924259
+  - type: constrains
+    from: REQ-AUTO-5F23006427EE8FC8
+    to: FACT-SUBJECT-7DD62D331E9583AF
+    created_at: 2026-11-02T12:11:32.300Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-b05d73e9fa25
+  - type: requires_property
+    from: REQ-AUTO-5F23006427EE8FC8
+    to: FACT-PROP-D4D35DC59F021F5F
+    created_at: 2026-11-02T12:11:32.309Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-a72e866e81d3
+  - type: specified_by
+    from: REQ-AUTO-5F23006427EE8FC8
+    to: SCEN-refuse-a-mutant-that-runs-past-its-time-limit
+    created_at: 2026-11-02T12:17:07.775Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-204cb5118890

@@ -225,8 +225,18 @@ same_mutant(A, B) :-
     A.end == B.end,
     A.replacement == B.replacement.
 
-%   Ids are file:line:column:operator:n, readable in reports and stable
-%   while the code above a clause does not move.
+%!  mutant_id_field(?Field) is nondet.
+%
+%   The fields of a mutant id, in the order the id lists them, joined by
+%   colons: file:line:column:operator:n. Ids are readable in reports and
+%   stable while the code above a clause does not move; n tells apart
+%   mutants of one operator at one position.
+
+mutant_id_field(file).
+mutant_id_field(line).
+mutant_id_field(column).
+mutant_id_field(operator).
+mutant_id_field(n).
 
 assign_ids(Ms0, _Source, RelFile, Ms) :-
     foldl(assign_id(RelFile), Ms0, Ms, [], _).
@@ -235,8 +245,9 @@ assign_id(RelFile, M0, M, Seen0, Seen) :-
     Key = M0.line-M0.column-M0.operator,
     aggregate_all(count, member(Key, Seen0), N0),
     N is N0 + 1,
-    format(atom(Id), '~w:~w:~w:~w:~w',
-           [RelFile, M0.line, M0.column, M0.operator, N]),
+    Fields = M0.put(_{file: RelFile, n: N}),
+    findall(Value, ( mutant_id_field(Field), get_dict(Field, Fields, Value) ), Values),
+    atomic_list_concat(Values, :, Id),
     M = M0.put(_{id: Id, file: RelFile}),
     Seen = [Key|Seen0].
 

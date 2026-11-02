@@ -606,5 +606,64 @@
         "e2e:installs_as_a_pack"
       ]
     ]
+  },
+  {
+    "test_id": "TEST-cert-every-config-key-is-optional",
+    "steps": [
+      [
+        "swipl",
+        "proof/config_keys.pl"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-score-status-roles",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:run_reports_statuses_and_score"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-mutant-id-fields-in-order",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:mutant_ids_name_file_line_column_operator"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-dry-run-runs-tests-under-coverage",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:dry_run_records_time_and_clauses"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-tests-use-plunit",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:mutates_itself"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-e2e-list-check-reports-a-mutant-that-reads-back-differently",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:list_check_reports_a_mutant_that_reads_back_differently"
+      ]
+    ]
   }
 ]

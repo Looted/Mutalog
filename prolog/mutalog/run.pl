@@ -543,18 +543,30 @@ mutant_counts(Results, Counts) :-
             ),
             Counts).
 
+%!  score_status(?StatusRole) is nondet.
+%
+%   The statuses the mutation score is taken over, each as Status-Role:
+%   the score is the share of them that are `detected`. The other
+%   statuses (compile_error, runtime_error, ignored) say nothing about
+%   the tests and are left out.
+
+score_status(killed-detected).
+score_status(timeout-detected).
+score_status(survived-undetected).
+score_status(no_coverage-undetected).
+
 %!  mutation_score(+Counts, -Score, -CoveredScore) is det.
 %
-%   Percentages, or `none` when there is nothing to score.
+%   Percentages, or `none` when there is nothing to score: detected
+%   over scored mutants, and the same on covered code, which leaves
+%   out `no_coverage`.
 
 mutation_score(Counts, Score, CoveredScore) :-
-    memberchk(killed-K, Counts),
-    memberchk(timeout-T, Counts),
-    memberchk(survived-S, Counts),
+    aggregate_all(sum(C), ( score_status(S-detected), memberchk(S-C, Counts) ), Detected),
+    aggregate_all(sum(C), ( score_status(S-_), memberchk(S-C, Counts) ), Scored),
     memberchk(no_coverage-N, Counts),
-    Detected is K + T,
-    percentage(Detected, Detected + S + N, Score),
-    percentage(Detected, Detected + S, CoveredScore).
+    percentage(Detected, Scored, Score),
+    percentage(Detected, Scored - N, CoveredScore).
 
 percentage(_, Total0, none) :-
     Total0 =:= 0,

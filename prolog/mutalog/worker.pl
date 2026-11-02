@@ -36,6 +36,7 @@ of another file is applied, and on `restore`.
 :- use_module(library(apply)).
 :- use_module(library(readutil)).
 :- use_module(library(time)).
+:- use_module(coverage).
 
 :- dynamic
     protocol_out/1,
@@ -131,63 +132,8 @@ all_tests(Tests) :-
 
 handle(dry_run, dry(Results)) :-
     all_tests(Tests),
-    maplist(dry_test, Tests, Results).
-
-dry_test(Test, t(Test, Status, Ms, Covered)) :-
-    cov_reset,
-    get_time(T0),
-    setup_call_cleanup(
-        cov_start(Level),
-        run_test(Test, Status),
-        cov_stop(Level)),
-    get_time(T1),
-    Ms is round((T1 - T0) * 1000),
-    covered_clauses(Covered),
-    cov_reset.
-
-%   A time limit that fires inside the test must reach the caller, so
-%   it is the one exception not turned into a failure here.
-
-run_test(Test, Status) :-
-    (   catch(run_tests(Test), E, test_exception(E))
-    ->  Status = passed
-    ;   Status = failed
-    ).
-
-test_exception(E) :-
-    (   E == time_limit_exceeded
-    ->  throw(E)
-    ;   fail
-    ).
-
-covered_clauses(Covered) :-
-    findall(Rel-Line,
-            ( '$cov_data'(clause(Ref), Enter, _),
-              Enter > 0,
-              clause_property(Ref, file(File)),
-              mutate_file(Rel, File),
-              clause_property(Ref, line_count(Line))
-            ),
-            Covered0),
-    sort(Covered0, Covered).
-
-%   The coverage primitives changed arity in SWI-Prolog 9.1.
-
-cov_start(Level) :-
-    (   current_predicate(system:'$cov_start'/1)
-    ->  call('$cov_start', Level)
-    ;   call('$cov_start'),
-        Level = 0
-    ).
-
-cov_stop(Level) :-
-    (   current_predicate(system:'$cov_stop'/1)
-    ->  call('$cov_stop', Level)
-    ;   call('$cov_stop')
-    ).
-
-cov_reset :-
-    call('$cov_reset').
+    findall(Rel-Loaded, mutate_file(Rel, Loaded), MutateFiles),
+    maplist(dry_test(MutateFiles), Tests, Results).
 
 %   ---------------------------------------------------------------
 %   mutants
