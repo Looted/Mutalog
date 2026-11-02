@@ -15,7 +15,7 @@ relationships:
     id: rel-487843b5a366
   - type: assumes
     from: SCEN-mutants-of-a-module-that-another-mutated-module-imports-load
-    to: FACT-CASE-IMPORTED-MODULE-MUTANTS-LOAD
+    to: FACT-PROP-87BBFDA363F63C97
     created_at: 2026-11-02T11:38:39.340Z
     created_by: kibi/upsert
     source: mcp://kibi/upsert

@@ -24,17 +24,17 @@ id: TEST-cert-pack-is-named-mutalog
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-9b9483255b71113b4133e895
+    receipt_id: PR-80cd4e55646e219e170b1559
     test_id: TEST-cert-pack-is-named-mutalog
     scope: integration
     outcome: passed
-    code_snapshot: 92e3954df4f617ded2727621938b06fd4e05ade1fa7b70daf347fa96818d6d78
+    code_snapshot: c28f5f3868c52cbb35d19153b7e33583599a32c8b77ee042f9c753d4925a6c34
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T11:39:41.926Z'
-    finished_at: '2026-11-02T11:40:29.375Z'
-    artifact_digest: 7d01fd058c5eddf0d483e1e7fec068a609ce5e15ae1c3d99860885d6a7727ec2
+    started_at: '2026-11-02T12:20:49.704Z'
+    finished_at: '2026-11-02T12:21:34.788Z'
+    artifact_digest: 04011dfac1062759f1cefc50cc1535749d7ef6539e9cf5855cf4c642e072e905
     contract_hash: f4c69d886909e9c39b976faf8ed7971179d7f041c1afd0a05f883e472816f385
-    binding_hash: f8382c7e346f2f2472c0fe264c4b0cbc7afed2dc16432167f28faf4f0f8ff9fb
+    binding_hash: 54bfedca95cfbf0ccd1425fe1d2e0e71ec0bc453746b66813554d025ecbdd043
     fingerprint: 90039339084f6ba4ea50fbeb679b9e7577bee6644bc30f5087886499b8dd037f
     fingerprint_components:
       contract: f4c69d886909e9c39b976faf8ed7971179d7f041c1afd0a05f883e472816f385

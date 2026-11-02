@@ -1,7 +1,8 @@
 :- module(mutalog_config,
           [ load_config/3,          % +Root, +Overrides, -Config
             config_value/3,         % +Key, +Config, -Value
-            default_operators/1     % -Names
+            default_operators/1,    % -Names
+            default_setting/2       % ?Key, ?Term
           ]).
 
 /** <module> Mutalog configuration
@@ -30,29 +31,34 @@ operators([arith, compare, cut]).
 default_operators([ arith, compare, unify, negate, cut, cut_insert,
                     goal_true, goal_fail, clause_drop, literal ]).
 
-defaults([ root('.'),
-           mutate(["src/**/*.pl", "prolog/**/*.pl"]),
-           ignore([]),
-           tests(["test/**/*.plt"]),
-           load([]),
-           operators(Ops),
-           ignore_mutants([]),
-           concurrency(0),
-           timeout_ms(5000),
-           timeout_factor(1.5),
-           retries(1),
-           worker_reuse(0),
-           stack_limit('1g'),
-           thresholds(high(80), low(60), break(0)),
-           reporters([clear_text, progress, html, json]),
-           report_dir("reports/mutation")
-         ]) :-
-    default_operators(Ops).
+%!  default_setting(?Key, ?Term) is nondet.
+%
+%   The built-in default Term of every configuration key. Every key has
+%   one, so a config file may leave any of them out, and only these keys
+%   are accepted in a config file.
+
+default_setting(root,           root('.')).
+default_setting(mutate,         mutate(["src/**/*.pl", "prolog/**/*.pl"])).
+default_setting(ignore,         ignore([])).
+default_setting(tests,          tests(["test/**/*.plt"])).
+default_setting(load,           load([])).
+default_setting(operators,      operators(Ops)) :- default_operators(Ops).
+default_setting(ignore_mutants, ignore_mutants([])).
+default_setting(concurrency,    concurrency(0)).
+default_setting(timeout_ms,     timeout_ms(5000)).
+default_setting(timeout_factor, timeout_factor(1.5)).
+default_setting(retries,        retries(1)).
+default_setting(worker_reuse,   worker_reuse(0)).
+default_setting(stack_limit,    stack_limit('1g')).
+default_setting(thresholds,     thresholds(high(80), low(60), break(0))).
+default_setting(reporters,      reporters([clear_text, progress, html, json])).
+default_setting(report_dir,     report_dir("reports/mutation")).
+
+defaults(Defaults) :-
+    findall(Term, default_setting(_, Term), Defaults).
 
 known_key(Key) :-
-    defaults(Defaults),
-    member(Term, Defaults),
-    functor(Term, Key, _).
+    default_setting(Key, _).
 
 %!  load_config(+Root, +Overrides, -Config) is det.
 %

@@ -246,6 +246,28 @@ test(custom_operator_from_a_project) :-
     assertion(Opers = [_|_]),
     assertion(forall(member(O, Opers), O == "always_true")).
 
+%   A custom operator whose mutant prints as text that reads back as a
+%   different clause: --check re-reads it and fails the run.
+
+test(list_check_reports_a_mutant_that_reads_back_differently) :-
+    new_dir(Dir),
+    directory_file_path(Dir, 'src/p.pl', Src),
+    write_file(Src, ":- module(p, [p/1]).\np(X) :- succ_or_zero(X).\nsucc_or_zero(X) :- X >= 0.\n"),
+    directory_file_path(Dir, 'my_ops.pl', Ops),
+    write_file(Ops, ":- multifile mutalog:operator/2, mutalog:mutate/4.\nmutalog:operator(unreadable, \"Replace a goal with a term that prints as a variable\").\nmutalog:mutate(unreadable, site(goal, _), G, '$VAR'('Bogus')) :- G \\== true.\n"),
+    repo_path('prolog/mutalog.pl', Lib),
+    format(atom(Use), "use_module('~w')", [Lib]),
+    swipl(Dir, [ '-q', '-g', Use, '-g', 'consult(my_ops)',
+                 '-g', 'mutalog:main', '-t', 'halt(2)', '--',
+                 list, '--check', '--mutate', 'src/p.pl',
+                 '--operators', unreadable, '--format', json ],
+          1, Out, _),
+    atom_json_dict(Out, J, [value_string_as(string)]),
+    json_mutants(J, Ms),
+    maplist(field(check), Ms, Checks),
+    assertion(Checks = [_|_]),
+    assertion(forall(member(C, Checks), sub_string(C, 0, _, _, "error(mismatch("))).
+
 test(never_mutates_directives_dcg_or_tests) :-
     fixtures_list('skipped.pl', [arith, compare, unify, negate, cut, cut_insert,
                                  goal_true, goal_fail, clause_drop, literal], Ms),

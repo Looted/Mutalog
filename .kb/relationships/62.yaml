@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-aede368f6feb
+    type: assumes
+    from: SCEN-refuse-a-spliced-mutant-that-reads-back-differently
+    to: FACT-NEG-LIST-CHECK-MISMATCH
+    created_at: "2026-11-02T12:20:36.601Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-refuse-a-spliced-mutant-that-reads-back-differently
+    to: TEST-e2e-list-check-reports-a-mutant-that-reads-back-differently
+    created_at: 2026-11-02T12:20:36.603Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-276da82a06dd

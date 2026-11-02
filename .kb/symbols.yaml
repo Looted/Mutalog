@@ -60,6 +60,8 @@ symbols:
         target: REQ-AUTO-8EAA6C05E83E19E8
       - type: covered_by
         target: TEST-e2e-list-check-rereads-every-mutant
+      - type: covered_by
+        target: TEST-e2e-list-check-reports-a-mutant-that-reads-back-differently
   - id: SYM-mutalog-check-file
     title: check_file
     sourceFile: prolog/mutalog.pl
@@ -77,6 +79,8 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-mutant-ids-name-file-line-column-operator
+      - type: executable_for
+        target: TEST-cert-mutant-id-fields-in-order
   - id: SYM-generate-assign-ids
     title: assign_ids
     sourceFile: prolog/mutalog/generate.pl
@@ -364,6 +368,8 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-mutates-itself
+      - type: executable_for
+        target: TEST-cert-tests-use-plunit
   - id: SYM-discover-discover-files
     title: discover_files
     sourceFile: prolog/mutalog/discover.pl
@@ -407,6 +413,8 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-dry-run-records-time-and-clauses
+      - type: executable_for
+        target: TEST-cert-dry-run-runs-tests-under-coverage
   - id: SYM-run-mutalog-dry-run
     title: mutalog_dry_run
     sourceFile: prolog/mutalog/run.pl
@@ -420,18 +428,18 @@ symbols:
         target: REQ-AUTO-3FC60457FD45514E
       - type: covered_by
         target: TEST-e2e-failing-test-stops-the-run
-  - id: SYM-worker-dry-test
+  - id: SYM-coverage-dry-test
     title: dry_test
-    sourceFile: prolog/mutalog/worker.pl
+    sourceFile: prolog/mutalog/coverage.pl
     symbol_role: behavioral
     relationships:
       - type: implements
         target: REQ-AUTO-F7474BB290B90F77
       - type: covered_by
         target: TEST-e2e-dry-run-records-time-and-clauses
-  - id: SYM-worker-covered-clauses
+  - id: SYM-coverage-covered-clauses
     title: covered_clauses
-    sourceFile: prolog/mutalog/worker.pl
+    sourceFile: prolog/mutalog/coverage.pl
     symbol_role: behavioral
     relationships:
       - type: implements
@@ -463,6 +471,8 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-run-reports-statuses-and-score
+      - type: executable_for
+        target: TEST-cert-score-status-roles
   - id: SYM-run-mutation-score
     title: mutation_score
     sourceFile: prolog/mutalog/run.pl
@@ -646,6 +656,12 @@ symbols:
         target: TEST-e2e-crash-is-isolated-in-a-worker-process
       - type: covered_by
         target: TEST-cert-workers-are-child-processes
+      - type: implements
+        target: REQ-AUTO-F7474BB290B90F77
+      - type: covered_by
+        target: TEST-cert-dry-run-runs-tests-under-coverage
+      - type: covered_by
+        target: TEST-e2e-dry-run-records-time-and-clauses
   - id: SYM-run-start-worker
     title: start_worker
     sourceFile: prolog/mutalog/run.pl
@@ -1126,3 +1142,212 @@ symbols:
         target: TEST-cert-default-operators-include-compare
       - type: covered_by
         target: TEST-e2e-operator-compare
+  - id: SYM-proof-config-keys
+    title: main
+    sourceFile: proof/config_keys.pl
+    symbol_role: test
+    relationships:
+      - type: executable_for
+        target: TEST-cert-every-config-key-is-optional
+  - id: SYM-config-default-setting
+    title: default_setting
+    sourceFile: prolog/mutalog/config.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-CE1F43687FF92977
+      - type: covered_by
+        target: TEST-cert-every-config-key-is-optional
+      - type: covered_by
+        target: TEST-e2e-config-file-is-optional-and-read
+  - id: SYM-run-score-status
+    title: score_status
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-AEACADEB6A56DDD2
+      - type: covered_by
+        target: TEST-cert-score-status-roles
+      - type: covered_by
+        target: TEST-e2e-run-reports-statuses-and-score
+  - id: SYM-generate-mutant-id-field
+    title: mutant_id_field
+    sourceFile: prolog/mutalog/generate.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-B2BB75D2FD157B91
+      - type: covered_by
+        target: TEST-cert-mutant-id-fields-in-order
+      - type: covered_by
+        target: TEST-e2e-mutant-ids-name-file-line-column-operator
+  - id: SYM-test-e2e-list-check-reports-a-mutant-that-reads-back-differently
+    title: list_check_reports_a_mutant_that_reads_back_differently
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-list-check-reports-a-mutant-that-reads-back-differently
+  - id: SYM-config-defaults
+    title: defaults
+    sourceFile: prolog/mutalog/config.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-CE1F43687FF92977
+      - type: covered_by
+        target: TEST-e2e-config-file-is-optional-and-read
+      - type: covered_by
+        target: TEST-cert-every-config-key-is-optional
+  - id: SYM-config-known-key
+    title: known_key
+    sourceFile: prolog/mutalog/config.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-CE1F43687FF92977
+      - type: covered_by
+        target: TEST-e2e-config-file-is-optional-and-read
+      - type: covered_by
+        target: TEST-cert-every-config-key-is-optional
+  - id: SYM-coverage-run-test
+    title: run_test
+    sourceFile: prolog/mutalog/coverage.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F7474BB290B90F77
+      - type: covered_by
+        target: TEST-e2e-dry-run-records-time-and-clauses
+      - type: covered_by
+        target: TEST-cert-dry-run-runs-tests-under-coverage
+  - id: SYM-coverage-test-exception
+    title: test_exception
+    sourceFile: prolog/mutalog/coverage.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F7474BB290B90F77
+      - type: covered_by
+        target: TEST-e2e-dry-run-records-time-and-clauses
+      - type: covered_by
+        target: TEST-cert-dry-run-runs-tests-under-coverage
+  - id: SYM-coverage-cov-start
+    title: cov_start
+    sourceFile: prolog/mutalog/coverage.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F7474BB290B90F77
+      - type: covered_by
+        target: TEST-e2e-dry-run-records-time-and-clauses
+      - type: covered_by
+        target: TEST-cert-dry-run-runs-tests-under-coverage
+  - id: SYM-coverage-cov-stop
+    title: cov_stop
+    sourceFile: prolog/mutalog/coverage.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F7474BB290B90F77
+      - type: covered_by
+        target: TEST-e2e-dry-run-records-time-and-clauses
+      - type: covered_by
+        target: TEST-cert-dry-run-runs-tests-under-coverage
+  - id: SYM-coverage-cov-reset
+    title: cov_reset
+    sourceFile: prolog/mutalog/coverage.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-F7474BB290B90F77
+      - type: covered_by
+        target: TEST-e2e-dry-run-records-time-and-clauses
+      - type: covered_by
+        target: TEST-cert-dry-run-runs-tests-under-coverage
+  - id: SYM-generate-assign-id
+    title: assign_id
+    sourceFile: prolog/mutalog/generate.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-B2BB75D2FD157B91
+      - type: covered_by
+        target: TEST-e2e-mutant-ids-name-file-line-column-operator
+      - type: covered_by
+        target: TEST-cert-mutant-id-fields-in-order
+  - id: SYM-worker-handle
+    title: handle
+    sourceFile: prolog/mutalog/worker.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-2919CA799C575688
+      - type: covered_by
+        target: TEST-e2e-applies-mutants-to-static-code
+  - id: SYM-proof-config-keys-has-value
+    title: has_value
+    sourceFile: proof/config_keys.pl
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-cert-every-config-key-is-optional
+  - id: SYM-test-e2e-suite
+    title: e2e
+    sourceFile: test/test_e2e.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-e2e-list-check-reports-a-mutant-that-reads-back-differently
+  - id: SYM-test-mutalog-message-text
+    title: message_text
+    sourceFile: test/test_mutalog.plt
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-worker-reload-drops-stale-clauses
+  - id: SYM-proof-kibi-text
+    title: kibi_text
+    sourceFile: proof/kibi_certificate.pl
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-cert-every-config-key-is-optional
+  - id: SYM-proof-kibi-exhaustive-certificate
+    title: kibi_exhaustive_certificate
+    sourceFile: proof/kibi_certificate.pl
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-cert-every-config-key-is-optional
+  - id: SYM-proof-exhaustive-result
+    title: exhaustive_result
+    sourceFile: proof/kibi_certificate.pl
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-cert-every-config-key-is-optional
+  - id: SYM-proof-kibi-write-certificate
+    title: kibi_write_certificate
+    sourceFile: proof/kibi_certificate.pl
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-cert-every-config-key-is-optional
+  - id: SYM-proof-message-to-text
+    title: message_to_text
+    sourceFile: proof/kibi_certificate.pl
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-cert-every-config-key-is-optional

@@ -61,3 +61,11 @@ guarantee. A claim Kibi can read from the code is proved instead by a
 `TEST-cert-*` source proof, which reads Prolog facts (`prolog` reader)
 or the calls and imports of Prolog files (`references` reader); a
 proved claim needs no failure-side scenario.
+
+A claim that needs the code run, not only read, is proved by a
+certificate: a script in `proof/` (for example `proof/config_keys.pl`)
+loads the library, checks every member of a domain Kibi reads from the
+code itself, and writes the certificate with `proof/kibi_certificate.pl`.
+The references reader cannot read a file that loads files named at run
+time (`worker.pl`) or prints message lines held in a variable, so code a
+source proof reads lives in files without those (`coverage.pl`).

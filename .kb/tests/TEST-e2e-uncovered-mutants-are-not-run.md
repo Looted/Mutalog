@@ -17,17 +17,17 @@ id: TEST-e2e-uncovered-mutants-are-not-run
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-29508e0c6b7d65d64243dcb6
+    receipt_id: PR-6133047da69559ff2ed53805
     test_id: TEST-e2e-uncovered-mutants-are-not-run
     scope: end_to_end
     outcome: passed
-    code_snapshot: 92e3954df4f617ded2727621938b06fd4e05ade1fa7b70daf347fa96818d6d78
+    code_snapshot: c28f5f3868c52cbb35d19153b7e33583599a32c8b77ee042f9c753d4925a6c34
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T11:39:41.926Z'
-    finished_at: '2026-11-02T11:40:29.375Z'
-    artifact_digest: 7d01fd058c5eddf0d483e1e7fec068a609ce5e15ae1c3d99860885d6a7727ec2
+    started_at: '2026-11-02T12:20:49.704Z'
+    finished_at: '2026-11-02T12:21:34.788Z'
+    artifact_digest: 04011dfac1062759f1cefc50cc1535749d7ef6539e9cf5855cf4c642e072e905
     contract_hash: 4204d953d7be4ad7ed3de9a1b525d140791dff622396a62e16e67b388f185dcd
-    binding_hash: e50c6d24bd7a4d3339967320dc1a31ebc9e418a9f5247416dba2a3367a1d48a1
+    binding_hash: 26667a12f15ffa1dd2d7209e065a09fac5e8c227d0c9c23cdef18f16da8379b0
     fingerprint: e4265cd3ac969852f1e7b3675b75b6cfe1feaaa92c8c00285d0213e824f22c2c
     fingerprint_components:
       contract: 4204d953d7be4ad7ed3de9a1b525d140791dff622396a62e16e67b388f185dcd
