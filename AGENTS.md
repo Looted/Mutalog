@@ -21,9 +21,17 @@ SWI-Prolog. Keep it independent of any particular downstream project.
 ```sh
 swipl test/run.pl                              # tests
 swipl test/run.pl e2e:operator_arith           # one test
+swipl test/coverage.pl                         # tests under clause coverage
 bin/mutalog list --mutate 'prolog/**/*.pl' --check  # mutants of Mutalog itself
 (cd test/project && ../../bin/mutalog run)     # the example project
 ```
+
+`test/coverage.pl` records clause coverage in the test process and in
+every `swipl` it starts (the CLI and its workers), and fails unless
+every clause of `prolog/` is entered. CI runs it on SWI-Prolog 9.0.
+Pool threads are not recorded there, so pool code needs a test that
+calls it from the main thread. A clause coverage cannot record goes
+in `unrecorded/3` with the test that shows it runs.
 
 ## Releasing
 

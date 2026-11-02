@@ -170,6 +170,7 @@ Operators are clauses of the multifile hooks `mutalog:operator/2` and `mutalog:m
 
 ```sh
 swipl test/run.pl                                    # tests
+swipl test/coverage.pl                               # tests, and the clauses of prolog/ they miss
 bin/mutalog list --mutate 'prolog/**/*.pl' --check   # Mutalog's own mutants re-read
 (cd test/project && ../../bin/mutalog run)           # the example project
 ```

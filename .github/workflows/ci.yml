@@ -43,7 +43,14 @@ jobs:
         run: scripts/release-check.sh
 
       - name: Run tests
+        if: matrix.swipl == 'ppa'
         run: swipl test/run.pl
+
+      # On 9.0 the same tests run under clause coverage, which fails
+      # the step unless every clause of prolog/ is entered.
+      - name: Run tests under coverage
+        if: matrix.swipl == 'ubuntu'
+        run: swipl test/coverage.pl
 
       - name: List mutants of Mutalog itself
         run: bin/mutalog list --mutate 'prolog/**/*.pl' --check > /dev/null
