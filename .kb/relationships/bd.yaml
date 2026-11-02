@@ -6,3 +6,10 @@ relationships:
     created_at: "2026-10-29T17:52:24.972Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-the-goal-fail-operator-replaces-a-goal-with-fail
+    to: TEST-cert-default-operators-include-goal-fail
+    created_at: 2026-11-02T11:28:29.080Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-b354d2a4a9e7

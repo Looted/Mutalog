@@ -1,43 +1,43 @@
 relationships:
-  - id: rel-c89f0c51dafa
-    type: constrains
-    from: REQ-AUTO-7F9EBE3BDABCE064
-    to: FACT-SUBJECT-CB94AB0F71FDADE4
-    created_at: "2026-10-29T16:05:27.112Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-7F9EBE3BDABCE064
-    to: FACT-PROP-4BAFF6C878B70708
-    created_at: 2026-10-29T16:05:27.113Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-5b27e036ac08
   - type: constrains
     from: REQ-AUTO-B2BB75D2FD157B91
     to: FACT-SUBJECT-F2E8F1DFB5C5B68D
-    created_at: 2026-10-29T16:05:39.000Z
+    created_at: 2026-10-29 16:05:39+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-9b35d13c555e
   - type: requires_property
     from: REQ-AUTO-B2BB75D2FD157B91
     to: FACT-PROP-A00B9B5046EFCB73
-    created_at: 2026-10-29T16:05:39.003Z
+    created_at: 2026-10-29 16:05:39.003000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-bd9c08940b03
   - type: specified_by
     from: REQ-AUTO-B2BB75D2FD157B91
     to: SCEN-mutant-ids-name-the-file-line-column-and-operator
-    created_at: 2026-10-29T17:53:02.599Z
+    created_at: 2026-10-29 17:53:02.599000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-6f0a259ecf3b
   - type: specified_by
     from: REQ-AUTO-7F9EBE3BDABCE064
     to: SCEN-the-unify-operator-swaps-unification-and-equality-tests
-    created_at: 2026-10-29T17:53:06.093Z
+    created_at: 2026-10-29 17:53:06.093000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-dcc19b866898
+  - type: constrains
+    from: REQ-AUTO-7F9EBE3BDABCE064
+    to: FACT-SUBJECT-8BA8A11C1ED74069
+    created_at: 2026-11-02T11:27:26.894Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-afdf751b9202
+  - type: requires_property
+    from: REQ-AUTO-7F9EBE3BDABCE064
+    to: FACT-PROP-1CEC6900C832E42A
+    created_at: 2026-11-02T11:27:26.902Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-35c209c2ac4d

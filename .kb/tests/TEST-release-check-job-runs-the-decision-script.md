@@ -24,15 +24,15 @@ id: TEST-release-check-job-runs-the-decision-script
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-2d545da9f3f07d937ac3ce45
+    receipt_id: PR-1683dedbc48a93b21ca02882
     test_id: TEST-release-check-job-runs-the-decision-script
     scope: integration
     outcome: passed
-    code_snapshot: 90d4af388cfd416a121a101f9f4ea68965d3e4f78fdea212eaa6728422b3826f
+    code_snapshot: 92e3954df4f617ded2727621938b06fd4e05ade1fa7b70daf347fa96818d6d78
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-10-30T23:27:42.636Z'
-    finished_at: '2026-10-30T23:28:23.412Z'
-    artifact_digest: 464f24c2c41bc0dd0be75d154d606f32803256203b320e487651079547933a70
+    started_at: '2026-11-02T11:39:41.926Z'
+    finished_at: '2026-11-02T11:40:29.375Z'
+    artifact_digest: 7d01fd058c5eddf0d483e1e7fec068a609ce5e15ae1c3d99860885d6a7727ec2
     contract_hash: 23eabe00579359089b3500072ec5871f4c993a38a6a861e83eb07d0577307be0
     binding_hash: 22c0c7fa99becc3dd7515247700f2675624f21b353fb7a04deaf79e8eac0876b
     fingerprint: f437d45c4d0c560e3fd279099b14109409ea28a60b23e736186b57f70a23ee80

@@ -476,5 +476,135 @@
         "scripts/sync-version.mjs"
       ]
     ]
+  },
+  {
+    "test_id": "TEST-cert-default-operators-include-negate",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_negate"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-default-operators-include-clause-drop",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_clause_drop"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-default-operators-include-cut-cut-insert",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_cut"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-default-operators-include-goal-true",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_goal_true"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-default-operators-include-arith",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_arith"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-default-operators-include-goal-fail",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_goal_fail"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-default-operators-include-unify",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_unify"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-default-operators-include-literal",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_literal"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-default-operators-include-compare",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:operator_compare"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-generator-calls-operator-hooks",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:custom_operator_from_a_project"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-reader-uses-swi-prolog-reader",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:reads_custom_operators_and_syntax"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-workers-are-child-processes",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:crash_is_isolated_in_a_worker_process"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-pack-is-named-mutalog",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:installs_as_a_pack"
+      ]
+    ]
   }
 ]

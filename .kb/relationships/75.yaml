@@ -6,3 +6,31 @@ relationships:
     created_at: "2026-10-29T19:05:44.432Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: assumes
+    from: SCEN-refuse-code-that-swallows-the-time-limit-is-stopped
+    to: FACT-NEG-A94EF4A2296AFF54
+    created_at: 2026-11-02T11:32:10.213Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-c1f995206c8a
+  - type: verified_by
+    from: SCEN-refuse-code-that-swallows-the-time-limit-is-stopped
+    to: TEST-e2e-hard-limit-stops-a-swallowed-time-limit
+    created_at: 2026-11-02T11:32:10.236Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-dc9d4b9ad53c
+  - type: assumes
+    from: SCEN-refuse-a-fast-test-listed-first-does-not-run-first
+    to: FACT-NEG-C6895C0B44964BBF
+    created_at: 2026-11-02T11:32:17.080Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-732006f2ff97
+  - type: verified_by
+    from: SCEN-refuse-a-fast-test-listed-first-does-not-run-first
+    to: TEST-e2e-longest-limits-start-first
+    created_at: 2026-11-02T11:32:17.098Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-0beaf3d51958

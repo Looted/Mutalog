@@ -1,29 +1,29 @@
 relationships:
-  - id: rel-39c269dbcaf3
-    type: constrains
-    from: REQ-AUTO-BBEC6285F92001DC
-    to: FACT-SUBJECT-645E86A75209AFBF
-    created_at: "2026-10-29T16:05:26.695Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-BBEC6285F92001DC
-    to: FACT-PROP-184FE7C937065C68
-    created_at: 2026-10-29T16:05:26.695Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-81f6d82b5e99
   - type: verified_by
     from: SCEN-mutants-with-the-longest-limits-start-first
     to: TEST-e2e-longest-limits-start-first
-    created_at: 2026-10-29T17:52:43.692Z
+    created_at: 2026-10-29 17:52:43.692000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-2b3bd721a24f
   - type: specified_by
     from: REQ-AUTO-BBEC6285F92001DC
     to: SCEN-the-compare-operator-moves-and-flips-comparisons
-    created_at: 2026-10-29T17:53:04.949Z
+    created_at: 2026-10-29 17:53:04.949000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-fa190bb571e5
+  - type: constrains
+    from: REQ-AUTO-BBEC6285F92001DC
+    to: FACT-SUBJECT-8BA8A11C1ED74069
+    created_at: 2026-11-02T11:27:33.442Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-855aba7d9fcf
+  - type: requires_property
+    from: REQ-AUTO-BBEC6285F92001DC
+    to: FACT-PROP-7250C51B993F6A67
+    created_at: 2026-11-02T11:27:33.450Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-78b9b6ec9b36

@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-f5a8c7b19fa1
+    type: assumes
+    from: SCEN-refuse-a-mutant-does-not-run-tests-that-never-entered-it
+    to: FACT-NEG-ECC62318E485FD92
+    created_at: "2026-11-02T11:32:26.970Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-refuse-a-mutant-does-not-run-tests-that-never-entered-it
+    to: TEST-e2e-runs-only-covering-tests
+    created_at: 2026-11-02T11:32:26.971Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-27ada23c2606

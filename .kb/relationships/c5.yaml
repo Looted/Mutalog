@@ -1,22 +1,22 @@
 relationships:
-  - id: rel-1d0c75c4e963
-    type: constrains
-    from: REQ-AUTO-408D5C7AFB1C4E71
-    to: FACT-SUBJECT-010422874F522BB1
-    created_at: "2026-10-29T16:05:31.326Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-408D5C7AFB1C4E71
-    to: FACT-PROP-B894DABBE7258B5C
-    created_at: 2026-10-29T16:05:31.326Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-2bdf3245dc02
   - type: specified_by
     from: REQ-AUTO-408D5C7AFB1C4E71
     to: SCEN-files-with-their-own-operators-read-correctly
-    created_at: 2026-10-29T17:53:16.873Z
+    created_at: 2026-10-29 17:53:16.873000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-ffbb73f2b18f
+  - type: constrains
+    from: REQ-AUTO-408D5C7AFB1C4E71
+    to: FACT-SUBJECT-71C5548F79F1EC41
+    created_at: 2026-11-02T11:27:42.006Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-b823c2535b32
+  - type: requires_property
+    from: REQ-AUTO-408D5C7AFB1C4E71
+    to: FACT-PROP-E2648E718B904DFA
+    created_at: 2026-11-02T11:27:42.012Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-d11dc5330399

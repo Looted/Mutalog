@@ -1,22 +1,22 @@
 relationships:
-  - id: rel-75ea18e54c68
-    type: constrains
-    from: REQ-AUTO-1BE4DE98E4A99F3C
-    to: FACT-SUBJECT-6F314F3F4A275B20
-    created_at: "2026-10-29T16:05:27.944Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-1BE4DE98E4A99F3C
-    to: FACT-PROP-56A7CB4B53AA6EF8
-    created_at: 2026-10-29T16:05:27.944Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-7242d12a4111
   - type: specified_by
     from: REQ-AUTO-1BE4DE98E4A99F3C
     to: SCEN-the-cut-operators-remove-and-insert-cuts
-    created_at: 2026-10-29T17:53:08.406Z
+    created_at: 2026-10-29 17:53:08.406000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-d9d4416019ca
+  - type: constrains
+    from: REQ-AUTO-1BE4DE98E4A99F3C
+    to: FACT-SUBJECT-8BA8A11C1ED74069
+    created_at: 2026-11-02T11:27:14.024Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-6d77c77d16b6
+  - type: requires_property
+    from: REQ-AUTO-1BE4DE98E4A99F3C
+    to: FACT-PROP-9F648F9D683A1D04
+    created_at: 2026-11-02T11:27:14.030Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-7fd97eee996c

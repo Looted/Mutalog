@@ -1,22 +1,36 @@
 relationships:
-  - id: rel-7fa77dafa89c
-    type: constrains
-    from: REQ-AUTO-653372986C2F6926
-    to: FACT-SUBJECT-AC75B04DB21ECA76
-    created_at: "2026-10-29T16:05:28.767Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-653372986C2F6926
-    to: FACT-PROP-496724F36738DD57
-    created_at: 2026-10-29T16:05:28.767Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-aa2444f6745f
   - type: specified_by
     from: REQ-AUTO-653372986C2F6926
     to: SCEN-the-goal-fail-operator-replaces-a-goal-with-fail
-    created_at: 2026-10-29T17:53:10.720Z
+    created_at: 2026-10-29 17:53:10.720000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-44dd477f4f21
+  - type: constrains
+    from: REQ-AUTO-653372986C2F6926
+    to: FACT-SUBJECT-8BA8A11C1ED74069
+    created_at: 2026-11-02 11:27:23.431000+00:00
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-5079b0f54311
+  - type: requires_property
+    from: REQ-AUTO-653372986C2F6926
+    to: FACT-PROP-0877E589282770AD
+    created_at: 2026-11-02 11:27:23.437000+00:00
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-3eb7a957b977
+  - type: verified_by
+    from: SCEN-refuse-a-dropped-clause-cannot-answer-for-the-mutant
+    to: TEST-e2e-dropped-clause-mutant-is-killed
+    created_at: 2026-11-02 11:35:33.538000+00:00
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-7605d308f05f
+  - type: assumes
+    from: SCEN-refuse-a-dropped-clause-cannot-answer-for-the-mutant
+    to: FACT-NEG-DROPPED-CLAUSES-STOP-ANSWERING
+    created_at: 2026-11-02T11:36:21.598Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-a9095e5ff91e

@@ -27,3 +27,17 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-566cfc07fd21
+  - type: assumes
+    from: SCEN-refuse-the-json-report-writes-no-status-outside-schema-version
+    to: FACT-NEG-20DC4E062C4C1FC7
+    created_at: 2026-11-02T11:33:14.187Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-d7e070872fe4
+  - type: verified_by
+    from: SCEN-refuse-the-json-report-writes-no-status-outside-schema-version
+    to: TEST-e2e-json-report-follows-schema-v2
+    created_at: 2026-11-02T11:33:14.205Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-fff0572df671

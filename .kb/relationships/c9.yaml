@@ -20,3 +20,17 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-3760b9f891f6
+  - type: assumes
+    from: SCEN-refuse-a-crashing-mutant-is-not-retried-past-the-limit
+    to: FACT-NEG-8FA9AE813FAC53CA
+    created_at: 2026-11-02T11:32:06.607Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-c2de601fadb2
+  - type: verified_by
+    from: SCEN-refuse-a-crashing-mutant-is-not-retried-past-the-limit
+    to: TEST-e2e-crash-is-retried-on-a-fresh-worker
+    created_at: 2026-11-02T11:32:06.632Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-3f26bccb5955

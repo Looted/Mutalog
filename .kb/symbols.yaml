@@ -25,7 +25,6 @@ symbols:
     title: mutalog_list
     sourceFile: prolog/mutalog.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-5245DE11724348A5
@@ -39,7 +38,6 @@ symbols:
     title: print_text
     sourceFile: prolog/mutalog.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-5245DE11724348A5
@@ -57,7 +55,6 @@ symbols:
     title: verify_mutant
     sourceFile: prolog/mutalog/generate.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-8EAA6C05E83E19E8
@@ -67,7 +64,6 @@ symbols:
     title: check_file
     sourceFile: prolog/mutalog.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-8EAA6C05E83E19E8
@@ -85,7 +81,6 @@ symbols:
     title: assign_ids
     sourceFile: prolog/mutalog/generate.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-B2BB75D2FD157B91
@@ -99,11 +94,12 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-operator-arith
+      - type: executable_for
+        target: TEST-cert-default-operators-include-arith
   - id: SYM-operators-arith-swap
     title: arith_swap
     sourceFile: prolog/mutalog/operators.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-3D0DDBEA31FECCB8
@@ -117,11 +113,12 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-operator-compare
+      - type: executable_for
+        target: TEST-cert-default-operators-include-compare
   - id: SYM-operators-compare-swap
     title: compare_swap
     sourceFile: prolog/mutalog/operators.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-BBEC6285F92001DC
@@ -135,11 +132,12 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-operator-unify
+      - type: executable_for
+        target: TEST-cert-default-operators-include-unify
   - id: SYM-operators-unify-swap
     title: unify_swap
     sourceFile: prolog/mutalog/operators.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-7F9EBE3BDABCE064
@@ -153,16 +151,18 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-operator-negate
+      - type: executable_for
+        target: TEST-cert-default-operators-include-negate
   - id: SYM-operators-mutalog-mutatenegate
     title: mutalog:mutate(negate
     sourceFile: prolog/mutalog/operators.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-0675D067D8B21673
       - type: covered_by
         target: TEST-e2e-operator-negate
+    granularity_reason: extractor-miss
   - id: SYM-test-e2e-operator-cut
     title: operator_cut
     sourceFile: test/test_e2e.plt
@@ -171,21 +171,22 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-operator-cut
+      - type: executable_for
+        target: TEST-cert-default-operators-include-cut-cut-insert
   - id: SYM-operators-mutalog-mutatecut
     title: mutalog:mutate(cut
     sourceFile: prolog/mutalog/operators.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-1BE4DE98E4A99F3C
       - type: covered_by
         target: TEST-e2e-operator-cut
+    granularity_reason: extractor-miss
   - id: SYM-generate-body-has-cut
     title: body_has_cut
     sourceFile: prolog/mutalog/generate.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-1BE4DE98E4A99F3C
@@ -199,16 +200,18 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-operator-goal-true
+      - type: executable_for
+        target: TEST-cert-default-operators-include-goal-true
   - id: SYM-operators-mutalog-mutategoal-true
     title: mutalog:mutate(goal_true
     sourceFile: prolog/mutalog/operators.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-2A92238812D104CF
       - type: covered_by
         target: TEST-e2e-operator-goal-true
+    granularity_reason: extractor-miss
   - id: SYM-test-e2e-operator-goal-fail
     title: operator_goal_fail
     sourceFile: test/test_e2e.plt
@@ -217,16 +220,18 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-operator-goal-fail
+      - type: executable_for
+        target: TEST-cert-default-operators-include-goal-fail
   - id: SYM-operators-mutalog-mutategoal-fail
     title: mutalog:mutate(goal_fail
     sourceFile: prolog/mutalog/operators.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-653372986C2F6926
       - type: covered_by
         target: TEST-e2e-operator-goal-fail
+    granularity_reason: extractor-miss
   - id: SYM-test-e2e-operator-clause-drop
     title: operator_clause_drop
     sourceFile: test/test_e2e.plt
@@ -235,11 +240,12 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-operator-clause-drop
+      - type: executable_for
+        target: TEST-cert-default-operators-include-clause-drop
   - id: SYM-generate-clause-mutant
     title: clause_mutant
     sourceFile: prolog/mutalog/generate.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-178AB1F1C5F1EFE0
@@ -253,11 +259,12 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-operator-literal
+      - type: executable_for
+        target: TEST-cert-default-operators-include-literal
   - id: SYM-operators-literal-swap
     title: literal_swap
     sourceFile: prolog/mutalog/operators.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-A3B9E1922440A581
@@ -271,21 +278,23 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-custom-operator-from-a-project
+      - type: executable_for
+        target: TEST-cert-generator-calls-operator-hooks
   - id: SYM-operators-operator-names
     title: operator_names
     sourceFile: prolog/mutalog/operators.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-211A7AC532ADA588
       - type: covered_by
         target: TEST-e2e-custom-operator-from-a-project
+      - type: covered_by
+        target: TEST-cert-generator-calls-operator-hooks
   - id: SYM-run-check-operators
     title: check_operators
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-211A7AC532ADA588
@@ -303,7 +312,6 @@ symbols:
     title: test_block_state
     sourceFile: prolog/mutalog/reader.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-F237B3AAC9F552A2
@@ -313,7 +321,6 @@ symbols:
     title: directive
     sourceFile: prolog/mutalog/reader.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-F237B3AAC9F552A2
@@ -327,21 +334,23 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-reads-custom-operators-and-syntax
+      - type: executable_for
+        target: TEST-cert-reader-uses-swi-prolog-reader
   - id: SYM-reader-read-source
     title: read_source
     sourceFile: prolog/mutalog/reader.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-408D5C7AFB1C4E71
       - type: covered_by
         target: TEST-e2e-reads-custom-operators-and-syntax
+      - type: covered_by
+        target: TEST-cert-reader-uses-swi-prolog-reader
   - id: SYM-reader-source-op-module
     title: source_op_module
     sourceFile: prolog/mutalog/reader.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-408D5C7AFB1C4E71
@@ -359,7 +368,6 @@ symbols:
     title: discover_files
     sourceFile: prolog/mutalog/discover.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-4CF26847DCD17B68
@@ -377,7 +385,6 @@ symbols:
     title: load_config
     sourceFile: prolog/mutalog/config.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-CE1F43687FF92977
@@ -387,7 +394,6 @@ symbols:
     title: read_config_file
     sourceFile: prolog/mutalog/config.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-CE1F43687FF92977
@@ -405,7 +411,6 @@ symbols:
     title: mutalog_dry_run
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-F7474BB290B90F77
@@ -419,7 +424,6 @@ symbols:
     title: dry_test
     sourceFile: prolog/mutalog/worker.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-F7474BB290B90F77
@@ -429,7 +433,6 @@ symbols:
     title: covered_clauses
     sourceFile: prolog/mutalog/worker.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-F7474BB290B90F77
@@ -447,7 +450,6 @@ symbols:
     title: mutalog_error
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-3FC60457FD45514E
@@ -465,7 +467,6 @@ symbols:
     title: mutation_score
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-AEACADEB6A56DDD2
@@ -475,7 +476,6 @@ symbols:
     title: mutant_counts
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-AEACADEB6A56DDD2
@@ -493,7 +493,6 @@ symbols:
     title: covering_tests
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-4D6793556060D2C3
@@ -507,7 +506,6 @@ symbols:
     title: plan_mutant
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-4D6793556060D2C3
@@ -525,7 +523,6 @@ symbols:
     title: run_mutant_tests
     sourceFile: prolog/mutalog/worker.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-ECC62318E485FD92
@@ -547,7 +544,6 @@ symbols:
     title: apply_mutant
     sourceFile: prolog/mutalog/worker.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-2919CA799C575688
@@ -557,7 +553,6 @@ symbols:
     title: reload
     sourceFile: prolog/mutalog/worker.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     status: active
     relationships:
       - type: covered_by
@@ -590,7 +585,6 @@ symbols:
     title: job_cost
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-5F23006427EE8FC8
@@ -608,7 +602,6 @@ symbols:
     title: worker_call
     sourceFile: prolog/mutalog/client.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-A94EF4A2296AFF54
@@ -618,7 +611,6 @@ symbols:
     title: worker_kill
     sourceFile: prolog/mutalog/client.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-A94EF4A2296AFF54
@@ -628,7 +620,6 @@ symbols:
     title: replace_worker
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-A94EF4A2296AFF54
@@ -642,21 +633,23 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-crash-is-isolated-in-a-worker-process
+      - type: executable_for
+        target: TEST-cert-workers-are-child-processes
   - id: SYM-client-worker-start
     title: worker_start
     sourceFile: prolog/mutalog/client.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-43894D6940BD6965
       - type: covered_by
         target: TEST-e2e-crash-is-isolated-in-a-worker-process
+      - type: covered_by
+        target: TEST-cert-workers-are-child-processes
   - id: SYM-run-start-worker
     title: start_worker
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-43894D6940BD6965
@@ -674,7 +667,6 @@ symbols:
     title: attempt
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-8FA9AE813FAC53CA
@@ -684,7 +676,6 @@ symbols:
     title: retryable
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-8FA9AE813FAC53CA
@@ -702,7 +693,6 @@ symbols:
     title: schedule
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-C6895C0B44964BBF
@@ -720,7 +710,6 @@ symbols:
     title: select_only
     sourceFile: prolog/mutalog/run.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-5C0604494F0458D4
@@ -738,7 +727,6 @@ symbols:
     title: break_code
     sourceFile: prolog/mutalog.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-B6447158DD93403B
@@ -748,7 +736,6 @@ symbols:
     title: run_code
     sourceFile: prolog/mutalog.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     status: active
     relationships:
       - type: covered_by
@@ -771,7 +758,6 @@ symbols:
     title: write_report
     sourceFile: prolog/mutalog/report.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-CB32BF7DBFE62DAA
@@ -799,7 +785,6 @@ symbols:
     title: report_dict
     sourceFile: prolog/mutalog/report.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-20DC4E062C4C1FC7
@@ -809,7 +794,6 @@ symbols:
     title: mutant_entry
     sourceFile: prolog/mutalog/report.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-20DC4E062C4C1FC7
@@ -823,6 +807,8 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-installs-as-a-pack
+      - type: executable_for
+        target: TEST-cert-pack-is-named-mutalog
   - id: SYM-pack-manifest
     title: pack.pl
     sourceFile: pack.pl
@@ -837,11 +823,12 @@ symbols:
         target: REQ-AUTO-674E6097A8013135
       - type: covered_by
         target: TEST-e2e-pack-needs-only-swi-prolog
+      - type: covered_by
+        target: TEST-cert-pack-is-named-mutalog
   - id: SYM-mutalog-main
     title: main
     sourceFile: prolog/mutalog.pl
     symbol_role: behavioral
-    granularity_reason: extractor-miss
     relationships:
       - type: implements
         target: REQ-AUTO-957337CBB4A00275
@@ -1080,3 +1067,62 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-version-step-runs-sync-version
+  - id: SYM-config-default-operators
+    title: default_operators
+    sourceFile: prolog/mutalog/config.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-0675D067D8B21673
+      - type: covered_by
+        target: TEST-cert-default-operators-include-negate
+      - type: covered_by
+        target: TEST-e2e-operator-negate
+      - type: implements
+        target: REQ-AUTO-178AB1F1C5F1EFE0
+      - type: covered_by
+        target: TEST-cert-default-operators-include-clause-drop
+      - type: covered_by
+        target: TEST-e2e-operator-clause-drop
+      - type: implements
+        target: REQ-AUTO-1BE4DE98E4A99F3C
+      - type: covered_by
+        target: TEST-cert-default-operators-include-cut-cut-insert
+      - type: covered_by
+        target: TEST-e2e-operator-cut
+      - type: implements
+        target: REQ-AUTO-2A92238812D104CF
+      - type: covered_by
+        target: TEST-cert-default-operators-include-goal-true
+      - type: covered_by
+        target: TEST-e2e-operator-goal-true
+      - type: implements
+        target: REQ-AUTO-3D0DDBEA31FECCB8
+      - type: covered_by
+        target: TEST-cert-default-operators-include-arith
+      - type: covered_by
+        target: TEST-e2e-operator-arith
+      - type: implements
+        target: REQ-AUTO-653372986C2F6926
+      - type: covered_by
+        target: TEST-cert-default-operators-include-goal-fail
+      - type: covered_by
+        target: TEST-e2e-operator-goal-fail
+      - type: implements
+        target: REQ-AUTO-7F9EBE3BDABCE064
+      - type: covered_by
+        target: TEST-cert-default-operators-include-unify
+      - type: covered_by
+        target: TEST-e2e-operator-unify
+      - type: implements
+        target: REQ-AUTO-A3B9E1922440A581
+      - type: covered_by
+        target: TEST-cert-default-operators-include-literal
+      - type: covered_by
+        target: TEST-e2e-operator-literal
+      - type: implements
+        target: REQ-AUTO-BBEC6285F92001DC
+      - type: covered_by
+        target: TEST-cert-default-operators-include-compare
+      - type: covered_by
+        target: TEST-e2e-operator-compare

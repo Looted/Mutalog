@@ -1,22 +1,22 @@
 relationships:
-  - id: rel-9083760e7d32
-    type: constrains
-    from: REQ-AUTO-0675D067D8B21673
-    to: FACT-SUBJECT-C4DC87C826901956
-    created_at: "2026-10-29T16:05:27.539Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-0675D067D8B21673
-    to: FACT-PROP-AD1CB75BB70D7E26
-    created_at: 2026-10-29T16:05:27.539Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-6bf3020f4313
   - type: specified_by
     from: REQ-AUTO-0675D067D8B21673
     to: SCEN-the-negate-operator-removes-a-negation-or-negates-a-conditio
-    created_at: 2026-10-29T17:53:07.338Z
+    created_at: 2026-10-29 17:53:07.338000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-b43778f9808f
+  - type: constrains
+    from: REQ-AUTO-0675D067D8B21673
+    to: FACT-SUBJECT-8BA8A11C1ED74069
+    created_at: 2026-11-02T11:27:06.614Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-fa0183bdda20
+  - type: requires_property
+    from: REQ-AUTO-0675D067D8B21673
+    to: FACT-PROP-350A3DEF3BDFEB35
+    created_at: 2026-11-02T11:27:06.621Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-91221b8301d4

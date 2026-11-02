@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-08f9bb69573c
+    type: assumes
+    from: SCEN-refuse-mutalog-list-runs-no-test
+    to: FACT-NEG-5245DE11724348A5
+    created_at: "2026-11-02T11:31:56.421Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-refuse-mutalog-list-runs-no-test
+    to: TEST-e2e-list-prints-mutants-without-running
+    created_at: 2026-11-02T11:31:56.422Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-ed4fee005f0e

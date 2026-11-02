@@ -1,22 +1,22 @@
 relationships:
-  - id: rel-6bf119a4acdc
-    type: constrains
-    from: REQ-AUTO-A3B9E1922440A581
-    to: FACT-SUBJECT-4C0E6DB6BBF78B22
-    created_at: "2026-10-29T16:05:29.573Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-A3B9E1922440A581
-    to: FACT-PROP-5BE6C06341526BF5
-    created_at: 2026-10-29T16:05:29.573Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-b4cb054f8108
   - type: specified_by
     from: REQ-AUTO-A3B9E1922440A581
     to: SCEN-the-literal-operator-changes-numbers-and-lists
-    created_at: 2026-10-29T17:53:13.264Z
+    created_at: 2026-10-29 17:53:13.264000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-01e6f07a9e5f
+  - type: constrains
+    from: REQ-AUTO-A3B9E1922440A581
+    to: FACT-SUBJECT-8BA8A11C1ED74069
+    created_at: 2026-11-02T11:27:30.248Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-d31a04404a94
+  - type: requires_property
+    from: REQ-AUTO-A3B9E1922440A581
+    to: FACT-PROP-AE158B3F363D2C78
+    created_at: 2026-11-02T11:27:30.261Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-e7bdf050b481

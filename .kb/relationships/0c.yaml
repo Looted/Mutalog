@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-68fe9029f484
+    type: assumes
+    from: SCEN-refuse-a-failing-test-refuses-the-run
+    to: FACT-NEG-3FC60457FD45514E
+    created_at: "2026-11-02T11:31:49.070Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-refuse-a-failing-test-refuses-the-run
+    to: TEST-e2e-failing-test-stops-the-run
+    created_at: 2026-11-02T11:31:49.071Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-56a010325a84

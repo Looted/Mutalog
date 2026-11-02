@@ -6,3 +6,10 @@ relationships:
     created_at: "2026-10-29T17:52:19.838Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-the-compare-operator-moves-and-flips-comparisons
+    to: TEST-cert-default-operators-include-compare
+    created_at: 2026-11-02T11:28:36.437Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-1b0ecff8fd70

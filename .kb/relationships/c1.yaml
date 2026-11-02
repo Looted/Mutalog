@@ -27,3 +27,17 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-04e99bae6c54
+  - type: verified_by
+    from: SCEN-the-goal-true-operator-replaces-a-goal-with-true
+    to: TEST-cert-default-operators-include-goal-true
+    created_at: 2026-11-02T11:28:24.937Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-4ff6ea3a00a9
+  - type: specified_by
+    from: REQ-AUTO-674E6097A8013135
+    to: SCEN-refuse-the-installed-pack-loads-nothing-outside-swi-prolog
+    created_at: 2026-11-02T11:32:04.398Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-0d201d2efe50

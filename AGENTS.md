@@ -49,3 +49,15 @@ predicates behind the requirement `implements` it and `covered_by` the
 test. `proof/steps.json` maps each test to its command. After adding
 or changing one, run `kibi sync`, `kibi check` and `kibi prove --all`;
 the report workflow proves again before it publishes.
+
+`kibi-plugin-treesitter` with `kibi-lang-prolog` and `kibi-lang-bash`
+gives symbols their real predicate spans, so a symbol needs no
+`granularity_reason` unless the extractor cannot find it.
+
+A requirement is tested only when one of its scenarios also covers the
+failure side: `expects: rejection`, `assumes` a fact that opposes the
+claim, and is verified by an end-to-end test that tries to break the
+guarantee. A claim Kibi can read from the code is proved instead by a
+`TEST-cert-*` source proof, which reads Prolog facts (`prolog` reader)
+or the calls and imports of Prolog files (`references` reader); a
+proved claim needs no failure-side scenario.

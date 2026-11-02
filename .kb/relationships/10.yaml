@@ -20,3 +20,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-bca973b76ac6
+  - type: specified_by
+    from: REQ-AUTO-5245DE11724348A5
+    to: SCEN-refuse-mutalog-list-runs-no-test
+    created_at: 2026-11-02T11:31:57.635Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-a990f409d531

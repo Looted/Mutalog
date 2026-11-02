@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-8b5d56d4eafa
+    type: assumes
+    from: SCEN-refuse-the-html-report-loads-nothing-from-the-network
+    to: FACT-NEG-CB32BF7DBFE62DAA
+    created_at: "2026-11-02T11:32:20.540Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-refuse-the-html-report-loads-nothing-from-the-network
+    to: TEST-e2e-html-report-is-self-contained
+    created_at: 2026-11-02T11:32:20.541Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-9c7928de3094

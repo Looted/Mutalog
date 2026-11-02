@@ -6,3 +6,10 @@ relationships:
     created_at: "2026-10-29T17:52:27.268Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-the-literal-operator-changes-numbers-and-lists
+    to: TEST-cert-default-operators-include-literal
+    created_at: 2026-11-02T11:28:33.617Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-9bb9ecdccc49
