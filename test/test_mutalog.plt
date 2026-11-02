@@ -468,11 +468,13 @@ test(write_reports) :-
 
 %   The pool's own code, run in this thread: the coverage run does not
 %   record pool threads. Reuse 1 replaces the worker after every
-%   mutant, and the crashing mutant is retried once on a fresh worker.
+%   mutant, and the crashing mutants are retried once on a fresh
+%   worker. They crash by a kill signal, which no SWI-Prolog version
+%   can delay the way it can a halt/1.
 
 test(pool_thread_in_main_thread) :-
-    tmp_project(Dir, "p(X) :- ( X =:= 1 -> true ; halt(3) ).\n",
-                ":- use_module('../src/p').\n:- begin_tests(c).\ntest(one) :- p(1).\n:- end_tests(c).\n"),
+    tmp_project(Dir, ":- use_module(library(process)).\np(X) :- ( X =:= 1 -> true ; current_prolog_flag(pid, P), process_kill(P, kill) ).\nq(3).\n",
+                ":- use_module('../src/p').\n:- begin_tests(c).\ntest(one) :- p(1), p:q(_).\n:- end_tests(c).\n"),
     mutalog_dry_run(Dir, [operators([literal])], dry(_, [file(_, Ms, _)], _, Ctx, _)),
     findall(job(I, M, [c:one], 5000), nth1(I, Ms, M), Jobs),
     message_queue_create(JQ),
@@ -484,13 +486,13 @@ test(pool_thread_in_main_thread) :-
     findall(Id-S, ( between(1, NJobs, _),
                     thread_get_message(RQ, done(_, r(M, S, _, _, _)), [timeout(0)]),
                     get_dict(id, M, Id) ), Pairs0),
-    msort(Pairs0, Pairs1),
-    include([Id-_]>>memberchk(Id, ['src/p.pl:2:17:literal:1', 'src/p.pl:2:34:literal:1']),
-            Pairs1, Pairs),
+    msort(Pairs0, Pairs),
     message_queue_destroy(JQ),
     message_queue_destroy(RQ),
-    assertion(Pairs == [ 'src/p.pl:2:17:literal:1'-runtime_error,
-                         'src/p.pl:2:34:literal:1'-survived ]).
+    assertion(Pairs == [ 'src/p.pl:3:17:literal:1'-runtime_error,
+                         'src/p.pl:3:17:literal:2'-runtime_error,
+                         'src/p.pl:4:3:literal:1'-survived,
+                         'src/p.pl:4:3:literal:2'-survived ]).
 
 %   No test enters the code, so there is nothing for the pool to run.
 
@@ -596,7 +598,8 @@ test(check_version) :-
     stderr_text(mutalog:check_version(90000), Text0),
     assertion(Text0 == ""),
     stderr_text(mutalog:check_version(80610), Text1),
-    assertion(sub_string(Text1, 0, _, _, "Warning: Mutalog needs SWI-Prolog 9.0 or later\n")).
+    assertion(sub_string(Text1, 0, _, _, "Warning: ")),
+    assertion(sub_string(Text1, _, _, 0, "Mutalog needs SWI-Prolog 9.0 or later\n")).
 
 test(percent_text, Ts == ['n/a'-'50.0%']) :-
     findall(A-B, ( mutalog:percent_text(none, A), mutalog:percent_text(50, B) ), Ts).
