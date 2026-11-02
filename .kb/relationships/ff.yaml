@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-c910bc5179c6
+    type: assumes
+    from: SCEN-refuse-directives-dcg-rules-and-tests-are-refused-as-mutation
+    to: FACT-NEG-F237B3AAC9F552A2
+    created_at: "2026-11-02T11:32:30.283Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-refuse-directives-dcg-rules-and-tests-are-refused-as-mutation
+    to: TEST-e2e-never-mutates-directives-dcg-or-tests
+    created_at: 2026-11-02T11:32:30.283Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-2a2577827b12

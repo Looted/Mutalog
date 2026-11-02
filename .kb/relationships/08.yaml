@@ -1,22 +1,22 @@
 relationships:
-  - id: rel-78f7915fca44
-    type: constrains
-    from: REQ-AUTO-43894D6940BD6965
-    to: FACT-SUBJECT-2A646E922B8CB61A
-    created_at: "2026-10-29T16:05:42.783Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-43894D6940BD6965
-    to: FACT-PROP-1A84F2029C3AB214
-    created_at: 2026-10-29T16:05:42.783Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-be533aec2b54
   - type: specified_by
     from: REQ-AUTO-43894D6940BD6965
     to: SCEN-a-mutant-that-halts-its-worker-does-not-stop-the-run
-    created_at: 2026-10-29T17:53:29.663Z
+    created_at: 2026-10-29 17:53:29.663000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-f238ff807d4c
+  - type: constrains
+    from: REQ-AUTO-43894D6940BD6965
+    to: FACT-SUBJECT-EB7AA39EFFE605B0
+    created_at: 2026-11-02T11:27:46.297Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-895cbe486403
+  - type: requires_property
+    from: REQ-AUTO-43894D6940BD6965
+    to: FACT-PROP-3538AD07C01339E4
+    created_at: 2026-11-02T11:27:46.306Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-3d657d7122ec

@@ -1,22 +1,22 @@
 relationships:
-  - id: rel-ee7754df9ef6
-    type: constrains
-    from: REQ-AUTO-211A7AC532ADA588
-    to: FACT-SUBJECT-E4B15AFA128416A2
-    created_at: "2026-10-29T16:05:30.462Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-211A7AC532ADA588
-    to: FACT-PROP-62B6D7FFCF4C9CAC
-    created_at: 2026-10-29T16:05:30.463Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-ec4809065c5f
   - type: specified_by
     from: REQ-AUTO-211A7AC532ADA588
     to: SCEN-a-project-adds-its-own-operator
-    created_at: 2026-10-29T17:53:14.402Z
+    created_at: 2026-10-29 17:53:14.402000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-155633d56478
+  - type: constrains
+    from: REQ-AUTO-211A7AC532ADA588
+    to: FACT-SUBJECT-3EC7361575491D7F
+    created_at: 2026-11-02T11:27:38.012Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-5c27dd33bf8e
+  - type: requires_property
+    from: REQ-AUTO-211A7AC532ADA588
+    to: FACT-PROP-0ADBE2F36E784C3D
+    created_at: 2026-11-02T11:27:38.019Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-2163ca8a7d46

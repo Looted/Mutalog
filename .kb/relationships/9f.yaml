@@ -27,3 +27,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-44333ec5073a
+  - type: specified_by
+    from: REQ-AUTO-3FC60457FD45514E
+    to: SCEN-refuse-a-failing-test-refuses-the-run
+    created_at: 2026-11-02T11:31:50.677Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-b1e40c0836a5

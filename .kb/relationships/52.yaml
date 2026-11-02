@@ -3,20 +3,41 @@ relationships:
     type: constrains
     from: REQ-dropped-clauses-stop-answering
     to: FACT-SUBJECT-4B7EAF99301B76CE
-    created_at: "2026-10-29T19:06:27.326Z"
+    created_at: '2026-10-29T19:06:27.326Z'
     created_by: kibi/upsert
     source: mcp://kibi/upsert
   - type: requires_property
     from: REQ-dropped-clauses-stop-answering
     to: FACT-PROP-3BB81498BA54BB25
-    created_at: 2026-10-29T19:06:27.326Z
+    created_at: 2026-10-29 19:06:27.326000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-060fe7b18a1f
   - type: specified_by
     from: REQ-dropped-clauses-stop-answering
     to: SCEN-a-clause-that-a-mutant-drops-stops-answering-after-the-reload
-    created_at: 2026-10-29T19:06:27.335Z
+    created_at: 2026-10-29 19:06:27.335000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-3fd6c5d22cb2
+  - type: specified_by
+    from: REQ-dropped-clauses-stop-answering
+    to: SCEN-refuse-a-dropped-clause-cannot-answer-for-the-mutant
+    created_at: 2026-11-02 11:35:34.588000+00:00
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-062e588da76f
+  - type: verified_by
+    from: SCEN-refuse-two-modules-exporting-the-same-name-cause-no-compile-er
+    to: TEST-e2e-mutates-modules-that-export-the-same-name
+    created_at: 2026-11-02 11:35:43.571000+00:00
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-2fbcf13375be
+  - type: assumes
+    from: SCEN-refuse-two-modules-exporting-the-same-name-cause-no-compile-er
+    to: FACT-NEG-SAME-EXPORT-NAMES-LOAD
+    created_at: 2026-11-02T11:36:56.276Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-2c966c395291

@@ -41,3 +41,17 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-ef697fde436b
+  - type: specified_by
+    from: REQ-AUTO-CB32BF7DBFE62DAA
+    to: SCEN-refuse-the-html-report-loads-nothing-from-the-network
+    created_at: 2026-11-02T11:32:21.792Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-3d6b688262fa
+  - type: specified_by
+    from: REQ-mostly-compile-errors-fail-break
+    to: SCEN-refuse-a-run-where-most-mutants-do-not-load-fails-the-break
+    created_at: 2026-11-02T11:35:37.987Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-42c66f1a4df3

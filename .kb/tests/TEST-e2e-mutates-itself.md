@@ -17,15 +17,15 @@ id: TEST-e2e-mutates-itself
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-673297825302fe79da88f672
+    receipt_id: PR-24e213bd633d5cf1cc437a99
     test_id: TEST-e2e-mutates-itself
     scope: end_to_end
     outcome: passed
-    code_snapshot: 90d4af388cfd416a121a101f9f4ea68965d3e4f78fdea212eaa6728422b3826f
+    code_snapshot: 92e3954df4f617ded2727621938b06fd4e05ade1fa7b70daf347fa96818d6d78
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-10-30T23:27:42.636Z'
-    finished_at: '2026-10-30T23:28:23.412Z'
-    artifact_digest: 464f24c2c41bc0dd0be75d154d606f32803256203b320e487651079547933a70
+    started_at: '2026-11-02T11:39:41.926Z'
+    finished_at: '2026-11-02T11:40:29.375Z'
+    artifact_digest: 7d01fd058c5eddf0d483e1e7fec068a609ce5e15ae1c3d99860885d6a7727ec2
     contract_hash: e65ff66824a36faf35bc19bf921b3f7709f5e5e7147a88e8d429dba5874a16bb
     binding_hash: adecd818e53f940bb0d062ae81ecabb50d7cbbe40b40a0e97ba39e15f4b42f01
     fingerprint: 061893ee992f4003ff116d88359ed9e608c8946ed854dc3f03582e251834cb89

@@ -20,3 +20,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-6215a8ef5f6d
+  - type: specified_by
+    from: REQ-same-export-names-load
+    to: SCEN-refuse-two-modules-exporting-the-same-name-cause-no-compile-er
+    created_at: 2026-11-02T11:35:44.696Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-505816804522

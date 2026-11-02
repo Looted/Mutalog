@@ -6,3 +6,10 @@ relationships:
     created_at: "2026-10-29T17:52:28.388Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-a-project-adds-its-own-operator
+    to: TEST-cert-generator-calls-operator-hooks
+    created_at: 2026-11-02T11:28:38.821Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-1cd2f5e7b643

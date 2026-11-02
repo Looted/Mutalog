@@ -20,3 +20,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-5b24b18c7dc3
+  - type: specified_by
+    from: REQ-AUTO-C6895C0B44964BBF
+    to: SCEN-refuse-a-fast-test-listed-first-does-not-run-first
+    created_at: 2026-11-02T11:32:18.311Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-e026663c5808

@@ -17,15 +17,15 @@ id: TEST-worker-reload-drops-stale-clauses
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-907d04c928fce94b40ceaa09
+    receipt_id: PR-14c121d999f0d65ffc4fd9c2
     test_id: TEST-worker-reload-drops-stale-clauses
     scope: integration
     outcome: passed
-    code_snapshot: 90d4af388cfd416a121a101f9f4ea68965d3e4f78fdea212eaa6728422b3826f
+    code_snapshot: 92e3954df4f617ded2727621938b06fd4e05ade1fa7b70daf347fa96818d6d78
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-10-30T23:27:42.636Z'
-    finished_at: '2026-10-30T23:28:23.412Z'
-    artifact_digest: 464f24c2c41bc0dd0be75d154d606f32803256203b320e487651079547933a70
+    started_at: '2026-11-02T11:39:41.926Z'
+    finished_at: '2026-11-02T11:40:29.375Z'
+    artifact_digest: 7d01fd058c5eddf0d483e1e7fec068a609ce5e15ae1c3d99860885d6a7727ec2
     contract_hash: 587c91212cd4b2b10fcaafe37195a47c5f23844e504359c4d664195415d547da
     binding_hash: 0cc0f2d0fe739f76c4fc692e04160bda82c14d06f921e33ed63f0ed6ca62d225
     fingerprint: 2333fc58f10e6bd345abab65225b1088d9a29992ea70b4386c159b8953b4507f

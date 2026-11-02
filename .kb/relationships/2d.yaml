@@ -1,0 +1,15 @@
+relationships:
+  - id: rel-e8a470cfbff8
+    type: assumes
+    from: SCEN-refuse-the-installed-pack-loads-nothing-outside-swi-prolog
+    to: FACT-NEG-674E6097A8013135
+    created_at: "2026-11-02T11:32:03.163Z"
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-refuse-the-installed-pack-loads-nothing-outside-swi-prolog
+    to: TEST-e2e-pack-needs-only-swi-prolog
+    created_at: 2026-11-02T11:32:03.163Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-5062ab948917

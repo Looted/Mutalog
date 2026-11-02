@@ -6,3 +6,10 @@ relationships:
     created_at: "2026-10-29T17:52:48.868Z"
     created_by: kibi/upsert
     source: mcp://kibi/upsert
+  - type: verified_by
+    from: SCEN-mutalog-installs-and-runs-as-a-pack
+    to: TEST-cert-pack-is-named-mutalog
+    created_at: 2026-11-02T11:28:48.003Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-6570c87f7ce9

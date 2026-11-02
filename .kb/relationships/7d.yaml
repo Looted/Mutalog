@@ -1,22 +1,36 @@
 relationships:
-  - id: rel-0fd7580773fb
-    type: constrains
-    from: REQ-AUTO-3D0DDBEA31FECCB8
-    to: FACT-SUBJECT-3C257FBB5FB323BF
-    created_at: "2026-10-29T16:05:26.319Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-3D0DDBEA31FECCB8
-    to: FACT-PROP-A329406E1091BA5D
-    created_at: 2026-10-29T16:05:26.319Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-02048c688ed7
   - type: specified_by
     from: REQ-AUTO-3D0DDBEA31FECCB8
     to: SCEN-the-arith-operator-swaps-arithmetic-operators
-    created_at: 2026-10-29T17:53:03.697Z
+    created_at: 2026-10-29 17:53:03.697000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-17fbf03cd4dc
+  - type: constrains
+    from: REQ-AUTO-3D0DDBEA31FECCB8
+    to: FACT-SUBJECT-8BA8A11C1ED74069
+    created_at: 2026-11-02T11:27:20.171Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-3bbb6c15d5bb
+  - type: requires_property
+    from: REQ-AUTO-3D0DDBEA31FECCB8
+    to: FACT-PROP-2D77D21EFB6F3B97
+    created_at: 2026-11-02T11:27:20.178Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-c3ad5f0e2f67
+  - type: assumes
+    from: SCEN-refuse-mutalog-run-only-leaves-the-other-mutants-out
+    to: FACT-NEG-5C0604494F0458D4
+    created_at: 2026-11-02T11:31:59.720Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-092d6b766617
+  - type: verified_by
+    from: SCEN-refuse-mutalog-run-only-leaves-the-other-mutants-out
+    to: TEST-e2e-only-runs-the-chosen-mutants
+    created_at: 2026-11-02T11:31:59.737Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-750beab13cf9
