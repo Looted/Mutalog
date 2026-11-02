@@ -1,43 +1,43 @@
 relationships:
-  - id: rel-7a34a93810bf
-    type: constrains
-    from: REQ-AUTO-674E6097A8013135
-    to: FACT-SUBJECT-6FEFBE485B0491BF
-    created_at: "2026-10-29T16:05:30.893Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-674E6097A8013135
-    to: FACT-PROP-7770D341DB935577
-    created_at: 2026-10-29T16:05:30.894Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-683d88287899
   - type: verified_by
     from: SCEN-the-goal-true-operator-replaces-a-goal-with-true
     to: TEST-e2e-operator-goal-true
-    created_at: 2026-10-29T17:52:23.868Z
+    created_at: 2026-10-29 17:52:23.868000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-8d5d5311fb25
   - type: specified_by
     from: REQ-AUTO-674E6097A8013135
     to: SCEN-the-pack-needs-nothing-outside-swi-prolog
-    created_at: 2026-10-29T17:53:39.309Z
+    created_at: 2026-10-29 17:53:39.309000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-04e99bae6c54
   - type: verified_by
     from: SCEN-the-goal-true-operator-replaces-a-goal-with-true
     to: TEST-cert-default-operators-include-goal-true
-    created_at: 2026-11-02T11:28:24.937Z
+    created_at: 2026-11-02 11:28:24.937000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-4ff6ea3a00a9
   - type: specified_by
     from: REQ-AUTO-674E6097A8013135
     to: SCEN-refuse-the-installed-pack-loads-nothing-outside-swi-prolog
-    created_at: 2026-11-02T11:32:04.398Z
+    created_at: 2026-11-02 11:32:04.398000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-0d201d2efe50
+  - type: constrains
+    from: REQ-AUTO-674E6097A8013135
+    to: FACT-SUBJECT-1A147A674E3740BA
+    created_at: 2026-11-02T14:26:08.773Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-d806bd8c2b33
+  - type: requires_property
+    from: REQ-AUTO-674E6097A8013135
+    to: FACT-PROP-3684404D80072C40
+    created_at: 2026-11-02T14:26:08.781Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-48ee6defed5f

@@ -75,6 +75,13 @@ split_string_all(S0, Pattern, Replacement, S) :-
     atomic_list_concat(Parts, Replacement, A),
     atom_string(A, S).
 
+%!  report_schema_version(?Version) is det.
+%
+%   The version of the mutation-testing report schema mutation.json
+%   follows.
+
+report_schema_version("2").
+
 %!  report_dict(+Run, -Dict) is det.
 %
 %   The run as a dict in the mutation-testing report schema.
@@ -88,7 +95,8 @@ report_dict(run(Config, Results, _, info(Files, TestInfo, Timing)), Dict) :-
     dict_pairs(FilesDict, _, FilePairs),
     test_files(TestInfo, TestFiles),
     Timing = timing(DryMs, MutMs),
-    Dict = _{ schemaVersion: "2",
+    report_schema_version(SchemaVersion),
+    Dict = _{ schemaVersion: SchemaVersion,
               thresholds: _{high: High, low: Low},
               projectRoot: Root,
               files: FilesDict,

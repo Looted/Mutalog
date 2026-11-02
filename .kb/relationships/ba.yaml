@@ -20,3 +20,10 @@ relationships:
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-b7616c33562e
+  - type: verified_by
+    from: SCEN-the-pack-needs-nothing-outside-swi-prolog
+    to: TEST-cert-pack-requires-only-swi-prolog-9
+    created_at: 2026-11-02T14:28:42.010Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-b84ddf221c8f

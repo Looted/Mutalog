@@ -841,6 +841,8 @@ symbols:
         target: TEST-e2e-pack-needs-only-swi-prolog
       - type: covered_by
         target: TEST-cert-pack-is-named-mutalog
+      - type: covered_by
+        target: TEST-cert-pack-requires-only-swi-prolog-9
   - id: SYM-mutalog-main
     title: main
     sourceFile: prolog/mutalog.pl
@@ -858,6 +860,8 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-e2e-pack-needs-only-swi-prolog
+      - type: executable_for
+        target: TEST-cert-pack-requires-only-swi-prolog-9
   - id: SYM-test-e2e-pack-has-no-node-dependency
     title: pack_has_no_node_dependency
     sourceFile: test/test_e2e.plt
@@ -1319,6 +1323,10 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-cert-every-config-key-is-optional
+      - type: executable_for
+        target: TEST-cert-hard-limit-is-ten-seconds-late
+      - type: executable_for
+        target: TEST-cert-report-schema-version-2
   - id: SYM-proof-kibi-exhaustive-certificate
     title: kibi_exhaustive_certificate
     sourceFile: proof/kibi_certificate.pl
@@ -1343,6 +1351,10 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-cert-every-config-key-is-optional
+      - type: executable_for
+        target: TEST-cert-hard-limit-is-ten-seconds-late
+      - type: executable_for
+        target: TEST-cert-report-schema-version-2
   - id: SYM-proof-message-to-text
     title: message_to_text
     sourceFile: proof/kibi_certificate.pl
@@ -1351,3 +1363,75 @@ symbols:
     relationships:
       - type: executable_for
         target: TEST-cert-every-config-key-is-optional
+  - id: SYM-proof-hard-limit
+    title: main
+    sourceFile: proof/hard_limit.pl
+    symbol_role: test
+    relationships:
+      - type: executable_for
+        target: TEST-cert-hard-limit-is-ten-seconds-late
+  - id: SYM-run-hard-limit-margin
+    title: hard_limit_margin
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-A94EF4A2296AFF54
+      - type: covered_by
+        target: TEST-cert-hard-limit-is-ten-seconds-late
+      - type: covered_by
+        target: TEST-e2e-hard-limit-stops-a-swallowed-time-limit
+  - id: SYM-proof-report-schema
+    title: main
+    sourceFile: proof/report_schema.pl
+    symbol_role: test
+    relationships:
+      - type: executable_for
+        target: TEST-cert-report-schema-version-2
+  - id: SYM-report-schema-version
+    title: report_schema_version
+    sourceFile: prolog/mutalog/report.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-20DC4E062C4C1FC7
+      - type: covered_by
+        target: TEST-cert-report-schema-version-2
+      - type: covered_by
+        target: TEST-e2e-json-report-follows-schema-v2
+  - id: SYM-proof-kibi-arithmetic-certificate
+    title: kibi_arithmetic_certificate
+    sourceFile: proof/kibi_certificate.pl
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-cert-hard-limit-is-ten-seconds-late
+  - id: SYM-proof-kibi-pattern-certificate
+    title: kibi_pattern_certificate
+    sourceFile: proof/kibi_certificate.pl
+    symbol_role: test
+    granularity_reason: test-suite
+    relationships:
+      - type: executable_for
+        target: TEST-cert-report-schema-version-2
+  - id: SYM-pack-requires
+    title: requires/1
+    sourceFile: pack.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-674E6097A8013135
+      - type: covered_by
+        target: TEST-cert-pack-requires-only-swi-prolog-9
+      - type: covered_by
+        target: TEST-e2e-pack-needs-only-swi-prolog
+  - id: SYM-run-try-mutant
+    title: try_mutant/9
+    sourceFile: prolog/mutalog/run.pl
+    symbol_role: behavioral
+    relationships:
+      - type: implements
+        target: REQ-AUTO-A94EF4A2296AFF54
+      - type: covered_by
+        target: TEST-e2e-hard-limit-stops-a-swallowed-time-limit

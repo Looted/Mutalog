@@ -1,12 +1,14 @@
 :- module(kibi_certificate,
           [ kibi_exhaustive_certificate/5,  % +TestId, +SymbolId, +Members, :Check, -Certificate
+            kibi_arithmetic_certificate/5,  % +TestId, +Variable, +Value, +Claim, -Certificate
+            kibi_pattern_certificate/4,     % +TestId, +SymbolId, +Value, -Certificate
             kibi_write_certificate/1        % +Certificate
           ]).
 
 /** <module> Kibi code certificates
 
-The exhaustive part of the `kibi_certificate` module from the kibi-usage
-skill: a proof script checks every member of a domain and leaves a
+Builders from the `kibi_certificate` module of the kibi-usage skill, plus
+an arithmetic one: a proof script checks the code and leaves a
 `kibi.code-certificate.v1` certificate where `kibi prove` reads it.
 */
 
@@ -45,6 +47,27 @@ exhaustive_result(Check, Member, Text, Result) :-
           Error,
           ( message_to_text(Error, Message),
             Result = _{member: Text, outcome: "failed", message: Message} )).
+
+%!  kibi_arithmetic_certificate(+TestId, +Variable, +Value, +Claim, -Certificate)
+%
+%   Value is the integer constant the code holds (read it from the code,
+%   never write it by hand); Claim is Operator-Bound, the claim about it.
+%   Kibi re-reads the constant through the contract's value_source.
+kibi_arithmetic_certificate(TestId, Variable, Value, Operator-Bound, Certificate) :-
+    integer(Value),
+    atom_string(Operator, OperatorText),
+    Certificate = _{version: "kibi.code-certificate.v1", kind: "arithmetic",
+                    test_id: TestId, variable: Variable, value_type: "int",
+                    assumptions: [_{operator: "eq", value: Value}],
+                    claim: _{operator: OperatorText, value: Bound}}.
+
+%!  kibi_pattern_certificate(+TestId, +SymbolId, +Value, -Certificate)
+%
+%   The string or atom constant a string claim is about.
+kibi_pattern_certificate(TestId, SymbolId, Value, Certificate) :-
+    kibi_text(Value, Text),
+    Certificate = _{version: "kibi.code-certificate.v1", kind: "regex", test_id: TestId,
+                    pattern: _{symbol_id: SymbolId, type: "string", value: Text}}.
 
 %!  kibi_write_certificate(+Certificate)
 %

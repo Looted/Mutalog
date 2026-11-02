@@ -17,17 +17,17 @@ id: TEST-e2e-crash-is-retried-on-a-fresh-worker
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-559b687bc0a0ec990bd42738
+    receipt_id: PR-98e505835153773d348a42bc
     test_id: TEST-e2e-crash-is-retried-on-a-fresh-worker
     scope: end_to_end
     outcome: passed
-    code_snapshot: c28f5f3868c52cbb35d19153b7e33583599a32c8b77ee042f9c753d4925a6c34
+    code_snapshot: 9b748336e039d27e7e0ff9bee18315be621d81372bd9d40f1eb50b3040793111
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T12:20:49.704Z'
-    finished_at: '2026-11-02T12:21:34.788Z'
-    artifact_digest: 04011dfac1062759f1cefc50cc1535749d7ef6539e9cf5855cf4c642e072e905
+    started_at: '2026-11-02T14:28:48.365Z'
+    finished_at: '2026-11-02T14:29:12.598Z'
+    artifact_digest: 37b6c4d9ca0c4dad9fe9a44b86be2656e30d22de5754e82316bb41392f547c18
     contract_hash: 0de3b0ba5a8897f4c925c370aeca32199e33f83ee16e8309bb5a3ef694a0f968
-    binding_hash: 483414cc1cd21728ca6e3ee3699f7b0798c0184834ac26b17ca1ea5c68006cec
+    binding_hash: 020c8b86b519b516d85eb939a729f5495aa81aba774b26591081f955b7a0a0a1
     fingerprint: 5c34aeded9e32ce0ee1929995ccdbd18f8761be143e16c3c324a77bc2987f846
     fingerprint_components:
       contract: 0de3b0ba5a8897f4c925c370aeca32199e33f83ee16e8309bb5a3ef694a0f968

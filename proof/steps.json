@@ -665,5 +665,33 @@
         "e2e:list_check_reports_a_mutant_that_reads_back_differently"
       ]
     ]
+  },
+  {
+    "test_id": "TEST-cert-hard-limit-is-ten-seconds-late",
+    "steps": [
+      [
+        "swipl",
+        "proof/hard_limit.pl"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-report-schema-version-2",
+    "steps": [
+      [
+        "swipl",
+        "proof/report_schema.pl"
+      ]
+    ]
+  },
+  {
+    "test_id": "TEST-cert-pack-requires-only-swi-prolog-9",
+    "steps": [
+      [
+        "swipl",
+        "test/run.pl",
+        "e2e:pack_needs_only_swi_prolog"
+      ]
+    ]
   }
 ]

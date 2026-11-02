@@ -461,8 +461,16 @@ attempt(Ctx, M, Tests, LimitMs, Left, W0, W, Status, KilledBy, Ms) :-
 
 retryable(runtime_error).
 
+%!  hard_limit_margin(?Seconds) is det.
+%
+%   How long after its own time limit the controller waits for a worker
+%   before it gives up on it and replaces it.
+
+hard_limit_margin(10).
+
 try_mutant(Ctx, M, Tests, LimitMs, W0, W, Status, KilledBy, Ms) :-
-    HardS is LimitMs / 1000 + 10,
+    hard_limit_margin(MarginS),
+    HardS is LimitMs / 1000 + MarginS,
     get_dict(id, M, Id),
     get_dict(file, M, Rel),
     get_dict(start, M, Start),

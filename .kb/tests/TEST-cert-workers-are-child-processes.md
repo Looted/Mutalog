@@ -26,17 +26,17 @@ id: TEST-cert-workers-are-child-processes
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-9400af35ae9405ab990f269b
+    receipt_id: PR-77125e84aafed28938850e47
     test_id: TEST-cert-workers-are-child-processes
     scope: integration
     outcome: passed
-    code_snapshot: c28f5f3868c52cbb35d19153b7e33583599a32c8b77ee042f9c753d4925a6c34
+    code_snapshot: 9b748336e039d27e7e0ff9bee18315be621d81372bd9d40f1eb50b3040793111
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T12:20:49.704Z'
-    finished_at: '2026-11-02T12:21:34.788Z'
-    artifact_digest: 04011dfac1062759f1cefc50cc1535749d7ef6539e9cf5855cf4c642e072e905
+    started_at: '2026-11-02T14:28:48.365Z'
+    finished_at: '2026-11-02T14:29:12.598Z'
+    artifact_digest: 37b6c4d9ca0c4dad9fe9a44b86be2656e30d22de5754e82316bb41392f547c18
     contract_hash: 23b79ffb86827ea3c3c767b8b4d51547a3867f9576406af5b3e02ea5ca183ca5
-    binding_hash: bd5dc72050f3194a164492cdd93a8d3ef21981d4c1519773af56d7e5f7bfc4bf
+    binding_hash: f3a240d693a502712035dbd3a90d24550e5889abefbb0a72231a9423e52bc6eb
     fingerprint: 4ec5a82e3d1a4536f9ed8d2c3f7fe5a2822378bc101396b5ce3e3ca34a32f38a
     fingerprint_components:
       contract: 23b79ffb86827ea3c3c767b8b4d51547a3867f9576406af5b3e02ea5ca183ca5
@@ -119,6 +119,7 @@ proof_receipts:
           - get_dict/3
           - get_time/1
           - group_pairs_by_key/2
+          - hard_limit_margin/1
           - id_file_operator/3
           - ignored_mutant/2
           - include/3
@@ -208,7 +209,7 @@ proof_receipts:
           - worker_start/3
           - worker_stop/1
           - write_term/3
-    certificate_digest: aa80e9d13cf71a68321a5e0b0f1e00dae5e77c624a112e0a7aea631b4c11bb78
+    certificate_digest: b9b5be89c04c830bdd403526ab829592c4698d7e168ddf3b23d677fb9e0aeaed
     claim_bindings:
       - claim_key: CLAIM-31AEF4005052471E
         requirement_id: REQ-AUTO-43894D6940BD6965
