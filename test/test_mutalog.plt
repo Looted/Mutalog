@@ -9,6 +9,9 @@
 :- use_module('../prolog/mutalog/operators').
 :- use_module('../prolog/mutalog/run').
 :- use_module('../prolog/mutalog/report').
+:- use_module('../prolog/mutalog/client').
+:- use_module('../prolog/mutalog/coverage', []).
+:- use_module(capture).
 :- use_module(library(http/json)).
 :- use_module(library(readutil)).
 :- use_module(library(process)).
@@ -17,6 +20,14 @@ fixtures_dir(Dir) :-
     source_file(fixtures_dir(_), File),
     file_directory_name(File, TestDir),
     directory_file_path(TestDir, fixtures, Dir).
+
+%   test/project has strong tests for most of calc.pl, a weak test for
+%   max2/3, none for unused/1, and a mutant that loops forever.
+
+project_dir(Dir) :-
+    fixtures_dir(Fixtures),
+    file_directory_name(Fixtures, TestDir),
+    directory_file_path(TestDir, project, Dir).
 
 %   Mutants of one fixture file with the given operators.
 
@@ -147,7 +158,8 @@ test(glob_deep)     :- glob_match('src/**/*.pl', 'src/x/y/a.pl').
 test(glob_deep_zero):- glob_match('src/**/*.pl', 'src/a.pl').
 test(glob_braces)   :- glob_match('src/{a,b}.pl', 'src/b.pl').
 
-test(discover, Files == ['custom_ops.pl', 'cut_insert.pl', 'sample.pl', 'spacing.pl']) :-
+test(discover, Files == ['all_ops.pl', 'custom_ops.pl', 'cut_insert.pl', 'meta_goals.pl',
+                         'sample.pl', 'spacing.pl']) :-
     fixtures_dir(Dir),
     discover_files(Dir, ['**/*.pl'], ['skipped.pl'], Files).
 
@@ -198,11 +210,16 @@ test(config_root) :-
     write_file(A, "timeout_ms(1).\n"),
     write_file(B, "root(\"../proj\").\n"),
     load_config(Dir, [config('conf/a.config.pl')], CA),
-    assertion(config_value(root, CA, ConfDir)),
+    config_value(root, CA, RA),
+    assertion(RA == ConfDir),
     load_config(Dir, [config('conf/b.config.pl')], CB),
-    assertion(config_value(root, CB, ProjDir)),
+    config_value(root, CB, RB),
+    assertion(RB == ProjDir),
     load_config(Dir, [config('conf/b.config.pl'), root(conf)], CC),
-    assertion(config_value(root, CC, ConfDir)).
+    config_value(root, CC, RC),
+    assertion(RC == ConfDir),
+    catch(load_config(Dir, [root(nope)], _), E, true),
+    assertion(E = error(existence_error(_, nope), _)).
 
 :- end_tests(config).
 
@@ -248,14 +265,6 @@ run_reload_scenario(Exe, Script, Count) :-
 :- end_tests(worker).
 
 :- begin_tests(run).
-
-%   test/project has strong tests for most of calc.pl, a weak test for
-%   max2/3, none for unused/1, and a mutant that loops forever.
-
-project_dir(Dir) :-
-    fixtures_dir(Fixtures),
-    file_directory_name(Fixtures, TestDir),
-    directory_file_path(TestDir, project, Dir).
 
 project_run(Results) :-
     project_dir(Dir),
@@ -359,7 +368,8 @@ test(score) :-
     mutation_score([killed-3, timeout-1, survived-2, no_coverage-2], S, C),
     assertion(S =:= 50),
     assertion(C =:= 400/6),
-    mutation_score([killed-0, timeout-0, survived-0, no_coverage-0], none, none).
+    findall(S0-C0, mutation_score([killed-0, timeout-0, survived-0, no_coverage-0], S0, C0), Zero),
+    assertion(Zero == [none-none]).
 
 %   M3: the pool
 
@@ -456,6 +466,95 @@ test(write_reports) :-
     setup_call_cleanup(open(Json, read, In), json_read_dict(In, J), close(In)),
     assertion(J.schemaVersion == "2").
 
+%   The pool's own code, run in this thread: the coverage run does not
+%   record pool threads. Reuse 1 replaces the worker after every
+%   mutant, and the crashing mutants are retried once on a fresh
+%   worker. They crash by a kill signal, which no SWI-Prolog version
+%   can delay the way it can a halt/1.
+
+test(pool_thread_in_main_thread) :-
+    tmp_project(Dir, ":- use_module(library(process)).\np(X) :- ( X =:= 1 -> true ; current_prolog_flag(pid, P), process_kill(P, kill) ).\nq(3).\n",
+                ":- use_module('../src/p').\n:- begin_tests(c).\ntest(one) :- p(1), p:q(_).\n:- end_tests(c).\n"),
+    mutalog_dry_run(Dir, [operators([literal])], dry(_, [file(_, Ms, _)], _, Ctx, _)),
+    findall(job(I, M, [c:one], 5000), nth1(I, Ms, M), Jobs),
+    message_queue_create(JQ),
+    message_queue_create(RQ),
+    forall(member(J, Jobs), thread_send_message(JQ, J)),
+    thread_send_message(JQ, done),
+    mutalog_run:pool_thread(settings(Ctx, 1, 1), JQ, RQ),
+    length(Jobs, NJobs),
+    findall(Id-S, ( between(1, NJobs, _),
+                    thread_get_message(RQ, done(_, r(M, S, _, _, _)), [timeout(0)]),
+                    get_dict(id, M, Id) ), Pairs0),
+    msort(Pairs0, Pairs),
+    message_queue_destroy(JQ),
+    message_queue_destroy(RQ),
+    assertion(Pairs == [ 'src/p.pl:3:17:literal:1'-runtime_error,
+                         'src/p.pl:3:17:literal:2'-runtime_error,
+                         'src/p.pl:4:3:literal:1'-survived,
+                         'src/p.pl:4:3:literal:2'-survived ]).
+
+%   No test enters the code, so there is nothing for the pool to run.
+
+test(nothing_covered) :-
+    tmp_project(Dir, "p(1).\n", ":- begin_tests(n).\ntest(none) :- true.\n:- end_tests(n).\n"),
+    mutalog_run(Dir, [progress(false)], run(_, R, _, _)),
+    assertion(R = [_|_]),
+    assertion(forall(member(r(_, S, _, _, _), R), S == no_coverage)).
+
+%   A worker that misses its deadline is killed.
+
+test(worker_deadline) :-
+    project_dir(Dir),
+    worker_start(Dir, [], W),
+    W = worker(Pid, In, Out),
+    worker_call(W, init(Dir, [], ['test/calc.plt'], ['src/calc.pl']), 60, R0),
+    assertion(R0 = ready(_)),
+    worker_call(W, dry_run, 0, Reply),
+    assertion(Reply == timeout),
+    assertion(\+ is_stream(In)),
+    assertion(\+ is_stream(Out)),
+    catch(process_wait(Pid, _, [timeout(0)]), E, true),
+    assertion(nonvar(E)),
+    % Killing it again meets a reaped process and closed streams.
+    assertion(mutalog_client:worker_kill(W)).
+
+%   The worker protocol driven by hand: load a project file before the
+%   tests, apply a mutant the tests kill, restore the original, and
+%   the dry run passes again.
+
+test(worker_restore) :-
+    project_dir(Dir),
+    mutalog_list(Dir, [mutate(['src/calc.pl'])], result([file(_, Ms, _)])),
+    member(M, Ms), get_dict(id, M, 'src/calc.pl:10:35:arith:1'), !,
+    worker_start(Dir, [], W),
+    call_cleanup(
+        ( worker_call(W, init(Dir, ['src/calc.pl'], ['test/calc.plt'], ['src/calc.pl']), 60, R0),
+          assertion(R0 = ready(_)),
+          worker_call(W, mutant(M.id, 'src/calc.pl', M.start, M.end, M.replacement,
+                                [calc:sum], 10000), 60, R1),
+          assertion(R1 = result(_, killed, calc:sum, _)),
+          worker_call(W, restore, 60, R2),
+          assertion(R2 == restored),
+          worker_call(W, dry_run, 60, dry(Results)),
+          assertion(forall(member(t(_, S, _, _), Results), S == passed)) ),
+        worker_stop(W)).
+
+test(error_messages) :-
+    forall(member(E-Expected,
+                  [ no_source_files(['s/*.pl'], '/p')-"No files to mutate match s/*.pl (resolved against /p)",
+                    unknown_mutants([a, b])-"No mutant has the id a, b",
+                    initial_test_run_failed([u:t])-"Tests fail before any mutant is applied: [u:t]",
+                    worker_init(load_error(1))-"The worker could not load the project and its tests: load_error(1)",
+                    dry_run(crashed)-"The dry run did not complete: crashed"
+                  ]),
+           ( phrase(prolog:error_message(mutalog(E)), Lines),
+             lines_text(Lines, Text),
+             assertion(sub_string(Text, 0, _, _, Expected)) )),
+    phrase(prolog:message(mutalog(stale_ignore_mutants([a, b]))), Lines),
+    lines_text(Lines, Text),
+    assertion(sub_string(Text, 0, _, _, "ignore_mutants entries that match no mutant: a, b")).
+
 tmp_project(Dir, Src, Test) :-
     tmp_file(mutalog_proj, Dir),
     make_directory(Dir),
@@ -470,3 +569,351 @@ tmp_project(Dir, Src, Test) :-
     write_file(TestFile, Test).
 
 :- end_tests(run).
+
+:- begin_tests(cli).
+
+test(all_options) :-
+    findall(Opts0, mutalog:parse_options(['--config', 'c.pl', '--root', r, '--mutate', 'a/*.pl',
+                           '--tests', 't/*.plt', '--operators', 'arith,cut',
+                           '--format', json, '--check', '--only', 'x,y',
+                           '--timeout-ms', '50', '--concurrency', '2', '-c', '3',
+                           '--reporters', 'html,json', '--verbose'], Opts0),
+            All),
+    All = [Opts],
+    assertion(Opts == [ config('c.pl'), root(r), mutate('a/*.pl'), tests('t/*.plt'),
+                        operators([arith, cut]), format(json), check, only([x, y]),
+                        timeout_ms(50), concurrency(2), concurrency(3),
+                        reporters([html, json]), verbose(true) ]),
+    mutalog:cli_overrides(Opts, Overrides),
+    assertion(Overrides == [ config('c.pl'), operators([arith, cut]), root(r),
+                             only([x, y]), timeout_ms(50), concurrency(2),
+                             concurrency(3), reporters([html, json]), verbose(true),
+                             tests(['t/*.plt']), mutate(['a/*.pl']) ]).
+
+%   Nothing to say on a supported version.
+
+test(check_version) :-
+    stderr_text(mutalog:check_version, Text),
+    assertion(Text == ""),
+    stderr_text(mutalog:check_version(90000), Text0),
+    assertion(Text0 == ""),
+    stderr_text(mutalog:check_version(80610), Text1),
+    assertion(sub_string(Text1, 0, _, _, "Warning: ")),
+    assertion(sub_string(Text1, _, _, 0, "Mutalog needs SWI-Prolog 9.0 or later\n")).
+
+test(percent_text, Ts == ['n/a'-'50.0%']) :-
+    findall(A-B, ( mutalog:percent_text(none, A), mutalog:percent_text(50, B) ), Ts).
+
+test(no_overrides, O == []) :-
+    mutalog:cli_overrides([format(json), check], O).
+
+test(unknown_option, error(domain_error(mutalog_option, '--bogus'))) :-
+    mutalog:parse_options(['--check', '--bogus'], _).
+
+test(unknown_command) :-
+    stderr_text(findall(C, mutalog:run_cli([bogus, x], C), Codes), Text),
+    assertion(Codes == [2]),
+    assertion(sub_string(Text, 0, _, _, "mutalog: unknown command bogus\nUsage: mutalog run|dry-run|list")).
+
+test(help) :-
+    stderr_text(mutalog:run_cli([help], Code), Text),
+    assertion(Code == 0),
+    atomic_list_concat(
+        [ "Usage: mutalog run|dry-run|list [OPTIONS]",
+          "  --config FILE       config file (default mutalog.config.pl)",
+          "  --root DIR          project root (default: the config file's directory)",
+          "  --mutate GLOB       files to mutate, repeatable",
+          "  --tests GLOB        test files, repeatable",
+          "  --operators a,b     operators to use",
+          "  --timeout-ms N      extra time per mutant",
+          "  run:  --only ID,ID  run only these mutants",
+          "        -c, --concurrency N  number of workers (default CPUs - 1)",
+          "        --reporters a,b  clear_text, progress, html, json",
+          "        --verbose     show the project's own output",
+          "  list: --format text|json, --check",
+          ""
+        ], "\n", UsageA),
+    atom_string(UsageA, Usage),
+    assertion(Text == Usage),
+    stderr_text(mutalog:run_cli([], Code0), Text0),
+    assertion(Code0 == 0),
+    assertion(Text0 == Text).
+
+%   The command's output, run in this process.
+
+lines_string(Lines, S) :-
+    atomic_list_concat(Lines, "\n", S0),
+    string_concat(S0, "\n", S).
+
+test(list_output) :-
+    fixtures_dir(Dir),
+    with_output_to(string(Out),
+                   mutalog:run_cli([list, '--root', Dir, '--mutate', 'cut_insert.pl'], Code)),
+    assertion(Code == 0),
+    lines_string([
+        "cut_insert.pl: 10 mutants",
+        "  cut_insert.pl:3:1:clause_drop:1",
+        "      pick(X, Y) :- member(X, Y), X > 0.  ->  (removed)",
+        "  cut_insert.pl:3:15:cut_insert:1",
+        "      member(X, Y)  ->  (member(X, Y), !)",
+        "  cut_insert.pl:3:15:goal_true:1",
+        "      member(X, Y)  ->  true",
+        "  cut_insert.pl:3:15:goal_fail:1",
+        "      member(X, Y)  ->  fail",
+        "  cut_insert.pl:3:29:compare:1",
+        "      X > 0  ->  X >= 0",
+        "  cut_insert.pl:3:29:compare:2",
+        "      X > 0  ->  X =< 0",
+        "  cut_insert.pl:3:29:goal_true:1",
+        "      X > 0  ->  true",
+        "  cut_insert.pl:3:29:goal_fail:1",
+        "      X > 0  ->  fail",
+        "  cut_insert.pl:3:33:literal:1",
+        "      0  ->  1",
+        "  cut_insert.pl:4:1:clause_drop:1",
+        "      pick(_, none).  ->  (removed)",
+        "",
+        "Total: 10 mutants in 1 files",
+        "  clause_drop   2",
+        "  compare       2",
+        "  cut_insert    1",
+        "  goal_fail     2",
+        "  goal_true     2",
+        "  literal       1"
+      ], Expected),
+    assertion(Out == Expected).
+
+test(list_json) :-
+    fixtures_dir(Dir),
+    with_output_to(string(Out),
+                   mutalog:run_cli([list, '--root', Dir, '--mutate', 'cut_insert.pl',
+                                    '--format', json, '--check'], Code)),
+    assertion(Code == 0),
+    open_string(Out, In),
+    json_read_dict(In, J),
+    J.files = [F],
+    assertion(F.path == "cut_insert.pl"),
+    length(F.mutants, 10),
+    F.mutants = [M|_],
+    del_dict(range, M, [Start, End], M1),
+    assertion(End - Start =:= 34),
+    assertion(M1 = _{ id: "cut_insert.pl:3:1:clause_drop:1", operator: "clause_drop",
+                      location: _{ start: _{line: 3, column: 1},
+                                    end: _{line: 3, column: 35} },
+                       original: "pick(X, Y) :- member(X, Y), X > 0.",
+                       replacement: "", check: "ok" }).
+
+test(check_failure) :-
+    stderr_text(mutalog:check_result(result([file(f, [], [a-ok, b-oops(1)])]), Code), Text),
+    assertion(Code == 1),
+    assertion(Text == "mutalog: b does not re-read: oops(1)\n"),
+    mutalog:check_result(result([file(f, [], [a-ok])]), Code0),
+    assertion(Code0 == 0).
+
+test(run_output) :-
+    project_dir(Dir),
+    with_output_to(string(Out),
+                   mutalog:run_cli([run, '--root', Dir, '--reporters', clear_text], Code)),
+    assertion(Code == 0),
+    lines_string([
+        "",
+        "Ran 7 tests in the dry run.",
+        "",
+        "Survived (12):",
+        "  src/calc.pl:5:26:literal:1",
+        "      0  ->  1",
+        "      covered by 3 test(s)",
+        "  src/calc.pl:5:29:cut:1",
+        "      !  ->  true",
+        "      covered by 3 test(s)",
+        "  src/calc.pl:6:27:cut:1",
+        "      !  ->  true",
+        "      covered by 2 test(s)",
+        "  src/calc.pl:13:11:literal:1",
+        "      0  ->  1",
+        "      covered by 1 test(s)",
+        "  src/calc.pl:13:17:cut:1",
+        "      !  ->  true",
+        "      covered by 1 test(s)",
+        "  src/calc.pl:14:17:compare:1",
+        "      N > 0  ->  N >= 0",
+        "      covered by 1 test(s)",
+        "  src/calc.pl:14:17:goal_true:1",
+        "      N > 0  ->  true",
+        "      covered by 1 test(s)",
+        "  src/calc.pl:14:24:goal_true:1",
+        "      N1 is N - 1  ->  true",
+        "      covered by 1 test(s)",
+        "  src/calc.pl:14:37:goal_true:1",
+        "      countdown(N1)  ->  true",
+        "      covered by 1 test(s)",
+        "  src/calc.pl:16:18:compare:1",
+        "      X >= Y  ->  X > Y",
+        "      covered by 1 test(s)",
+        "  src/calc.pl:16:18:goal_true:1",
+        "      X >= Y  ->  true",
+        "      covered by 1 test(s)",
+        "  src/calc.pl:16:26:cut:1",
+        "      !  ->  true",
+        "      covered by 1 test(s)",
+        "",
+        "Timed out (2):",
+        "  src/calc.pl:14:30:arith:1",
+        "      N - 1  ->  N + 1",
+        "  src/calc.pl:14:34:literal:2",
+        "      1  ->  -1",
+        "",
+        "File                                       Score  Killed   Surv. Timeout No cov.  Errors",
+        "src/calc.pl                                67.3%      35      12       2       6       0",
+        "All files                                  67.3%      35      12       2       6       0",
+        "",
+        "Mutation score: 67.3% (covered code: 75.5%)"
+      ], Expected),
+    assertion(Out == Expected).
+
+test(dry_run_output) :-
+    project_dir(Dir),
+    with_output_to(string(Out), mutalog:run_cli(['dry-run', '--root', Dir], Code)),
+    assertion(Code == 0),
+    split_string(Out, "\n", "", Lines),
+    Lines = ["Test                                                         Time (ms)   Clauses",
+             Row1, _, _, _, _, _, _, "", "7 tests, 55 mutants", ""],
+    assertion(sub_string(Row1, 0, _, _, "calc:sign_positive          ")),
+    assertion(sub_string(Row1, _, _, 0, "         1  passed")),
+    string_length(Row1, 88).
+
+compile_error_result(Message, r(_{id: 'f.pl:1:1:cut:1', file: "f.pl", original: "!", replacement: "true"},
+                                compile_error, load_error(Message), 0, [])).
+
+test(compile_errors_output) :-
+    compile_error_result("line one\nline two", R1),
+    compile_error_result("", R2),
+    with_output_to(string(Out), mutalog:print_compile_errors([R1, R2])),
+    lines_string([ "", "Compile errors (2):",
+                   "  f.pl: 2 mutant(s) did not load",
+                   "      first error:",
+                   "        line one",
+                   "        line two" ], Expected),
+    assertion(Out == Expected),
+    with_output_to(string(Out2), mutalog:print_compile_errors([R2])),
+    assertion(Out2 == "\nCompile errors (1):\n  f.pl: 1 mutant(s) did not load\n").
+
+%   Most mutants not loading fails a positive break, and only warns
+%   with break 0.
+
+test(compile_errors_exit_code) :-
+    compile_error_result("", R),
+    Config = [thresholds(high(80), low(60), break(50))],
+    stderr_text(mutalog:run_code(run(Config, [R, R], [], _), Code), Text),
+    assertion(Code == 1),
+    assertion(Text == "mutalog: no mutants were scored, so the break threshold 50% is not met\nmutalog: 2 of 2 mutants did not load (compile errors), so the run is probably broken\n"),
+    stderr_text(mutalog:run_code(run([thresholds(high(80), low(60), break(0))], [R], [], _), Code0), Text0),
+    assertion(Code0 == 0),
+    assertion(sub_string(Text0, 0, _, _, "mutalog: 1 of 1 mutants did not load")),
+    mutalog:run_code(run([], [R], [], _), Code1),
+    assertion(Code1 == 0).
+
+test(below_break) :-
+    M = _{id: x, file: "f.pl"},
+    stderr_text(mutalog:run_code(run([thresholds(high(80), low(60), break(50))],
+                                     [r(M, killed, t, 0, []), r(M, survived, none, 0, []),
+                                      r(M, survived, none, 0, [])], [], _), Code), Text),
+    assertion(Code == 1),
+    assertion(Text == "mutalog: score 33.3% is below break threshold 50%\n").
+
+test(failing_dry_run) :-
+    stderr_text(with_output_to(string(Out),
+                               mutalog:print_dry_run(dry(_, [file(f, [a, b], s)],
+                                                         [t(u:t, failed, 12, [k])], _, _), Code)),
+                Err),
+    assertion(Code == 1),
+    assertion(Err == "mutalog: failing tests: [u:t]\n"),
+    assertion(sub_string(Out, _, _, 0, "\n1 tests, 2 mutants\n")).
+
+:- end_tests(cli).
+
+:- begin_tests(internals).
+
+%   A goal inside every meta-predicate argument is mutated as a goal.
+
+test(meta_goal_args, Few == []) :-
+    fixture_mutants('meta_goals.pl', [goal_true], Ms),
+    findall(Line, ( between(6, 28, Line),
+                    aggregate_all(count, ( member(M, Ms), get_dict(line, M, Line) ), N),
+                    N < 2 ),
+            Few).
+
+test(soft_cut_is_no_cut, Rs == ["(a(X), !)"]) :-
+    replacements('meta_goals.pl', cut_insert, Rs).
+
+test(every_arith_swap,
+     Rs == [ "max(A, max(A, A + A - A * A / A // A mod A rem A << A >> A))",
+             "min(A, A + A - A * A / A // A mod A rem A << A >> A)",
+             "A + A + A * A / A // A mod A rem A << A >> A",
+             "A - A",
+             "A * A / A // A mod A rem A << A << A",
+             "A * A / A // A mod A rem A >> A",
+             "A * A / A // A mod A * A",
+             "A * A / A // A * A",
+             "A * A / A * A",
+             "A * A * A",
+             "A / A" ]) :-
+    replacements('all_ops.pl', arith, Rs).
+
+test(every_compare_swap,
+     Rs == [ "A =< B", "A >= B", "A >= B", "A =< B", "A < B", "A > B",
+             "A > B", "A < B", "A =\\= B", "A =:= B",
+             "A @=< B", "A @>= B", "A @>= B", "A @=< B", "A @< B", "A @> B",
+             "A @> B", "A @< B" ]) :-
+    replacements('all_ops.pl', compare, Rs).
+
+%   A literal under a postfix operator from the file itself.
+
+test(postfix_operand, Rs == ["2", "-1"]) :-
+    replacements('all_ops.pl', literal, Rs).
+
+test(term_text, T == "f(X, _, 1 + 2)") :-
+    term_text(f(X, _, 1+2), ['X'=X], 999, T).
+
+test(source_accessors) :-
+    fixtures_dir(Dir),
+    directory_file_path(Dir, 'all_ops.pl', File),
+    read_source(File, Source),
+    source_clauses(Source, Clauses),
+    assertion(length(Clauses, 5)),
+    source_op_module(Source, M),
+    assertion(current_op(200, xf, M:percent)).
+
+test(operator_descriptions) :-
+    operator_names(Names),
+    forall(member(N, Names),
+           ( operator_description(N, D),
+             assertion(string(D)) )).
+
+%   Every status a run counts has a name in the report schema.
+
+test(status_names,
+     Names == [ killed-"Killed", survived-"Survived", timeout-"Timeout",
+                no_coverage-"NoCoverage", compile_error-"CompileError",
+                runtime_error-"RuntimeError", ignored-"Ignored" ]) :-
+    mutant_counts([], Counts),
+    findall(S-N, ( member(S-_, Counts), mutalog_report:status_name(S, N) ), Names).
+
+test(progress_line) :-
+    stderr_text(mutalog_run:report_progress(true, 3, 7, r(_{id: 'f.pl:1:1:cut:1'}, killed, none, 0, [])), T1),
+    assertion(T1 == "[3/7] killed f.pl:1:1:cut:1\n"),
+    stderr_text(findall(x, mutalog_run:report_progress(true, 1, 1, r(_{id: y}, killed, none, 0, [])), Xs), _),
+    assertion(Xs == [x]),
+    stderr_text(mutalog_run:report_progress(false, 3, 7, r(_{id: x}, killed, none, 0, [])), T2),
+    assertion(T2 == "").
+
+%   run_test/2 lets a time limit through to the caller and turns other
+%   errors into a failed test.
+
+test(time_limit_passes, E == time_limit_exceeded) :-
+    catch(mutalog_coverage:test_exception(time_limit_exceeded), E, true).
+
+test(other_error_fails, fail) :-
+    mutalog_coverage:test_exception(error(type_error(integer, a), _)).
+
+:- end_tests(internals).

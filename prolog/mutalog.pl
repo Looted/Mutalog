@@ -38,6 +38,9 @@ OPTIONS: [--config FILE] [--root DIR] [--mutate GLOB]... [--tests GLOB]...
 
 check_version :-
     current_prolog_flag(version, V),
+    check_version(V).
+
+check_version(V) :-
     (   V >= 90000
     ->  true
     ;   print_message(warning, format("Mutalog needs SWI-Prolog 9.0 or later", []))

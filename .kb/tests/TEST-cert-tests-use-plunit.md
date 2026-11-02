@@ -29,17 +29,17 @@ id: TEST-cert-tests-use-plunit
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-c94f0d11a07b9543ef2fd594
+    receipt_id: PR-304a44c1f959971a5ea96924
     test_id: TEST-cert-tests-use-plunit
     scope: integration
     outcome: passed
-    code_snapshot: c28f5f3868c52cbb35d19153b7e33583599a32c8b77ee042f9c753d4925a6c34
-    environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T12:20:49.704Z'
-    finished_at: '2026-11-02T12:21:34.788Z'
-    artifact_digest: 04011dfac1062759f1cefc50cc1535749d7ef6539e9cf5855cf4c642e072e905
+    code_snapshot: 0db08d2850a2723941fa08825e81e70852c9f0d7b582da2f06ec95be2500f58d
+    environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
+    started_at: '2026-11-02T15:45:36.378Z'
+    finished_at: '2026-11-02T15:45:42.100Z'
+    artifact_digest: b827055b950421f88374b7bb4d5a1b61da645f6671523d8e5054b73e3e968e2c
     contract_hash: 7d221ce42ce58411c67138992adbad3a1dfeb42fe85e88aea6948f50f90e4bad
-    binding_hash: c8ebd65b946a159f930865e2aaca7ba515e80259b784812ea4a89289d12aa768
+    binding_hash: d933bd12a67bf408e8cfb893ef7d724a2cc2a1351f5e7fc9af16eecdec2c4a91
     fingerprint: 58cafb18da119b49c3a266758b52e7a4249e1cf3475e8b41f3e35eaee1c2f4ff
     fingerprint_components:
       contract: 7d221ce42ce58411c67138992adbad3a1dfeb42fe85e88aea6948f50f90e4bad
@@ -81,13 +81,16 @@ proof_receipts:
       model:
         members:
           - ../prolog/mutalog
+          - ../prolog/mutalog/client
           - ../prolog/mutalog/config
+          - ../prolog/mutalog/coverage
           - ../prolog/mutalog/discover
           - ../prolog/mutalog/generate
           - ../prolog/mutalog/operators
           - ../prolog/mutalog/reader
           - ../prolog/mutalog/report
           - ../prolog/mutalog/run
+          - capture
           - library(aggregate)
           - library(apply)
           - library(debug)
@@ -108,7 +111,7 @@ proof_receipts:
           - mutalog/run
           - test_e2e.plt
           - test_mutalog.plt
-    certificate_digest: ba30f3e9d5bc0f20f757e42eb61dacf8a68cb5470c087a6a51cfebe96343f9dd
+    certificate_digest: f81ca6a1fb66fcaeb31bbbe75a2a35810e2a18e0cdefc1090eaeebb6fe5a31f9
     claim_bindings:
       - claim_key: CLAIM-D7ECBE437ACD3ED5
         requirement_id: REQ-AUTO-4CF26847DCD17B68

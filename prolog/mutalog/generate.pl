@@ -507,9 +507,7 @@ slot_priority(Text, Parent, term_position(_, _, FF, FT, ArgPos), I, Pri) :-
         postfix_op(Name, P, Type)
     ->  ( Type == yf -> Pri = P ; Pri is P - 1 )
     ;   Pri = 999
-    ),
-    !.
-slot_priority(_, _, _, _, 999).
+    ).
 
 canonical_form(Text, FT) :-
     string_length(Text, Len),
