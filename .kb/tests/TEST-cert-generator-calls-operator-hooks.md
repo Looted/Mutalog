@@ -26,17 +26,17 @@ id: TEST-cert-generator-calls-operator-hooks
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-2588a391142a9d0976b61cf4
+    receipt_id: PR-e2c79bfb0b99e68ea875f021
     test_id: TEST-cert-generator-calls-operator-hooks
     scope: integration
     outcome: passed
-    code_snapshot: c28f5f3868c52cbb35d19153b7e33583599a32c8b77ee042f9c753d4925a6c34
+    code_snapshot: 9b748336e039d27e7e0ff9bee18315be621d81372bd9d40f1eb50b3040793111
     environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T12:20:49.704Z'
-    finished_at: '2026-11-02T12:21:34.788Z'
-    artifact_digest: 04011dfac1062759f1cefc50cc1535749d7ef6539e9cf5855cf4c642e072e905
+    started_at: '2026-11-02T14:28:48.365Z'
+    finished_at: '2026-11-02T14:29:12.598Z'
+    artifact_digest: 37b6c4d9ca0c4dad9fe9a44b86be2656e30d22de5754e82316bb41392f547c18
     contract_hash: bfe2285bd9336776b82aa7d7be41df63e11d33688a3c5606f7b69ae7315a9355
-    binding_hash: 08b9fae38cbc43097d950cab62d6ef390d61d1f9d855e4a06b0bc18eec323879
+    binding_hash: 0829a26da2291c9367e46a3c5d43c9d5c4d1f4497fa95b61720e3b06068eeedf
     fingerprint: 2d0ee9cdedfde677c773862c248815487caa549f328832b8b03e9c37a0b0468d
     fingerprint_components:
       contract: bfe2285bd9336776b82aa7d7be41df63e11d33688a3c5606f7b69ae7315a9355
@@ -121,6 +121,7 @@ proof_receipts:
           - get_dict/3
           - get_time/1
           - group_pairs_by_key/2
+          - hard_limit_margin/1
           - id_file_operator/3
           - ignored_mutant/2
           - include/3
@@ -201,7 +202,7 @@ proof_receipts:
           - worker_options/3
           - worker_start/3
           - worker_stop/1
-    certificate_digest: 2ced48a3d4ac52dacf922bb82216e8a0cc50889e41e4d00ed50de09f8659b700
+    certificate_digest: 7b4bdf09b9117c62d246102c2c5fdec00ea17d9441e5b20dc0cfe89e4b4c8b96
     claim_bindings:
       - claim_key: CLAIM-52A2B13D36667257
         requirement_id: REQ-AUTO-211A7AC532ADA588

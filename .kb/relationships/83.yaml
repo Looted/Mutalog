@@ -1,29 +1,29 @@
 relationships:
-  - id: rel-620851e9cba8
-    type: constrains
-    from: REQ-AUTO-A94EF4A2296AFF54
-    to: FACT-SUBJECT-B4459AFE319CAFE6
-    created_at: "2026-10-29T16:05:34.139Z"
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-  - type: requires_property
-    from: REQ-AUTO-A94EF4A2296AFF54
-    to: FACT-PROP-9251F1521AA2ABE1
-    created_at: 2026-10-29T16:05:34.140Z
-    created_by: kibi/upsert
-    source: mcp://kibi/upsert
-    id: rel-769cc356abba
   - type: specified_by
     from: REQ-AUTO-A94EF4A2296AFF54
     to: SCEN-the-hard-limit-stops-code-that-catches-the-time-limit
-    created_at: 2026-10-29T17:53:28.581Z
+    created_at: 2026-10-29 17:53:28.581000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-204f2407e433
   - type: specified_by
     from: REQ-AUTO-A94EF4A2296AFF54
     to: SCEN-refuse-code-that-swallows-the-time-limit-is-stopped
-    created_at: 2026-11-02T11:32:11.396Z
+    created_at: 2026-11-02 11:32:11.396000+00:00
     created_by: kibi/upsert
     source: mcp://kibi/upsert
     id: rel-5f01952ddf8b
+  - type: constrains
+    from: REQ-AUTO-A94EF4A2296AFF54
+    to: FACT-SUBJECT-7F09069353CD5184
+    created_at: 2026-11-02T14:26:12.865Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-6dac24ef6e70
+  - type: requires_property
+    from: REQ-AUTO-A94EF4A2296AFF54
+    to: FACT-PROP-DE32815F73CC4839
+    created_at: 2026-11-02T14:26:12.876Z
+    created_by: kibi/upsert
+    source: mcp://kibi/upsert
+    id: rel-6590340ba4ca

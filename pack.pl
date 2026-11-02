@@ -5,3 +5,4 @@ keywords([mutation, testing, plunit]).
 author('Piotr Franczyk', 'https://github.com/Looted').
 home('https://github.com/Looted/Mutalog').
 download('https://github.com/Looted/mutalog/archive/v*.zip').
+requires(prolog >= '9.0.0').

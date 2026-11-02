@@ -66,6 +66,10 @@ A claim that needs the code run, not only read, is proved by a
 certificate: a script in `proof/` (for example `proof/config_keys.pl`)
 loads the library, checks every member of a domain Kibi reads from the
 code itself, and writes the certificate with `proof/kibi_certificate.pl`.
+A constant (a margin, a schema version) is proved the same way: the
+library names it in a one-clause predicate, and the script reads it
+through that predicate and writes an arithmetic or regex certificate
+(`proof/hard_limit.pl`, `proof/report_schema.pl`).
 The references reader cannot read a file that loads files named at run
 time (`worker.pl`) or prints message lines held in a variable, so code a
 source proof reads lives in files without those (`coverage.pl`).
