@@ -55,9 +55,10 @@ worker_start(Root, Options, worker(Pid, In, Out)) :-
 %!  worker_call(+Worker, +Command, +TimeoutS, -Reply) is det.
 %
 %   Reply is the worker's answer, `timeout` when it did not answer
-%   within TimeoutS seconds, or `crashed` when its output closed or
-%   was not a term. In both of the latter cases the worker has been
-%   stopped.
+%   within TimeoutS seconds, `crashed` when its output closed or was
+%   not a term, or reply_error(Error) when reading the reply raised
+%   Error (for example resource_error(stack) on a huge reply). In all
+%   but the first case the worker has been stopped.
 
 worker_call(W, Command, TimeoutS, Reply) :-
     W = worker(_, In, _),
@@ -66,21 +67,33 @@ worker_call(W, Command, TimeoutS, Reply) :-
           ), _, true),
     get_time(Now),
     Deadline is Now + TimeoutS,
-    read_reply(W, Deadline, [], Reply0),
+    catch(read_reply(W, Deadline, [], Reply0), E,
+          ( error_formal(E, Formal),
+            Reply0 = reply_error(Formal) )),
     (   Reply0 == timeout
     ->  worker_kill(W),
         Reply = timeout
     ;   Reply0 == crashed
     ->  worker_stop(W),
         Reply = crashed
+    ;   Reply0 = reply_error(_)
+    ->  worker_stop(W),
+        Reply = Reply0
     ;   Reply = Reply0
     ).
 
 %   Replies are one term per line. The line is collected from whatever
 %   input is pending, never with a blocking read, so that a worker that
 %   writes part of a line and then hangs still meets the deadline.
+%
+%   A reply can be megabytes long (the dry run carries the coverage of
+%   every test), so the pieces read so far are kept as strings, newest
+%   first, and only the newest piece is searched for the end of line.
+%   The line is parsed from a string, not from a code list. Running
+%   out of a resource on the way (stack, memory) raises; the error is
+%   passed on as reply_error(Formal) rather than hidden as `crashed`.
 
-read_reply(W, Deadline, Codes0, Reply) :-
+read_reply(W, Deadline, Parts, Reply) :-
     W = worker(_, _, Out),
     get_time(Now),
     Left is Deadline - Now,
@@ -89,23 +102,35 @@ read_reply(W, Deadline, Codes0, Reply) :-
         Ready \== []
     ->  (   catch(( fill_buffer(Out),
                     \+ at_end_of_stream(Out),
-                    read_pending_codes(Out, New, [])
+                    read_pending_codes(Out, Codes, []),
+                    string_codes(New, Codes)
                   ), _, fail)
-        ->  append(Codes0, New, Codes),
-            (   append(Line, [0'\n|_], Codes)
-            ->  parse_reply(Line, Reply)
-            ;   read_reply(W, Deadline, Codes, Reply)
+        ->  (   sub_string(New, Before, _, _, "\n")
+            ->  sub_string(New, 0, Before, _, Last),
+                reverse([Last|Parts], InOrder),
+                atomics_to_string(InOrder, Line),
+                parse_reply(Line, Reply)
+            ;   read_reply(W, Deadline, [New|Parts], Reply)
             )
         ;   Reply = crashed
         )
     ;   Reply = timeout
     ).
 
+%   A reply that is not a term is `crashed`.
+
 parse_reply(Line, Reply) :-
-    (   catch(term_string(Reply0, Line), _, fail),
+    (   catch(term_string(Reply0, Line), error(syntax_error(_), _), fail),
         nonvar(Reply0)
     ->  Reply = Reply0
     ;   Reply = crashed
+    ).
+
+error_formal(E, Formal) :-
+    (   E = error(Formal0, _),
+        nonvar(Formal0)
+    ->  Formal = Formal0
+    ;   Formal = E
     ).
 
 %!  worker_stop(+Worker) is det.

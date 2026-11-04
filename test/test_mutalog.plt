@@ -540,13 +540,65 @@ test(worker_restore) :-
           assertion(forall(member(t(_, S, _, _), Results), S == passed)) ),
         worker_stop(W)).
 
+%   A dry-run reply grows with the suite (it carries every test's
+%   coverage). A reply of a few megabytes, written in pieces, is read
+%   in about linear time and parsed within the default stack.
+
+test(worker_large_reply) :-
+    Goal = "read(_), format('dry(['), forall(between(1, 40000, I), format('t(u:~d,passed,1,[~q-~d,~q-~d]),', [I, 'src/a.pl', I, 'src/b.pl', I])), format('t(u:0,passed,1,[])]).~n'), flush_output, read(_)",
+    fake_worker(Goal, W),
+    call_cleanup(
+        ( worker_call(W, dry_run, 60, Reply),
+          assertion(Reply = dry(_)),
+          Reply = dry(Results),
+          length(Results, N),
+          assertion(N == 40001),
+          assertion(nth1(2, Results, t(u:2, passed, 1, ['src/a.pl'-2, 'src/b.pl'-2]))) ),
+        worker_stop(W)).
+
+%   Running out of stack while reading a reply is reported as that
+%   error, not as a crashed worker, and the worker is stopped.
+
+test(worker_reply_out_of_stack) :-
+    Goal = "read(_), format('dry(['), forall(between(1, 2000000, _), format('1,')), format('1]).~n'), flush_output, read(_)",
+    fake_worker(Goal, W),
+    W = worker(_, In, _),
+    garbage_collect,
+    trim_stacks,
+    statistics(stack, Used),
+    current_prolog_flag(stack_limit, Old),
+    Limit is Used + 16 000 000,
+    setup_call_cleanup(set_prolog_flag(stack_limit, Limit),
+                       worker_call(W, dry_run, 60, Reply0),
+                       set_prolog_flag(stack_limit, Old)),
+    (   Reply0 = dry(_)
+    ->  Reply = parsed
+    ;   Reply = Reply0
+    ),
+    assertion(Reply == reply_error(resource_error(stack))),
+    assertion(\+ is_stream(In)).
+
+test(worker_reply_parse) :-
+    mutalog_client:parse_reply("ok(1).", R1),
+    assertion(R1 == ok(1)),
+    mutalog_client:parse_reply("ok(", R2),
+    assertion(R2 == crashed),
+    mutalog_client:parse_reply("X.", R3),
+    assertion(R3 == crashed),
+    mutalog_client:error_formal(error(type_error(a, b), _), F1),
+    assertion(F1 == type_error(a, b)),
+    mutalog_client:error_formal(oops, F2),
+    assertion(F2 == oops).
+
 test(error_messages) :-
     forall(member(E-Expected,
                   [ no_source_files(['s/*.pl'], '/p')-"No files to mutate match s/*.pl (resolved against /p)",
                     unknown_mutants([a, b])-"No mutant has the id a, b",
                     initial_test_run_failed([u:t])-"Tests fail before any mutant is applied: [u:t]",
                     worker_init(load_error(1))-"The worker could not load the project and its tests: load_error(1)",
-                    dry_run(crashed)-"The dry run did not complete: crashed"
+                    dry_run(crashed)-"The dry run did not complete: crashed",
+                    dry_run(reply_error(resource_error(stack)))-"The dry run did not complete: reading the worker's reply ran out of stack",
+                    dry_run(reply_error(oops))-"The dry run did not complete: reading the worker's reply raised oops"
                   ]),
            ( phrase(prolog:error_message(mutalog(E)), Lines),
              lines_text(Lines, Text),
@@ -554,6 +606,16 @@ test(error_messages) :-
     phrase(prolog:message(mutalog(stale_ignore_mutants([a, b]))), Lines),
     lines_text(Lines, Text),
     assertion(sub_string(Text, 0, _, _, "ignore_mutants entries that match no mutant: a, b")).
+
+%   A stand-in worker: a child swipl running Goal, driven over the
+%   same pipes as a real one.
+
+fake_worker(Goal, worker(Pid, In, Out)) :-
+    current_prolog_flag(executable, Exe),
+    process_create(Exe, ['-q', '-g', Goal, '-t', halt],
+                   [ stdin(pipe(In)), stdout(pipe(Out)), process(Pid) ]),
+    set_stream(In, encoding(utf8)),
+    set_stream(Out, encoding(utf8)).
 
 tmp_project(Dir, Src, Test) :-
     tmp_file(mutalog_proj, Dir),
