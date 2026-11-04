@@ -615,5 +615,14 @@ mutalog_error(initial_test_run_failed(Tests)) -->
     ].
 mutalog_error(worker_init(Reply)) -->
     [ 'The worker could not load the project and its tests: ~p'-[Reply] ].
+mutalog_error(dry_run(reply_error(resource_error(Resource)))) -->
+    !,
+    [ 'The dry run did not complete: reading the worker\'s reply ran out of ~w'-[Resource], nl,
+      'The reply holds the coverage of every test; raise this process\'s stack limit,', nl,
+      'for example with swipl --stack-limit=8g.'
+    ].
+mutalog_error(dry_run(reply_error(Error))) -->
+    !,
+    [ 'The dry run did not complete: reading the worker\'s reply raised ~p'-[Error] ].
 mutalog_error(dry_run(Reply)) -->
     [ 'The dry run did not complete: ~p'-[Reply] ].
