@@ -20,5 +20,4 @@ origin:
 id: FACT-SUBJECT-A474285746DE1BEB
 type: fact
 ---
-
-Definition not stated: the subject cli.print_the_mutants is named by requirement REQ-AUTO-5245DE11724348A5, which links to the subject fact FACT-SUBJECT-A474285746DE1BEB through constrains. The people who own that source can say what it is in the product and what it is not.
+The `mutalog list` command, which prints the mutants the generator produces without running any test. Its `--check` option is list_check.mutants.

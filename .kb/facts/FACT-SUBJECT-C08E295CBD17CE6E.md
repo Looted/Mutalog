@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-C08E295CBD17CE6E
 type: fact
 ---
-
-Definition not stated: the subject list_check.mutants is named by requirement REQ-AUTO-8EAA6C05E83E19E8, which links to the subject fact FACT-SUBJECT-C08E295CBD17CE6E through constrains. The people who own that source can say what it is in the product and what it is not.
+The `mutalog list --check` verification: every spliced mutant is read back and compared with the clause the runner will load. Part of cli.print_the_mutants.

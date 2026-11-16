@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-7F09069353CD5184
 type: fact
 ---
-
-Definition not stated: the subject controller.hard_limit is named by requirement REQ-AUTO-A94EF4A2296AFF54, which links to the subject fact FACT-SUBJECT-7F09069353CD5184 through constrains. The people who own that source can say what it is in the product and what it is not.
+The controller-side hard limit, a fixed margin after the worker time limit (run.mutant_time_limit), after which the controller kills a worker that has not answered and starts a fresh one. It exists because code under test can catch the time limit exception and loop on.

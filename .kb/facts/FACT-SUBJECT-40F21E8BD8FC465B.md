@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-40F21E8BD8FC465B
 type: fact
 ---
-
-Definition not stated: the subject run.mutation_score is named by requirement REQ-AUTO-AEACADEB6A56DDD2, which links to the subject fact FACT-SUBJECT-40F21E8BD8FC465B through constrains. The people who own that source can say what it is in the product and what it is not.
+The mutation score `mutalog run` reports: detected mutants (killed and timeout) over killed, timeout, survived and no coverage, computed in `prolog/mutalog/run.pl`. The covered-code score, which leaves out no coverage, is a separate figure. Compile and runtime errors count in neither.

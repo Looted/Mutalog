@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-D7A25AF61B55878C
 type: fact
 ---
-
-Definition not stated: the subject project.tests is named by requirement REQ-AUTO-4CF26847DCD17B68, which links to the subject fact FACT-SUBJECT-D7A25AF61B55878C through constrains. The people who own that source can say what it is in the product and what it is not.
+Mutalog's own plunit test suite under `test/` (`test/test_mutalog.plt`, `test/test_e2e.plt`), which Mutalog can mutate itself against. It is not the test files of a project Mutalog is run on.

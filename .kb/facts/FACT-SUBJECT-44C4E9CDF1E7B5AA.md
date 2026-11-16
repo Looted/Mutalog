@@ -20,5 +20,4 @@ origin:
 id: FACT-SUBJECT-44C4E9CDF1E7B5AA
 type: fact
 ---
-
-Definition not stated: the subject ci.test_job is named by requirement REQ-release-changelog-matches-pack, which links to the subject fact FACT-SUBJECT-44C4E9CDF1E7B5AA through constrains. The people who own that source can say what it is in the product and what it is not.
+The test job of the CI workflow `.github/workflows/ci.yml` that runs on pull requests and pushes, including the release consistency check `scripts/release-check.sh`. It is not the Release workflow (release.workflow), which publishes.

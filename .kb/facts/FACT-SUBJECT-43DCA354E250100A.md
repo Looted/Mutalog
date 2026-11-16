@@ -20,5 +20,4 @@ origin:
 id: FACT-SUBJECT-43DCA354E250100A
 type: fact
 ---
-
-Definition not stated: the subject scheduler.retry_a_mutant is named by requirement REQ-AUTO-8FA9AE813FAC53CA, which links to the subject fact FACT-SUBJECT-43DCA354E250100A through constrains. The people who own that source can say what it is in the product and what it is not.
+The retry of a mutant whose worker crashed, on a fresh worker, up to `retries` times. Timeouts are not retried, because a timeout already counts as detected.

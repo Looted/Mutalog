@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-21FC64F8432E6711
 type: fact
 ---
-
-Definition not stated: the subject worker.reload_same_export_names is named by requirement REQ-same-export-names-load, which links to the subject fact FACT-SUBJECT-21FC64F8432E6711 through constrains. The people who own that source can say what it is in the product and what it is not.
+Loading mutants of two mutated modules that export a predicate with the same name, in one worker process. Part of worker.reload; distinct from run.imported_module_mutants, which is about a module another module imports.

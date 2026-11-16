@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-71C5548F79F1EC41
 type: fact
 ---
-
-Definition not stated: the subject reader.source is named by requirement REQ-AUTO-408D5C7AFB1C4E71, which links to the subject fact FACT-SUBJECT-71C5548F79F1EC41 through constrains. The people who own that source can say what it is in the product and what it is not.
+How Mutalog reads the files it mutates: SWI-Prolog's own `prolog_read_source_term/4` with subterm positions, including operators the file imports, in `prolog/mutalog/reader.pl`. It is not how the worker loads a mutant (worker.reload).

@@ -20,5 +20,4 @@ origin:
 id: FACT-SUBJECT-66840696E3EC777C
 type: fact
 ---
-
-Definition not stated: the subject runner.dry_run is named by requirement REQ-AUTO-3FC60457FD45514E, which links to the subject fact FACT-SUBJECT-66840696E3EC777C through constrains. The people who own that source can say what it is in the product and what it is not.
+The dry run that runs the whole test suite once in a child `swipl` before any mutant, also available as `mutalog dry-run`. A failing test stops the run. coverage.dry_test is the per-test measurement it takes.

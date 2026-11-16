@@ -20,5 +20,4 @@ origin:
 id: FACT-SUBJECT-72D336F5434C07F6
 type: fact
 ---
-
-Definition not stated: the subject report.json is named by requirement REQ-AUTO-20DC4E062C4C1FC7, which links to the subject fact FACT-SUBJECT-72D336F5434C07F6 through constrains. The people who own that source can say what it is in the product and what it is not.
+The `mutation.json` report file, written in the open mutation-testing-report-schema format, schema version 2. Distinct from reporter.write_mutation_html, the HTML page built from the same data.

@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-EB7AA39EFFE605B0
 type: fact
 ---
-
-Definition not stated: the subject client.worker is named by requirement REQ-AUTO-43894D6940BD6965, which links to the subject fact FACT-SUBJECT-EB7AA39EFFE605B0 through constrains. The people who own that source can say what it is in the product and what it is not.
+The controller-side handling of worker processes in `prolog/mutalog/client.pl`: starting a child `swipl` per worker, talking to it over pipes, and killing and replacing it. Mutants run in processes, not threads. Distinct from runner.worker, the child process itself.

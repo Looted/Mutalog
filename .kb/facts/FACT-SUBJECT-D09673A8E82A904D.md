@@ -20,5 +20,4 @@ origin:
 id: FACT-SUBJECT-D09673A8E82A904D
 type: fact
 ---
-
-Definition not stated: the subject runner.worker is named by requirement REQ-AUTO-ECC62318E485FD92, which links to the subject fact FACT-SUBJECT-D09673A8E82A904D through constrains. The people who own that source can say what it is in the product and what it is not.
+A worker: a child `swipl` process that loads the project once, then applies and tests mutants one after another for the controller. Distinct from worker.reload, which is the way it applies one mutant, and from client.worker, the controller-side process handling.

@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-0B6A19546E65CB65
 type: fact
 ---
-
-Definition not stated: the subject config.keys is named by requirement REQ-AUTO-CE1F43687FF92977, which links to the subject fact FACT-SUBJECT-0B6A19546E65CB65 through constrains. The people who own that source can say what it is in the product and what it is not.
+The keys a project may put in its optional `mutalog.config.pl` (mutate, ignore, tests, load, operators, ignore_mutants, timeout_ms, timeout_factor, stack_limit, concurrency, retries, worker_reuse, thresholds, reporters, report_dir, root), read by `prolog/mutalog/config.pl`. It does not include command-line options, which override these keys but are parsed in `prolog/mutalog.pl`.

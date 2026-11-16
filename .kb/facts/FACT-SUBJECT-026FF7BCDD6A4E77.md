@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-026FF7BCDD6A4E77
 type: fact
 ---
-
-Definition not stated: the subject run.imported_module_mutants is named by requirement REQ-mutants-of-imported-modules-load, which links to the subject fact FACT-SUBJECT-026FF7BCDD6A4E77 through constrains. The people who own that source can say what it is in the product and what it is not.
+The mutants of a mutated file that is a module imported by another module of the project under test. Loading such a mutant must keep the importing module's view of the exports intact. Narrower than worker.reload, which covers reloading any mutated file; distinct from worker.reload_same_export_names, which is about two mutated modules exporting one name.

@@ -20,5 +20,4 @@ origin:
 id: FACT-SUBJECT-BA019BBD493A386D
 type: fact
 ---
-
-Definition not stated: the subject release.refuse_to_publish is named by requirement REQ-AUTO-28A9B0836A0D675D, which links to the subject fact FACT-SUBJECT-BA019BBD493A386D through constrains. The people who own that source can say what it is in the product and what it is not.
+The release guard that refuses to publish when the tag being released does not match the version in `pack.pl`. Part of release.workflow.

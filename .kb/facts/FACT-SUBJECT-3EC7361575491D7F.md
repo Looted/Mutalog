@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-3EC7361575491D7F
 type: fact
 ---
-
-Definition not stated: the subject operators.hooks is named by requirement REQ-AUTO-211A7AC532ADA588, which links to the subject fact FACT-SUBJECT-3EC7361575491D7F through constrains. The people who own that source can say what it is in the product and what it is not.
+The multifile hooks `mutalog:operator/2` and `mutalog:mutate/4` through which the built-in operators are defined and a project adds its own, declared in `prolog/mutalog/operators.pl`. It is not the list of operators a run enables, which is config.default_operators or the `operators` key.

@@ -20,5 +20,4 @@ origin:
 id: FACT-SUBJECT-32BFF1DA2AB88710
 type: fact
 ---
-
-Definition not stated: the subject reporter.exit_with_status_1 is named by requirement REQ-AUTO-B6447158DD93403B, which links to the subject fact FACT-SUBJECT-32BFF1DA2AB88710 through constrains. The people who own that source can say what it is in the product and what it is not.
+The exit status of `mutalog run` when the mutation score is below the break threshold `thresholds(_, _, break(N))`. Distinct from reporter.fail_mostly_compile_errors, the other condition that makes a run exit with 1.

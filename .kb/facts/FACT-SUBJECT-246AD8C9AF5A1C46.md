@@ -21,5 +21,4 @@ origin:
 id: FACT-SUBJECT-246AD8C9AF5A1C46
 type: fact
 ---
-
-Definition not stated: the subject version_step is named by requirement REQ-release-version-step-syncs-pack, which links to the subject fact FACT-SUBJECT-246AD8C9AF5A1C46 through constrains. The people who own that source can say what it is in the product and what it is not.
+The release version step `npm run version-packages`: `changeset version` followed by `scripts/sync-version.mjs`, which copies the version from `package.json` into `pack.pl` and dates the new `CHANGELOG.md` section. It is not the Release workflow (release.workflow), which publishes a version after it is merged.
