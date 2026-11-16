@@ -94,3 +94,15 @@ through that predicate and writes an arithmetic or regex certificate
 The references reader cannot read a file that loads files named at run
 time (`worker.pl`) or prints message lines held in a variable, so code a
 source proof reads lives in files without those (`coverage.pl`).
+
+<!-- BEGIN kibi-managed: written by `kibi init`; edit outside these markers -->
+## Kibi
+
+This repository records its requirements, decisions, tests and code ownership in a Kibi knowledge base (`.kb/`).
+
+- Before changing behavior, ask it: `kb_search` with the question, and `kb_query` with `sourceFile` for a file you edit. Without the MCP tools, use the project-local CLI (`npx --no-install kibi search "<question>"`, or your package manager's runner).
+- A request that conflicts with a recorded requirement or decision is a question for the person, not a task.
+- Record new or changed behavior with `kb_upsert` and finish with `kb_check`. Do not edit `.kb/` files by hand.
+- Commits must pass `kibi check --staged`, which the pre-commit hook runs. A fresh clone has no git hooks until the project's dependencies are installed or `kibi hooks install` runs.
+- Workflow guidance: the `kibi-usage` skill (`kb_skills` with `action: "load"`, or `kibi skills load kibi-usage`).
+<!-- END kibi-managed -->

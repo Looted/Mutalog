@@ -6,7 +6,8 @@
   "license": "BSD-2-Clause",
   "scripts": {
     "changeset": "changeset",
-    "version-packages": "changeset version && node scripts/sync-version.mjs"
+    "version-packages": "changeset version && node scripts/sync-version.mjs",
+    "prepare": "node -e \"let b;try{b=require.resolve('kibi-cli/bin/kibi')}catch{process.exit(0)}require('child_process').spawnSync(process.execPath,[b,'hooks','install','--quiet'],{stdio:'inherit'})\""
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.1",
@@ -24,9 +25,18 @@
         "capabilities": {
           "kibi.symbol-extractor.v2": {
             "mode": "augment"
+          },
+          "kibi.reference-extractor.v1": {
+            "mode": "augment"
           }
         }
       }
-    ]
+    ],
+    "setup": {
+      "autoSync": true,
+      "prepareHooks": true,
+      "agentInstructions": true,
+      "ciGate": false
+    }
   }
 }
