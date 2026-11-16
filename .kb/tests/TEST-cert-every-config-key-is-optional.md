@@ -24,15 +24,15 @@ id: TEST-cert-every-config-key-is-optional
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-c3a437f0219cc24d5b0d6c0e
+    receipt_id: PR-ce46a0437f5ed99844b14e65
     test_id: TEST-cert-every-config-key-is-optional
     scope: integration
     outcome: passed
-    code_snapshot: f0def101d448e3aeaaffb3b4a42d3cf703322ae9e702c99227a2d5169142b1c4
-    environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T12:26:20.515Z'
-    finished_at: '2026-11-02T12:26:23.769Z'
-    artifact_digest: 0eb21479dc3d0ace03b9f8a5215344914938124e5fa24ba44ce3e6a2a571298f
+    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
+    started_at: '2026-11-16T18:02:12.920Z'
+    finished_at: '2026-11-16T18:02:53.381Z'
+    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
     contract_hash: ee6ee8fe3aeebbd0a6038d99e10ef5312ad12bf6ffecd693695f44d7f87d7bed
     binding_hash: c6ad195b4d333e9f3e23c7ab86e355a88c10862c070bdeb492ff23595cb3bb78
     fingerprint: 82230c399bec2102ae21aba5d20a7be3bb6938b0735e28ec7f87d7103990fcba

@@ -27,17 +27,17 @@ id: TEST-cert-dry-run-runs-tests-under-coverage
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-d9089b9d122ff1aa446da5c4
+    receipt_id: PR-0886b555afbad05d41981168
     test_id: TEST-cert-dry-run-runs-tests-under-coverage
     scope: integration
     outcome: passed
-    code_snapshot: 9b748336e039d27e7e0ff9bee18315be621d81372bd9d40f1eb50b3040793111
-    environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T14:28:48.365Z'
-    finished_at: '2026-11-02T14:29:12.598Z'
-    artifact_digest: 37b6c4d9ca0c4dad9fe9a44b86be2656e30d22de5754e82316bb41392f547c18
+    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
+    started_at: '2026-11-16T18:02:12.920Z'
+    finished_at: '2026-11-16T18:02:53.381Z'
+    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
     contract_hash: 8866414d7a7740071af402c3aa05f240737c101aeb51411e9680a2eaf9302691
-    binding_hash: 8d7fb1225661f0683f65f040ea0266c4880a577744b7ceaa191592639c4244cb
+    binding_hash: e1898586a45286504bcf12cf13683dfe9338be73dc05f7c79270f15c59599944
     fingerprint: 50e5095aef94757895fa494b018aeb8212352d6ffc9d49768ea309c6b0c2c30f
     fingerprint_components:
       contract: 8866414d7a7740071af402c3aa05f240737c101aeb51411e9680a2eaf9302691
@@ -96,6 +96,7 @@ proof_receipts:
           - at_end_of_stream/1
           - atom_string/2
           - atomic_list_concat/3
+          - atomics_to_string/2
           - attempt/10
           - between/3
           - call_cleanup/3
@@ -120,6 +121,7 @@ proof_receipts:
           - domain_error/2
           - drop_ignored/3
           - drop_suppressed/2
+          - error_formal/2
           - exclude/3
           - fail/0
           - file_mutants/4
@@ -202,6 +204,7 @@ proof_receipts:
           - start_worker/2
           - stop_current_worker/0
           - stop_pool/4
+          - string_codes/2
           - string_concat/3
           - sub_string/5
           - suppressed_mutant/2
@@ -228,7 +231,7 @@ proof_receipts:
           - worker_start/3
           - worker_stop/1
           - write_term/3
-    certificate_digest: 98e3c8d2e8cb9c65114961713bde0f93c0b60a57f39af01ce4a3ac8b7c932a4d
+    certificate_digest: 88b8b62f27a2d094e3a9d3cbabbdd23775701ce518bc7f3c3b0aff617ebd5816
     claim_bindings:
       - claim_key: CLAIM-6C8166480553BF13
         requirement_id: REQ-AUTO-F7474BB290B90F77

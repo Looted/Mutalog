@@ -23,15 +23,15 @@ id: TEST-cert-report-schema-version-2
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-2184a87df5a6889db3c609f8
+    receipt_id: PR-b2e4c6abbba2c5bd136bbd26
     test_id: TEST-cert-report-schema-version-2
     scope: integration
     outcome: passed
-    code_snapshot: 9b748336e039d27e7e0ff9bee18315be621d81372bd9d40f1eb50b3040793111
-    environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T14:28:48.365Z'
-    finished_at: '2026-11-02T14:29:12.598Z'
-    artifact_digest: 37b6c4d9ca0c4dad9fe9a44b86be2656e30d22de5754e82316bb41392f547c18
+    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
+    started_at: '2026-11-16T18:02:12.920Z'
+    finished_at: '2026-11-16T18:02:53.381Z'
+    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
     contract_hash: a60513eb4a17845e050ff6363e0d9a3a19d82163028800900598155aa8e2d1a8
     binding_hash: ad8a836bac2fa400f08418c797498c2dd487140be3e8ed629ac73a5e8946d7c7
     fingerprint: 88b1e6a635f8fcdc2d1c0d10e6586e566ba1270f25087a2b15e3e48fd930b093

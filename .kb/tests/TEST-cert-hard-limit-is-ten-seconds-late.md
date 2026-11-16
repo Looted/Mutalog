@@ -23,17 +23,17 @@ id: TEST-cert-hard-limit-is-ten-seconds-late
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-5f3fcd18bf61d2be941be749
+    receipt_id: PR-54297a0dfbc2bd6aedbbe3f9
     test_id: TEST-cert-hard-limit-is-ten-seconds-late
     scope: integration
     outcome: passed
-    code_snapshot: 9b748336e039d27e7e0ff9bee18315be621d81372bd9d40f1eb50b3040793111
-    environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T14:28:48.365Z'
-    finished_at: '2026-11-02T14:29:12.598Z'
-    artifact_digest: 37b6c4d9ca0c4dad9fe9a44b86be2656e30d22de5754e82316bb41392f547c18
+    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
+    started_at: '2026-11-16T18:02:12.920Z'
+    finished_at: '2026-11-16T18:02:53.381Z'
+    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
     contract_hash: 86f88207e35d1891962a351ea411f55398a14499e32fe5a11887475d2369fa34
-    binding_hash: 49fcacb0c81e29c19925d4c6dc2b13fa3f3c10d128ef328fff6bfc1d9a8a57ac
+    binding_hash: 9ca533ef4863f83e4d440306c92e5b012fda4568c2a3f853ecef9eec1d6baa21
     fingerprint: a7a22411833fc1d4322594e28240c23969391b416dfcc1999c27bbbd70b73ee9
     fingerprint_components:
       contract: 86f88207e35d1891962a351ea411f55398a14499e32fe5a11887475d2369fa34

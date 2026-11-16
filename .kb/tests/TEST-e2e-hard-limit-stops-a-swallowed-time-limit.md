@@ -17,17 +17,17 @@ id: TEST-e2e-hard-limit-stops-a-swallowed-time-limit
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-2d41f37164415810d861ed50
+    receipt_id: PR-e16eba070deb8b06d31d93f0
     test_id: TEST-e2e-hard-limit-stops-a-swallowed-time-limit
     scope: end_to_end
     outcome: passed
-    code_snapshot: 7badf2b44de46828539bb0c7499deaba2c21dac1e52f09a5a7deb9310f9f1d2e
-    environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T14:33:10.932Z'
-    finished_at: '2026-11-02T14:33:22.700Z'
-    artifact_digest: 568f4e88a5b468a962c6ab7c478ada7d6380cf10d6be8ff979724e2d1dce69aa
+    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
+    started_at: '2026-11-16T18:02:12.920Z'
+    finished_at: '2026-11-16T18:02:53.381Z'
+    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
     contract_hash: ed15386678a4c6a35d8d769b29339609fb54d334f9384cefb39d1fd87371b8f6
-    binding_hash: c5d2c972c4edd14387704e3255d0e13536ac523ebb9fd45160ae8f5260baf1d8
+    binding_hash: d4dbfc551edb50d8f1b6850bf3add2adf0bbb714a7e2619aed00a440f4383221
     fingerprint: 4d61eb88cdfc337be084d6b394470c50ae61370879f5fff0a2cdb6cd2f918f7a
     fingerprint_components:
       contract: ed15386678a4c6a35d8d769b29339609fb54d334f9384cefb39d1fd87371b8f6
