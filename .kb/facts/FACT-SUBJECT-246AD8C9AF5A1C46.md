@@ -11,8 +11,8 @@ tags:
   - fact:subject
   - vocabulary:new-subject
 fact_kind: subject
-subject_key: version_step
-canonical_key: version_step
+subject_key: release.version_step
+canonical_key: release.version_step
 claim_key: CLAIM-17DB9B8D395EACE8
 claim_text: The version step must copy the version in package.json into pack.pl and write a dated CHANGELOG.md section for it below the introduction.
 origin:
