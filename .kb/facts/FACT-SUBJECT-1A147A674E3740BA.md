@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-1A147A674E3740BA
 type: fact
 ---
+
+Definition not stated: the subject pack.manifest is named by requirements REQ-AUTO-674E6097A8013135, REQ-AUTO-957337CBB4A00275, which link to the subject fact FACT-SUBJECT-1A147A674E3740BA through constrains. The people who own that source can say what it is in the product and what it is not.

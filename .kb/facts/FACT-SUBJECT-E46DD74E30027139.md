@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-E46DD74E30027139
 type: fact
 ---
+
+Definition not stated: the subject project.name_specific_downstream is named by requirement REQ-AUTO-7111A81FAC739FCB, which links to the subject fact FACT-SUBJECT-E46DD74E30027139 through constrains. The people who own that source can say what it is in the product and what it is not.

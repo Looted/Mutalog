@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-68519678E4DAFEE6
 type: fact
 ---
+
+Definition not stated: the subject coverage.dry_test is named by requirement REQ-AUTO-F7474BB290B90F77, which links to the subject fact FACT-SUBJECT-68519678E4DAFEE6 through constrains. The people who own that source can say what it is in the product and what it is not.

@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-CA705549E5B5E998
 type: fact
 ---
+
+Definition not stated: the subject release.publish_pack_list is named by requirements REQ-AUTO-BC26B2E2E2D88478, REQ-release-run-workflow-on-master, which link to the subject fact FACT-SUBJECT-CA705549E5B5E998 through constrains. The people who own that source can say what it is in the product and what it is not.

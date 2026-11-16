@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-86EA9A1515D387C3
 type: fact
 ---
+
+Definition not stated: the subject reporter.write_mutation_html is named by requirement REQ-AUTO-CB32BF7DBFE62DAA, which links to the subject fact FACT-SUBJECT-86EA9A1515D387C3 through constrains. The people who own that source can say what it is in the product and what it is not.

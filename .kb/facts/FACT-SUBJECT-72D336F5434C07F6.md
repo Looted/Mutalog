@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-72D336F5434C07F6
 type: fact
 ---
+
+Definition not stated: the subject report.json is named by requirement REQ-AUTO-20DC4E062C4C1FC7, which links to the subject fact FACT-SUBJECT-72D336F5434C07F6 through constrains. The people who own that source can say what it is in the product and what it is not.

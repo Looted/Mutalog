@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-0B6A19546E65CB65
 type: fact
 ---
+
+Definition not stated: the subject config.keys is named by requirement REQ-AUTO-CE1F43687FF92977, which links to the subject fact FACT-SUBJECT-0B6A19546E65CB65 through constrains. The people who own that source can say what it is in the product and what it is not.

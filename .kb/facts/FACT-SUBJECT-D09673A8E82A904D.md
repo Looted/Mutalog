@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-D09673A8E82A904D
 type: fact
 ---
+
+Definition not stated: the subject runner.worker is named by requirement REQ-AUTO-ECC62318E485FD92, which links to the subject fact FACT-SUBJECT-D09673A8E82A904D through constrains. The people who own that source can say what it is in the product and what it is not.

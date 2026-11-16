@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-E5C03666C37CE79F
 type: fact
 ---
+
+Definition not stated: the subject cli.re_run_chosen_mutants is named by requirement REQ-AUTO-5C0604494F0458D4, which links to the subject fact FACT-SUBJECT-E5C03666C37CE79F through constrains. The people who own that source can say what it is in the product and what it is not.

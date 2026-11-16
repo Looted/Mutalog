@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-32BFF1DA2AB88710
 type: fact
 ---
+
+Definition not stated: the subject reporter.exit_with_status_1 is named by requirement REQ-AUTO-B6447158DD93403B, which links to the subject fact FACT-SUBJECT-32BFF1DA2AB88710 through constrains. The people who own that source can say what it is in the product and what it is not.

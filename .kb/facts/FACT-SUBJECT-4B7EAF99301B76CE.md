@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-4B7EAF99301B76CE
 type: fact
 ---
+
+Definition not stated: the subject worker.drop_stale_clauses is named by requirement REQ-dropped-clauses-stop-answering, which links to the subject fact FACT-SUBJECT-4B7EAF99301B76CE through constrains. The people who own that source can say what it is in the product and what it is not.

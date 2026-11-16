@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-71C5548F79F1EC41
 type: fact
 ---
+
+Definition not stated: the subject reader.source is named by requirement REQ-AUTO-408D5C7AFB1C4E71, which links to the subject fact FACT-SUBJECT-71C5548F79F1EC41 through constrains. The people who own that source can say what it is in the product and what it is not.

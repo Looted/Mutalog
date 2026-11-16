@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-9B8ACA1DAC3D204A
 type: fact
 ---
+
+Definition not stated: the subject scheduler.start_limits_first is named by requirement REQ-AUTO-C6895C0B44964BBF, which links to the subject fact FACT-SUBJECT-9B8ACA1DAC3D204A through constrains. The people who own that source can say what it is in the product and what it is not.

@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-246AD8C9AF5A1C46
 type: fact
 ---
+
+Definition not stated: the subject version_step is named by requirement REQ-release-version-step-syncs-pack, which links to the subject fact FACT-SUBJECT-246AD8C9AF5A1C46 through constrains. The people who own that source can say what it is in the product and what it is not.

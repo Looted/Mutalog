@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-D0C1DA64A9D5EB4F
 type: fact
 ---
+
+Definition not stated: the subject packaging.keep_node_dependency is named by requirement REQ-AUTO-E3EDF783E91FB673, which links to the subject fact FACT-SUBJECT-D0C1DA64A9D5EB4F through constrains. The people who own that source can say what it is in the product and what it is not.

@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-7DD62D331E9583AF
 type: fact
 ---
+
+Definition not stated: the subject run.mutant_time_limit is named by requirement REQ-AUTO-5F23006427EE8FC8, which links to the subject fact FACT-SUBJECT-7DD62D331E9583AF through constrains. The people who own that source can say what it is in the product and what it is not.

@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-F7FAE801D155ACFE
 type: fact
 ---
+
+Definition not stated: the subject runner.settle_mutants_covering_test is named by requirement REQ-AUTO-4D6793556060D2C3, which links to the subject fact FACT-SUBJECT-F7FAE801D155ACFE through constrains. The people who own that source can say what it is in the product and what it is not.

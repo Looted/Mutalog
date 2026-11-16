@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-EB7AA39EFFE605B0
 type: fact
 ---
+
+Definition not stated: the subject client.worker is named by requirement REQ-AUTO-43894D6940BD6965, which links to the subject fact FACT-SUBJECT-EB7AA39EFFE605B0 through constrains. The people who own that source can say what it is in the product and what it is not.

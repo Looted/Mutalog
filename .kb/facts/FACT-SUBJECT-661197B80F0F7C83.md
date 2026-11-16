@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-661197B80F0F7C83
 type: fact
 ---
+
+Definition not stated: the subject reporter.fail_mostly_compile_errors is named by requirement REQ-mostly-compile-errors-fail-break, which links to the subject fact FACT-SUBJECT-661197B80F0F7C83 through constrains. The people who own that source can say what it is in the product and what it is not.

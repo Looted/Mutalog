@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-874A84BA12A35B13
 type: fact
 ---
+
+Definition not stated: the subject worker.reload is named by requirement REQ-AUTO-2919CA799C575688, which links to the subject fact FACT-SUBJECT-874A84BA12A35B13 through constrains. The people who own that source can say what it is in the product and what it is not.

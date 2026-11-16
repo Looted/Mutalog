@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-3EC7361575491D7F
 type: fact
 ---
+
+Definition not stated: the subject operators.hooks is named by requirement REQ-AUTO-211A7AC532ADA588, which links to the subject fact FACT-SUBJECT-3EC7361575491D7F through constrains. The people who own that source can say what it is in the product and what it is not.

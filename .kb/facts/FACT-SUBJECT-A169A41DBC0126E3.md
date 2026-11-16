@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-A169A41DBC0126E3
 type: fact
 ---
+
+Definition not stated: the subject release.check_job is named by requirement REQ-release-refuse-tagged-version, which links to the subject fact FACT-SUBJECT-A169A41DBC0126E3 through constrains. The people who own that source can say what it is in the product and what it is not.

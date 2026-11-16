@@ -20,3 +20,5 @@ origin:
 id: FACT-SUBJECT-ED83E6BB1D331C61
 type: fact
 ---
+
+Definition not stated: the subject generator.mutate_chr_rules is named by requirement REQ-AUTO-F237B3AAC9F552A2, which links to the subject fact FACT-SUBJECT-ED83E6BB1D331C61 through constrains. The people who own that source can say what it is in the product and what it is not.

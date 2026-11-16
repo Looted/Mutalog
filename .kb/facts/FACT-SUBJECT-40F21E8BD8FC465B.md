@@ -21,3 +21,5 @@ origin:
 id: FACT-SUBJECT-40F21E8BD8FC465B
 type: fact
 ---
+
+Definition not stated: the subject run.mutation_score is named by requirement REQ-AUTO-AEACADEB6A56DDD2, which links to the subject fact FACT-SUBJECT-40F21E8BD8FC465B through constrains. The people who own that source can say what it is in the product and what it is not.
