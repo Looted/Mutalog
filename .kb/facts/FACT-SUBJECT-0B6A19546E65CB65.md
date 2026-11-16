@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-0B6A19546E65CB65
 type: fact
 ---
+The keys a project may put in its optional `mutalog.config.pl` (mutate, ignore, tests, load, operators, ignore_mutants, timeout_ms, timeout_factor, stack_limit, concurrency, retries, worker_reuse, thresholds, reporters, report_dir, root), read by `prolog/mutalog/config.pl`. It does not include command-line options, which override these keys but are parsed in `prolog/mutalog.pl`.

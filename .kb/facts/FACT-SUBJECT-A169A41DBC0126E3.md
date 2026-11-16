@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-A169A41DBC0126E3
 type: fact
 ---
+The check job of the Release workflow `.github/workflows/release.yml`, which decides whether the version in `pack.pl` is new (untagged) and refuses one that is already tagged, before anything is published. Part of release.workflow.

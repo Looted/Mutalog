@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-C6284DE5DFE69DE9
 type: fact
 ---
+The Release GitHub Actions workflow `.github/workflows/release.yml`. It runs on every push to master and by hand, and publishes the version in `pack.pl` only when that version has no tag. It is not the CI test job (ci.test_job) nor the version step (version_step).

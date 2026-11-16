@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-7F09069353CD5184
 type: fact
 ---
+The controller-side hard limit, a fixed margin after the worker time limit (run.mutant_time_limit), after which the controller kills a worker that has not answered and starts a fresh one. It exists because code under test can catch the time limit exception and loop on.

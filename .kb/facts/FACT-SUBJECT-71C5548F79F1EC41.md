@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-71C5548F79F1EC41
 type: fact
 ---
+How Mutalog reads the files it mutates: SWI-Prolog's own `prolog_read_source_term/4` with subterm positions, including operators the file imports, in `prolog/mutalog/reader.pl`. It is not how the worker loads a mutant (worker.reload).

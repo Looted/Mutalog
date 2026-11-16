@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-32BFF1DA2AB88710
 type: fact
 ---
+The exit status of `mutalog run` when the mutation score is below the break threshold `thresholds(_, _, break(N))`. Distinct from reporter.fail_mostly_compile_errors, the other condition that makes a run exit with 1.

@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-43DCA354E250100A
 type: fact
 ---
+The retry of a mutant whose worker crashed, on a fresh worker, up to `retries` times. Timeouts are not retried, because a timeout already counts as detected.

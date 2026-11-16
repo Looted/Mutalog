@@ -1070,7 +1070,7 @@ symbols:
       - type: executable_for
         target: TEST-release-check-job-runs-the-decision-script
   - id: SYM-test-release-runs-on-push-to-master
-    title: release.yml
+    title: release.yml on.push.branches
     status: active
     sourceFile: .github/workflows/release.yml
     symbol_role: test

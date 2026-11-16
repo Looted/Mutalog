@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-E5C03666C37CE79F
 type: fact
 ---
+The `mutalog run --only ID...` option, which re-runs only the mutants with the given ids and stops with an error naming any id it does not find.

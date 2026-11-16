@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-44C4E9CDF1E7B5AA
 type: fact
 ---
+The test job of the CI workflow `.github/workflows/ci.yml` that runs on pull requests and pushes, including the release consistency check `scripts/release-check.sh`. It is not the Release workflow (release.workflow), which publishes.

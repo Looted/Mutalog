@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-026FF7BCDD6A4E77
 type: fact
 ---
+The mutants of a mutated file that is a module imported by another module of the project under test. Loading such a mutant must keep the importing module's view of the exports intact. Narrower than worker.reload, which covers reloading any mutated file; distinct from worker.reload_same_export_names, which is about two mutated modules exporting one name.

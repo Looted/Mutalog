@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-CA705549E5B5E998
 type: fact
 ---
+Publishing version X.Y.Z of the pack to the SWI-Prolog pack list once its vX.Y.Z tag exists, the last step of release.workflow.

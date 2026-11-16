@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-E46DD74E30027139
 type: fact
 ---
+The rule that this repository's code, tests, docs, CI workflows, commit messages and pull request descriptions do not name specific downstream or consumer projects. The development tooling exception is recorded in AGENTS.md.

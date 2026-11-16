@@ -29,17 +29,17 @@ id: TEST-cert-tests-use-plunit
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-304a44c1f959971a5ea96924
+    receipt_id: PR-fc73f046de30dfb9705c0aba
     test_id: TEST-cert-tests-use-plunit
     scope: integration
     outcome: passed
-    code_snapshot: 0db08d2850a2723941fa08825e81e70852c9f0d7b582da2f06ec95be2500f58d
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
     environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
-    started_at: '2026-11-02T15:45:36.378Z'
-    finished_at: '2026-11-02T15:45:42.100Z'
-    artifact_digest: b827055b950421f88374b7bb4d5a1b61da645f6671523d8e5054b73e3e968e2c
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: 7d221ce42ce58411c67138992adbad3a1dfeb42fe85e88aea6948f50f90e4bad
-    binding_hash: d933bd12a67bf408e8cfb893ef7d724a2cc2a1351f5e7fc9af16eecdec2c4a91
+    binding_hash: ef6a8c16d6c76f3d26039b1b3b3eeb5d137a9d4783c706055ea61e415c952ae8
     fingerprint: 58cafb18da119b49c3a266758b52e7a4249e1cf3475e8b41f3e35eaee1c2f4ff
     fingerprint_components:
       contract: 7d221ce42ce58411c67138992adbad3a1dfeb42fe85e88aea6948f50f90e4bad

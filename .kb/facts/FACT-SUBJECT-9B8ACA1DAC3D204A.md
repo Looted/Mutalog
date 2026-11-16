@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-9B8ACA1DAC3D204A
 type: fact
 ---
+The order in which the worker pool starts mutants: longest time limit first, so a slow mutant does not leave the other workers idle at the end. Results are still reported in source order.

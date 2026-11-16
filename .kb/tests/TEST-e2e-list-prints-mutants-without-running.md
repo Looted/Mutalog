@@ -17,15 +17,15 @@ id: TEST-e2e-list-prints-mutants-without-running
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-e94f74746ec3d0f1fa2620a0
+    receipt_id: PR-a51729778e2e4b42bde73c31
     test_id: TEST-e2e-list-prints-mutants-without-running
     scope: end_to_end
     outcome: passed
-    code_snapshot: 6b798ab7322821537c2b4ec238cce7db791699f7ef83fa407e794bed47bcf841
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
     environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
-    started_at: '2026-11-02T15:37:23.050Z'
-    finished_at: '2026-11-02T15:37:36.226Z'
-    artifact_digest: 270415ba4c5571466acb539f81f7209a617ae78ce20b3ddb1266e336038e311c
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: a7b7066042a6c972c15ffc61ef32a84295fe90a9133db23d9a864182b3bbad81
     binding_hash: c5b27614727cda594fc1a8758247ea4311eb94ba2ae6eb4522156a664dde1ab0
     fingerprint: b24948c1866ba79987e21197bf11bc4c7f55ad12b03475f93e8c3cc6c4d25207

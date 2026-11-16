@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-72D336F5434C07F6
 type: fact
 ---
+The `mutation.json` report file, written in the open mutation-testing-report-schema format, schema version 2. Distinct from reporter.write_mutation_html, the HTML page built from the same data.

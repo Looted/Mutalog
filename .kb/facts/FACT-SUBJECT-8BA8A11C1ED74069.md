@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-8BA8A11C1ED74069
 type: fact
 ---
+The mutation operators a run enables when neither the config `operators` key nor `--operators` chooses them: arith, compare, unify, negate, cut, cut_insert, goal_true, goal_fail, clause_drop and literal (`default_operators/1` in `prolog/mutalog/config.pl`). It is not the hooks that define operators (operators.hooks).

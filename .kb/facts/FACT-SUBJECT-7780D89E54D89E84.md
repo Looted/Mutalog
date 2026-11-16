@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-7780D89E54D89E84
 type: fact
 ---
+The id the generator gives each mutant, `file:line:column:operator:n`, which `--only` and `ignore_mutants` take. It names a mutant's position and operator; it is not the mutant's source change.

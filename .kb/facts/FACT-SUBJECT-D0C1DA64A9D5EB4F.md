@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-D0C1DA64A9D5EB4F
 type: fact
 ---
+Whether the pack needs Node.js. The pack is pure SWI-Prolog; the repository's `package.json` holds development and release tooling only and is not shipped in the pack. See pack.manifest.

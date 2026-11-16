@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-A474285746DE1BEB
 type: fact
 ---
+The `mutalog list` command, which prints the mutants the generator produces without running any test. Its `--check` option is list_check.mutants.

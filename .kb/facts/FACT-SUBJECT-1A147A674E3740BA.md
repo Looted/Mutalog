@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-1A147A674E3740BA
 type: fact
 ---
+Mutalog's SWI-Prolog pack metadata in `pack.pl`: the pack name, version, download pattern and `requires/1` entries that `pack_install(mutalog)` reads. It is not the Node `package.json`, which holds development tooling only and is not part of the pack.

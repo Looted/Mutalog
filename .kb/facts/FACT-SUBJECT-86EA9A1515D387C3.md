@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-86EA9A1515D387C3
 type: fact
 ---
+The `mutation.html` report: one self-contained page showing the score per file and the source with each mutant marked, needing no network access. Distinct from report.json.

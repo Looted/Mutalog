@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-7DD62D331E9583AF
 type: fact
 ---
+The per-mutant time limit: `timeout_factor` times the dry-run time of the tests that cover the mutant, plus `timeout_ms`, enforced in the worker with `call_with_time_limit/2`. Distinct from controller.hard_limit, the controller-side limit enforced after it.

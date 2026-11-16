@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-EB7AA39EFFE605B0
 type: fact
 ---
+The controller-side handling of worker processes in `prolog/mutalog/client.pl`: starting a child `swipl` per worker, talking to it over pipes, and killing and replacing it. Mutants run in processes, not threads. Distinct from runner.worker, the child process itself.

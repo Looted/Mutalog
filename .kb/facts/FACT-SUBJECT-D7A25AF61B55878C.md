@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-D7A25AF61B55878C
 type: fact
 ---
+Mutalog's own plunit test suite under `test/` (`test/test_mutalog.plt`, `test/test_e2e.plt`), which Mutalog can mutate itself against. It is not the test files of a project Mutalog is run on.

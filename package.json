@@ -6,16 +6,17 @@
   "license": "BSD-2-Clause",
   "scripts": {
     "changeset": "changeset",
-    "version-packages": "changeset version && node scripts/sync-version.mjs"
+    "version-packages": "changeset version && node scripts/sync-version.mjs",
+    "prepare": "node -e \"let b;try{b=require.resolve('kibi-cli/bin/kibi')}catch{process.exit(0)}require('child_process').spawnSync(process.execPath,[b,'hooks','install','--quiet'],{stdio:'inherit'})\""
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.1",
-    "kibi-cli": "^2.40.0",
-    "kibi-core": "^0.29.0",
+    "kibi-cli": "^2.44.0",
+    "kibi-core": "^0.33.0",
     "kibi-lang-bash": "^1.0.0",
-    "kibi-lang-prolog": "^1.0.0",
-    "kibi-mcp": "^3.24.0",
-    "kibi-plugin-treesitter": "^3.0.0"
+    "kibi-lang-prolog": "^1.1.0",
+    "kibi-mcp": "^3.28.0",
+    "kibi-plugin-treesitter": "^3.2.0"
   },
   "kibi": {
     "plugins": [
@@ -24,9 +25,18 @@
         "capabilities": {
           "kibi.symbol-extractor.v2": {
             "mode": "augment"
+          },
+          "kibi.reference-extractor.v1": {
+            "mode": "augment"
           }
         }
       }
-    ]
+    ],
+    "setup": {
+      "autoSync": true,
+      "prepareHooks": true,
+      "agentInstructions": true,
+      "ciGate": false
+    }
   }
 }

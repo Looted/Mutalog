@@ -1,0 +1,2 @@
+.kb/symbols.yaml merge=kibi
+.kb/relationships/*.yaml merge=kibi

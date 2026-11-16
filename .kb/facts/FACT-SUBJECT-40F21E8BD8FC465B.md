@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-40F21E8BD8FC465B
 type: fact
 ---
+The mutation score `mutalog run` reports: detected mutants (killed and timeout) over killed, timeout, survived and no coverage, computed in `prolog/mutalog/run.pl`. The covered-code score, which leaves out no coverage, is a separate figure. Compile and runtime errors count in neither.

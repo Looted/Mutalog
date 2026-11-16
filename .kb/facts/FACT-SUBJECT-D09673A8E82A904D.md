@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-D09673A8E82A904D
 type: fact
 ---
+A worker: a child `swipl` process that loads the project once, then applies and tests mutants one after another for the controller. Distinct from worker.reload, which is the way it applies one mutant, and from client.worker, the controller-side process handling.

@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-BA019BBD493A386D
 type: fact
 ---
+The release guard that refuses to publish when the tag being released does not match the version in `pack.pl`. Part of release.workflow.

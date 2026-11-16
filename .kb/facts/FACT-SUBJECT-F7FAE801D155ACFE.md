@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-F7FAE801D155ACFE
 type: fact
 ---
+How the runner settles a mutant no test covers: it is reported as no coverage without running anything.

@@ -24,15 +24,15 @@ id: TEST-cert-default-operators-include-cut-cut-insert
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-640dff75fe2861405e6320a5
+    receipt_id: PR-2485ed1a095e5aff470ea9a7
     test_id: TEST-cert-default-operators-include-cut-cut-insert
     scope: integration
     outcome: passed
-    code_snapshot: c28f5f3868c52cbb35d19153b7e33583599a32c8b77ee042f9c753d4925a6c34
-    environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T12:20:49.704Z'
-    finished_at: '2026-11-02T12:21:34.788Z'
-    artifact_digest: 04011dfac1062759f1cefc50cc1535749d7ef6539e9cf5855cf4c642e072e905
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
+    environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: f0b53f064129c1b997375574ce38c0f1ae5a30c98cbc985bc3c0f99b8f8cfa17
     binding_hash: 5f24a22c4dcbd33894ea8db3ac4b248be95c9607c405c53c57ca3ee25feaebf4
     fingerprint: 77b47666a56caf0deb63201b283e23f83ab46ba281f5c9d34c7f40a66ffde429

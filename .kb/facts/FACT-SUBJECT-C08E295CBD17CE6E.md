@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-C08E295CBD17CE6E
 type: fact
 ---
+The `mutalog list --check` verification: every spliced mutant is read back and compared with the clause the runner will load. Part of cli.print_the_mutants.

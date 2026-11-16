@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-874A84BA12A35B13
 type: fact
 ---
+How a worker applies a mutant: it reloads the mutated file from the source text with the replacement spliced in (`prolog/mutalog/worker.pl`), then runs the covering tests. Narrower subjects cover dropped clauses, imported modules and modules that export the same name.

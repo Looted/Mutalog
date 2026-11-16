@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-661197B80F0F7C83
 type: fact
 ---
+The rule that `mutalog run` exits with 1 when the break threshold is above 0 and more than half of the mutants did not load. Distinct from reporter.exit_with_status_1, which is about a score below the break threshold.

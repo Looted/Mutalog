@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-3EC7361575491D7F
 type: fact
 ---
+The multifile hooks `mutalog:operator/2` and `mutalog:mutate/4` through which the built-in operators are defined and a project adds its own, declared in `prolog/mutalog/operators.pl`. It is not the list of operators a run enables, which is config.default_operators or the `operators` key.

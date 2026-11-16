@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-21FC64F8432E6711
 type: fact
 ---
+Loading mutants of two mutated modules that export a predicate with the same name, in one worker process. Part of worker.reload; distinct from run.imported_module_mutants, which is about a module another module imports.

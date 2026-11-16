@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-4B7EAF99301B76CE
 type: fact
 ---
+Removing the clauses a mutant drops from the running worker, so that a clause absent from the spliced source no longer answers calls once the mutant is loaded. Part of worker.reload.

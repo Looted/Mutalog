@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-ED83E6BB1D331C61
 type: fact
 ---
+The parts of a source file the generator never mutates: directives, DCG rules, CHR rules and anything between `begin_tests` and `end_tests`.

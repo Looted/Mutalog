@@ -26,17 +26,17 @@ id: TEST-cert-workers-are-child-processes
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-77125e84aafed28938850e47
+    receipt_id: PR-be35371ce30508ccdf037e38
     test_id: TEST-cert-workers-are-child-processes
     scope: integration
     outcome: passed
-    code_snapshot: 9b748336e039d27e7e0ff9bee18315be621d81372bd9d40f1eb50b3040793111
-    environment_hash: 70794eb189f6bb0bd59b638fedca584356a0b61f01329f6f9f4e9f53a3b5be53
-    started_at: '2026-11-02T14:28:48.365Z'
-    finished_at: '2026-11-02T14:29:12.598Z'
-    artifact_digest: 37b6c4d9ca0c4dad9fe9a44b86be2656e30d22de5754e82316bb41392f547c18
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
+    environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: 23b79ffb86827ea3c3c767b8b4d51547a3867f9576406af5b3e02ea5ca183ca5
-    binding_hash: f3a240d693a502712035dbd3a90d24550e5889abefbb0a72231a9423e52bc6eb
+    binding_hash: 996b1f4f48730b9d69956c9547602b8e0848527e4aeecdfc0eca1af94e8cd036
     fingerprint: 4ec5a82e3d1a4536f9ed8d2c3f7fe5a2822378bc101396b5ce3e3ca34a32f38a
     fingerprint_components:
       contract: 23b79ffb86827ea3c3c767b8b4d51547a3867f9576406af5b3e02ea5ca183ca5
@@ -88,6 +88,7 @@ proof_receipts:
           - at_end_of_stream/1
           - atom_string/2
           - atomic_list_concat/3
+          - atomics_to_string/2
           - attempt/10
           - between/3
           - call_cleanup/3
@@ -106,6 +107,7 @@ proof_receipts:
           - domain_error/2
           - drop_ignored/3
           - drop_suppressed/2
+          - error_formal/2
           - exclude/3
           - fail/0
           - file_mutants/4
@@ -184,6 +186,7 @@ proof_receipts:
           - start_worker/2
           - stop_current_worker/0
           - stop_pool/4
+          - string_codes/2
           - string_concat/3
           - sub_string/5
           - suppressed_mutant/2
@@ -209,7 +212,7 @@ proof_receipts:
           - worker_start/3
           - worker_stop/1
           - write_term/3
-    certificate_digest: b9b5be89c04c830bdd403526ab829592c4698d7e168ddf3b23d677fb9e0aeaed
+    certificate_digest: ed561402fb91af37ca8b98893d20c2721b75e1829ce9b8756f15407bd7d07fd5
     claim_bindings:
       - claim_key: CLAIM-31AEF4005052471E
         requirement_id: REQ-AUTO-43894D6940BD6965

@@ -21,3 +21,4 @@ origin:
 id: FACT-SUBJECT-68519678E4DAFEE6
 type: fact
 ---
+One test's run inside the dry run, in a child `swipl` under SWI-Prolog's coverage instrumentation, recording its time and the clauses of the mutated files it entered (`prolog/mutalog/coverage.pl`). Part of runner.dry_run.

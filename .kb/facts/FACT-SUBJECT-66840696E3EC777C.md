@@ -20,3 +20,4 @@ origin:
 id: FACT-SUBJECT-66840696E3EC777C
 type: fact
 ---
+The dry run that runs the whole test suite once in a child `swipl` before any mutant, also available as `mutalog dry-run`. A failing test stops the run. coverage.dry_test is the per-test measurement it takes.
