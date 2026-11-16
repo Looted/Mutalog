@@ -28,6 +28,7 @@ required_evidence: asserted
 origin:
   kind: agent
   recorded_at: '2026-10-29T19:05:58.210Z'
+  approved_by: Piotr Franczyk
 id: REQ-mutants-of-imported-modules-load
 type: req
 ---

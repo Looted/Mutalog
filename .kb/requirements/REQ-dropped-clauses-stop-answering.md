@@ -28,6 +28,7 @@ required_evidence: asserted
 origin:
   kind: agent
   recorded_at: '2026-10-29T19:06:27.320Z'
+  approved_by: Piotr Franczyk
 id: REQ-dropped-clauses-stop-answering
 type: req
 ---
