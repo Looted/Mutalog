@@ -17,15 +17,15 @@ id: TEST-e2e-html-report-is-self-contained
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-09e954e85b1bbee38587b8ec
+    receipt_id: PR-74e64206341a33a7744b424d
     test_id: TEST-e2e-html-report-is-self-contained
     scope: end_to_end
     outcome: passed
-    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
     environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
-    started_at: '2026-11-16T18:02:12.920Z'
-    finished_at: '2026-11-16T18:02:53.381Z'
-    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: f1cac36bdbee82ef23b974c16e8af7b26f497e4cbce428292db35ef73c18ec3f
     binding_hash: ca82326c333acbe9481b181347a02e53fa75f3b19c08a87a3a6feb1175a71c9b
     fingerprint: af5eab8fd60af60f4136e500af02d01e5e166804800081a5eedc2aa08bf11983

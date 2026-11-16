@@ -24,15 +24,15 @@ id: TEST-cert-default-operators-include-unify
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-2acf2669a21ea86f302fa6db
+    receipt_id: PR-5a6c6ba14b5b20edb8a38fae
     test_id: TEST-cert-default-operators-include-unify
     scope: integration
     outcome: passed
-    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
     environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
-    started_at: '2026-11-16T18:02:12.920Z'
-    finished_at: '2026-11-16T18:02:53.381Z'
-    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: 6b90e142d9a57d32976e69597d988187c19db2ce68ae9ff95f120db51e482187
     binding_hash: 5d61b3e8fab67858389522de22a41cc331608682b9b79cd1a928e2bf55fb0a3e
     fingerprint: 99efa9ac23da9b2e3f11f5be9cd823e39ee55e1c6611dda932049b1b80a5458d

@@ -17,15 +17,15 @@ id: TEST-e2e-reads-custom-operators-and-syntax
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-1d276565e3b960256dc53cee
+    receipt_id: PR-9aaba2d5b23c462f6e694b18
     test_id: TEST-e2e-reads-custom-operators-and-syntax
     scope: end_to_end
     outcome: passed
-    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
     environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
-    started_at: '2026-11-16T18:02:12.920Z'
-    finished_at: '2026-11-16T18:02:53.381Z'
-    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: e14b4808bfc52c09dd7b917df8ea194b985b167e4f6c62d7d9e20653d82d8292
     binding_hash: 1f2b9f475d54a503104fbf3300a94120f0401adf598748e92d63abb8e0ec5d41
     fingerprint: 6301662e903d90586ee3c6d9766c2687ef6f8ca111f4c756a897c6a228f917cb

@@ -17,15 +17,15 @@ id: TEST-e2e-operator-clause-drop
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-0994a6797fc0f05d68d957c7
+    receipt_id: PR-89b1b9b99b961358b91b39a3
     test_id: TEST-e2e-operator-clause-drop
     scope: end_to_end
     outcome: passed
-    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
     environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
-    started_at: '2026-11-16T18:02:12.920Z'
-    finished_at: '2026-11-16T18:02:53.381Z'
-    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: 653c5ca48a8b02d2e48b39dd70d59cfdedd0f189368179dea05983a5e061331e
     binding_hash: dd76e38f6f447b376f0240c2bc5cab39f32ea1b91c7a99dbf27953747f76c491
     fingerprint: baef30739a004b02e770386745cbea07e35620387f0f54f504e2d6a28033a75b

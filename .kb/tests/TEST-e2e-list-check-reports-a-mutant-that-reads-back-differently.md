@@ -17,15 +17,15 @@ id: TEST-e2e-list-check-reports-a-mutant-that-reads-back-differently
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-d4fa8350c7b39e948a193ded
+    receipt_id: PR-2944d67f1d64211aacf04aa5
     test_id: TEST-e2e-list-check-reports-a-mutant-that-reads-back-differently
     scope: end_to_end
     outcome: passed
-    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
     environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
-    started_at: '2026-11-16T18:02:12.920Z'
-    finished_at: '2026-11-16T18:02:53.381Z'
-    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: 98d9c7e08d62905c6cb16d6223f205db140cea797a18a8efe6b08143f8197e39
     binding_hash: defc6f6c8312345c8ec2907555bfc271848035def13127c99cbbec6fcac838ea
     fingerprint: 66e974066426ab443d571b9278bf71b8e99760fa7c221f6d387fe34be168443b

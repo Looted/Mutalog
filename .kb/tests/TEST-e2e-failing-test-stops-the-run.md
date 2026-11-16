@@ -17,15 +17,15 @@ id: TEST-e2e-failing-test-stops-the-run
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-e009f48bb29ea5a998a313f2
+    receipt_id: PR-b13263a004bdff32811ffb88
     test_id: TEST-e2e-failing-test-stops-the-run
     scope: end_to_end
     outcome: passed
-    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
     environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
-    started_at: '2026-11-16T18:02:12.920Z'
-    finished_at: '2026-11-16T18:02:53.381Z'
-    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: 880a2f95d03a9fd06a56aeef66b0c9ec162ff68951fa8e7468ab680c9abf1370
     binding_hash: 210e4d984f1d39597e04179338ced08f0808c1f3f1bb3dcb1b5e9e9e0c32809a
     fingerprint: 9b260489a9cacac359f540bcc4faabb9c092befe449127e3df1143bc2eba0c8c

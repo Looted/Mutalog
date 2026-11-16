@@ -17,15 +17,15 @@ id: TEST-e2e-mutates-modules-that-export-the-same-name
 type: test
 proof_receipts:
   - version: kibi.proof-receipt.v2
-    receipt_id: PR-6c68c3fa79980e50e987026c
+    receipt_id: PR-49d56c8f09ec4accb160722a
     test_id: TEST-e2e-mutates-modules-that-export-the-same-name
     scope: end_to_end
     outcome: passed
-    code_snapshot: 2063fb4323db87cf5b095b08855dab50e6840ec188855ef6e88e038254065d01
+    code_snapshot: 4438def34e66ffe8937d68d0c5f0887183e35451bf5083911dda87a8daffdd59
     environment_hash: 0fe4faff3abd9383846f773ccd03a2e551c0e1792023b3084ed58b8687bccfaa
-    started_at: '2026-11-16T18:02:12.920Z'
-    finished_at: '2026-11-16T18:02:53.381Z'
-    artifact_digest: c6940f38f909a978dbf4eccfc6524315eddb2667d6dff77a7fadefb452eb9855
+    started_at: '2026-11-16T18:06:32.394Z'
+    finished_at: '2026-11-16T18:07:14.325Z'
+    artifact_digest: 3992beee0ca4fb3672ae8309ca8ee97cb67d7776525624fa7ea9b9fd9d514bb0
     contract_hash: 1ed2b4162759352daa7c6b5d8707aad37763eaa43ab4938b024eec1f6b260a20
     binding_hash: 8780223033272deaf790690eb40cc0dc7f84b284a4b76247465f77a1f5b3a1a9
     fingerprint: a31f578b5da24d6baba4c359b25f3ac115a7de593ac6ddd766f0345db7b31a7b
